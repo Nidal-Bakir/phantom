@@ -1,0 +1,42 @@
+name: phantom
+description: local music player
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  bloc: ^7.1.0
+  on_audio_query: ^2.2.0
+  just_audio: ^0.9.11
+  freezed: ^0.14.5
+  path: ^1.8.0
+  sqflite: ^2.0.0+4
+  shared_preferences: ^2.0.7
+  get_it: ^7.2.0
+  dartz: ^0.10.0
+  equatable: ^2.0.3
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^7.2.0
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  bloc_test: ^8.1.0
+  build_runner: ^2.1.2
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.1.0
+
+  flutter_lints: ^1.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
