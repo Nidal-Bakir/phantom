@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:phantom/l10n/l10n.dart';
 
-
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
 
@@ -18,9 +17,9 @@ class App extends StatelessWidget {
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      
     );
   }
 }
