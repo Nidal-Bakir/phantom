@@ -13,6 +13,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Song _$SongFromJson(Map<String, dynamic> json) {
+  return _Song.fromJson(json);
+}
+
 /// @nodoc
 class _$SongTearOff {
   const _$SongTearOff();
@@ -42,16 +46,18 @@ class _$SongTearOff {
           int? bookmark,
       @JsonKey(name: 'composer')
           String? composer,
-      @JsonKey(name: 'date_added', fromJson: _dateFromMap)
+      @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
           DateTime? dateAdded,
-      @JsonKey(name: 'date_modified', fromJson: _dateFromMap)
+      @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
           DateTime? dateModified,
       @JsonKey(name: 'title')
           required String title,
       @JsonKey(name: 'file_extension')
           required String fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _song)
-          Uint8List? songArtwork}) {
+      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
+          Uint8List? songArtwork,
+      @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+          bool favorite = false}) {
     return _Song(
       id: id,
       absolutePath: absolutePath,
@@ -70,7 +76,12 @@ class _$SongTearOff {
       title: title,
       fileExtension: fileExtension,
       songArtwork: songArtwork,
+      favorite: favorite,
     );
+  }
+
+  Song fromJson(Map<String, Object> json) {
+    return Song.fromJson(json);
   }
 }
 
@@ -128,11 +139,11 @@ mixin _$Song {
   String? get composer => throw _privateConstructorUsedError;
 
   /// Return song [dateAdded]
-  @JsonKey(name: 'date_added', fromJson: _dateFromMap)
+  @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
   DateTime? get dateAdded => throw _privateConstructorUsedError;
 
   /// Return song [dateModified]
-  @JsonKey(name: 'date_modified', fromJson: _dateFromMap)
+  @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
   DateTime? get dateModified => throw _privateConstructorUsedError;
 
   /// Return song [title]
@@ -142,9 +153,16 @@ mixin _$Song {
   /// Return song only the [fileExtension]
   @JsonKey(name: 'file_extension')
   String get fileExtension => throw _privateConstructorUsedError;
-  @JsonKey(name: 'song_artwork', fromJson: _song)
+
+  /// Return song artwork
+  @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
   Uint8List? get songArtwork => throw _privateConstructorUsedError;
 
+  /// if is a favorite song
+  @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+  bool get favorite => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SongCopyWith<Song> get copyWith => throw _privateConstructorUsedError;
 }
@@ -178,16 +196,18 @@ abstract class $SongCopyWith<$Res> {
           int? bookmark,
       @JsonKey(name: 'composer')
           String? composer,
-      @JsonKey(name: 'date_added', fromJson: _dateFromMap)
+      @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
           DateTime? dateAdded,
-      @JsonKey(name: 'date_modified', fromJson: _dateFromMap)
+      @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
           DateTime? dateModified,
       @JsonKey(name: 'title')
           String title,
       @JsonKey(name: 'file_extension')
           String fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _song)
-          Uint8List? songArtwork});
+      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
+          Uint8List? songArtwork,
+      @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+          bool favorite});
 }
 
 /// @nodoc
@@ -217,6 +237,7 @@ class _$SongCopyWithImpl<$Res> implements $SongCopyWith<$Res> {
     Object? title = freezed,
     Object? fileExtension = freezed,
     Object? songArtwork = freezed,
+    Object? favorite = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -287,6 +308,10 @@ class _$SongCopyWithImpl<$Res> implements $SongCopyWith<$Res> {
           ? _value.songArtwork
           : songArtwork // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
+      favorite: favorite == freezed
+          ? _value.favorite
+          : favorite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -321,16 +346,18 @@ abstract class _$SongCopyWith<$Res> implements $SongCopyWith<$Res> {
           int? bookmark,
       @JsonKey(name: 'composer')
           String? composer,
-      @JsonKey(name: 'date_added', fromJson: _dateFromMap)
+      @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
           DateTime? dateAdded,
-      @JsonKey(name: 'date_modified', fromJson: _dateFromMap)
+      @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
           DateTime? dateModified,
       @JsonKey(name: 'title')
           String title,
       @JsonKey(name: 'file_extension')
           String fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _song)
-          Uint8List? songArtwork});
+      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
+          Uint8List? songArtwork,
+      @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+          bool favorite});
 }
 
 /// @nodoc
@@ -361,6 +388,7 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
     Object? title = freezed,
     Object? fileExtension = freezed,
     Object? songArtwork = freezed,
+    Object? favorite = freezed,
   }) {
     return _then(_Song(
       id: id == freezed
@@ -431,6 +459,10 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
           ? _value.songArtwork
           : songArtwork // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
+      favorite: favorite == freezed
+          ? _value.favorite
+          : favorite // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -440,23 +472,44 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Song implements _Song {
   const _$_Song(
-      {@JsonKey(name: '_id') required this.id,
-      @JsonKey(name: '_data') required this.absolutePath,
-      @JsonKey(name: '_uri') this.uri,
-      @JsonKey(name: '_display_name') required this.displayName,
-      @JsonKey(name: '_display_name_wo_ext') required this.displayNameWOExt,
-      @JsonKey(name: '_size') required this.size,
-      @JsonKey(name: 'album') this.album,
-      @JsonKey(name: 'album_id') this.albumId,
-      @JsonKey(name: 'artist') this.artist,
-      @JsonKey(name: 'artist_id') this.artistId,
-      @JsonKey(name: 'bookmark') this.bookmark,
-      @JsonKey(name: 'composer') this.composer,
-      @JsonKey(name: 'date_added', fromJson: _dateFromMap) this.dateAdded,
-      @JsonKey(name: 'date_modified', fromJson: _dateFromMap) this.dateModified,
-      @JsonKey(name: 'title') required this.title,
-      @JsonKey(name: 'file_extension') required this.fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _song) this.songArtwork});
+      {@JsonKey(name: '_id')
+          required this.id,
+      @JsonKey(name: '_data')
+          required this.absolutePath,
+      @JsonKey(name: '_uri')
+          this.uri,
+      @JsonKey(name: '_display_name')
+          required this.displayName,
+      @JsonKey(name: '_display_name_wo_ext')
+          required this.displayNameWOExt,
+      @JsonKey(name: '_size')
+          required this.size,
+      @JsonKey(name: 'album')
+          this.album,
+      @JsonKey(name: 'album_id')
+          this.albumId,
+      @JsonKey(name: 'artist')
+          this.artist,
+      @JsonKey(name: 'artist_id')
+          this.artistId,
+      @JsonKey(name: 'bookmark')
+          this.bookmark,
+      @JsonKey(name: 'composer')
+          this.composer,
+      @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
+          this.dateAdded,
+      @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
+          this.dateModified,
+      @JsonKey(name: 'title')
+          required this.title,
+      @JsonKey(name: 'file_extension')
+          required this.fileExtension,
+      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
+          this.songArtwork,
+      @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+          this.favorite = false});
+
+  factory _$_Song.fromJson(Map<String, dynamic> json) => _$$_SongFromJson(json);
 
   @override
 
@@ -521,12 +574,12 @@ class _$_Song implements _Song {
   @override
 
   /// Return song [dateAdded]
-  @JsonKey(name: 'date_added', fromJson: _dateFromMap)
+  @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
   final DateTime? dateAdded;
   @override
 
   /// Return song [dateModified]
-  @JsonKey(name: 'date_modified', fromJson: _dateFromMap)
+  @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
   final DateTime? dateModified;
   @override
 
@@ -539,12 +592,19 @@ class _$_Song implements _Song {
   @JsonKey(name: 'file_extension')
   final String fileExtension;
   @override
-  @JsonKey(name: 'song_artwork', fromJson: _song)
+
+  /// Return song artwork
+  @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
   final Uint8List? songArtwork;
+  @override
+
+  /// if is a favorite song
+  @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+  final bool favorite;
 
   @override
   String toString() {
-    return 'Song(id: $id, absolutePath: $absolutePath, uri: $uri, displayName: $displayName, displayNameWOExt: $displayNameWOExt, size: $size, album: $album, albumId: $albumId, artist: $artist, artistId: $artistId, bookmark: $bookmark, composer: $composer, dateAdded: $dateAdded, dateModified: $dateModified, title: $title, fileExtension: $fileExtension, songArtwork: $songArtwork)';
+    return 'Song(id: $id, absolutePath: $absolutePath, uri: $uri, displayName: $displayName, displayNameWOExt: $displayNameWOExt, size: $size, album: $album, albumId: $albumId, artist: $artist, artistId: $artistId, bookmark: $bookmark, composer: $composer, dateAdded: $dateAdded, dateModified: $dateModified, title: $title, fileExtension: $fileExtension, songArtwork: $songArtwork, favorite: $favorite)';
   }
 
   @override
@@ -595,7 +655,10 @@ class _$_Song implements _Song {
                     .equals(other.fileExtension, fileExtension)) &&
             (identical(other.songArtwork, songArtwork) ||
                 const DeepCollectionEquality()
-                    .equals(other.songArtwork, songArtwork)));
+                    .equals(other.songArtwork, songArtwork)) &&
+            (identical(other.favorite, favorite) ||
+                const DeepCollectionEquality()
+                    .equals(other.favorite, favorite)));
   }
 
   @override
@@ -617,12 +680,18 @@ class _$_Song implements _Song {
       const DeepCollectionEquality().hash(dateModified) ^
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(fileExtension) ^
-      const DeepCollectionEquality().hash(songArtwork);
+      const DeepCollectionEquality().hash(songArtwork) ^
+      const DeepCollectionEquality().hash(favorite);
 
   @JsonKey(ignore: true)
   @override
   _$SongCopyWith<_Song> get copyWith =>
       __$SongCopyWithImpl<_Song>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_SongToJson(this);
+  }
 }
 
 abstract class _Song implements Song {
@@ -651,16 +720,20 @@ abstract class _Song implements Song {
           int? bookmark,
       @JsonKey(name: 'composer')
           String? composer,
-      @JsonKey(name: 'date_added', fromJson: _dateFromMap)
+      @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
           DateTime? dateAdded,
-      @JsonKey(name: 'date_modified', fromJson: _dateFromMap)
+      @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
           DateTime? dateModified,
       @JsonKey(name: 'title')
           required String title,
       @JsonKey(name: 'file_extension')
           required String fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _song)
-          Uint8List? songArtwork}) = _$_Song;
+      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
+          Uint8List? songArtwork,
+      @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+          bool favorite}) = _$_Song;
+
+  factory _Song.fromJson(Map<String, dynamic> json) = _$_Song.fromJson;
 
   @override
 
@@ -725,12 +798,12 @@ abstract class _Song implements Song {
   @override
 
   /// Return song [dateAdded]
-  @JsonKey(name: 'date_added', fromJson: _dateFromMap)
+  @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
   DateTime? get dateAdded => throw _privateConstructorUsedError;
   @override
 
   /// Return song [dateModified]
-  @JsonKey(name: 'date_modified', fromJson: _dateFromMap)
+  @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
   DateTime? get dateModified => throw _privateConstructorUsedError;
   @override
 
@@ -743,8 +816,15 @@ abstract class _Song implements Song {
   @JsonKey(name: 'file_extension')
   String get fileExtension => throw _privateConstructorUsedError;
   @override
-  @JsonKey(name: 'song_artwork', fromJson: _song)
+
+  /// Return song artwork
+  @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
   Uint8List? get songArtwork => throw _privateConstructorUsedError;
+  @override
+
+  /// if is a favorite song
+  @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+  bool get favorite => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$SongCopyWith<_Song> get copyWith => throw _privateConstructorUsedError;

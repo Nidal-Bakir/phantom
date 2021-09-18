@@ -23,7 +23,10 @@ _$_Song _$$_SongFromJson(Map<String, dynamic> json) => _$_Song(
       dateModified: _dateFromMap(json['date_modified'] as int?),
       title: json['title'] as String,
       fileExtension: json['file_extension'] as String,
-      songArtwork: _song(json['song_artwork'] as Uint8List?),
+      songArtwork: _songArtwork(json['song_artwork'] as Uint8List?),
+      favorite: json['favorite'] == null
+          ? false
+          : _favoriteFromMap(json['favorite'] as int),
     );
 
 Map<String, dynamic> _$$_SongToJson(_$_Song instance) => <String, dynamic>{
@@ -39,9 +42,10 @@ Map<String, dynamic> _$$_SongToJson(_$_Song instance) => <String, dynamic>{
       'artist_id': instance.artistId,
       'bookmark': instance.bookmark,
       'composer': instance.composer,
-      'date_added': instance.dateAdded?.toIso8601String(),
-      'date_modified': instance.dateModified?.toIso8601String(),
+      'date_added': _dateToMap(instance.dateAdded),
+      'date_modified': _dateToMap(instance.dateModified),
       'title': instance.title,
       'file_extension': instance.fileExtension,
       'song_artwork': instance.songArtwork,
+      'favorite': _favoriteToMap(instance.favorite),
     };

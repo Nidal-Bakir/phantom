@@ -45,10 +45,11 @@ class Song with _$Song {
     @JsonKey(name: 'composer') String? composer,
 
     /// Return song [dateAdded]
-    @JsonKey(name: 'date_added', fromJson: _dateFromMap) DateTime? dateAdded,
+    @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
+        DateTime? dateAdded,
 
     /// Return song [dateModified]
-    @JsonKey(name: 'date_modified', fromJson: _dateFromMap)
+    @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
         DateTime? dateModified,
 
     /// Return song [title]
@@ -58,14 +59,28 @@ class Song with _$Song {
     @JsonKey(name: 'file_extension') required String fileExtension,
 
     /// Return song artwork
-    @JsonKey(name: 'song_artwork', fromJson: _song) Uint8List? songArtwork,
+    @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
+        Uint8List? songArtwork,
+
+    /// if is a favorite song
+    @JsonKey(
+        name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+    @Default(false)
+        bool favorite,
   }) = _Song;
 
-  factory Song.fomMap(Map<String, dynamic> map) => _$$_SongFromJson(map);
+  factory Song.fromJson(Map<String, dynamic> map) => _$SongFromJson(map);
 }
 
 DateTime? _dateFromMap(int? date) {
   return date == null ? null : DateTime.fromMillisecondsSinceEpoch(date);
 }
 
-Uint8List? _song(Uint8List? song) => song;
+int? _dateToMap(DateTime? date) {
+  return date?.millisecondsSinceEpoch;
+}
+
+Uint8List? _songArtwork(Uint8List? song) => song;
+
+int _favoriteToMap(bool favorite) => favorite ? 1 : 0;
+bool _favoriteFromMap(int favorite) => favorite == 1 ? true : false;
