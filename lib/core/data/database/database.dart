@@ -1,5 +1,5 @@
 import 'package:path/path.dart';
-import 'package:phantom/core/data/database/song_operation.dart';
+import 'package:phantom/core/data/database/database_table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDatabase {
@@ -19,7 +19,7 @@ class LocalDatabase {
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       // When creating the db, create the tables
-      await db.execute(SongOperations.tableCreation);
+      await db.execute(SongTable.tableCreation);
     });
   }
 }

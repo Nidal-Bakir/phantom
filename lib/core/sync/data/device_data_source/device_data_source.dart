@@ -8,7 +8,7 @@ abstract class DeviceDataSource {
   /// return songs sorted based on song title.
   /// * [orderType] : Defines the order type : [ASC, DESC] , ASC is the default.
   /// * [uriType] : EXTERNAL storage or INTERNAL storage. EXTERNAL as default.
-  Future<List<Song>> querySongsFromDevice({
+  Stream<Song> querySongsFromDevice({
     SongSortType songSortType = SongSortType.DATA_ADDED,
     OrderType orderType = OrderType.DESC_OR_GREATER,
     UriType uriType = UriType.EXTERNAL,
@@ -19,15 +19,21 @@ class DeviceDataSourceImpl extends DeviceDataSource {
   final OnAudioQuery onAudioQuery;
   DeviceDataSourceImpl({required this.onAudioQuery});
   @override
-  Future<List<Song>> querySongsFromDevice(
-          {SongSortType songSortType = SongSortType.DATA_ADDED,
-          OrderType orderType = OrderType.DESC_OR_GREATER,
-          UriType uriType = UriType.EXTERNAL}) =>
-      onAudioQuery
-          .querySongs(
-              orderType: orderType, sortType: songSortType, uriType: uriType)
-          .then<List<Song>>((value) => value
-              .map((event) =>
-                  Song.fromJson(event.getMap as Map<String, dynamic>))
-              .toList());
+  Stream<Song> querySongsFromDevice(
+      {SongSortType songSortType = SongSortType.DATA_ADDED,
+      OrderType orderType = OrderType.DESC_OR_GREATER,
+      UriType uriType = UriType.EXTERNAL}) {
+    return onAudioQuery
+        .querySongs(
+            orderType: orderType, sortType: songSortType, uriType: uriType)
+        .asStream()
+        .expand((element) => element)
+        // to get the artwork and plug it in device songs map
+        .asyncMap((event) async {
+      var artwork =
+          await onAudioQuery.queryArtwork(event.id, ArtworkType.AUDIO);
+      event.getMap['song_artwork'] = artwork;
+      return Song.fromJson(event.getMap as Map<String, dynamic>);
+    });
+  }
 }
