@@ -47,23 +47,46 @@ class SongOperations implements _SongTable {
         ${_SongTable.favorite} INTEGER
              )''';
 
-  /// Add songs to the database with a [replace] as ConflictAlgorithm
-  /// so if any song duplicated will be replaced with new one
-  /// (the one that came from the [songs] list), it is an edge case
-  /// happens only when the same song deleted and added to same folder with the same name.
-  /// in such a case the old record will be replaced with new one.
-  static Future<void> addSongs(List<Song> songs) async {
+  /// add new songs to local database based on all songs form the device [songsFromDevice]
+  static Future<void> addSongs(List<Song> songsFromDevice) async {
     var db = await LocalDatabase.openLocalDatabase();
+
+    var newSongs = await _getNewSongs(db, songsFromDevice);
+    // start adding
     var batch = db.batch();
-    for (Song song in songs) {
+    for (Song song in newSongs) {
       batch.insert(_SongTable.tableName, song.toJson(),
-          conflictAlgorithm: ConflictAlgorithm.replace);
+          conflictAlgorithm: ConflictAlgorithm.abort);
     }
     await batch.commit(
       noResult: true,
     );
   }
 
+  static Future<List<Song>> _getNewSongs(
+      Database db, List<Song> songsFromDevice) async {
+    // get all songs ids in local db
+    var localIdSongsMap =
+        await db.query(_SongTable.tableName, columns: [_SongTable.id]);
+
+    // get ids for all local songs
+    var localIdSongsSet =
+        localIdSongsMap.map((e) => e[_SongTable.id] as int).toSet();
+
+    // get ids for all device songs
+    var deviceIdSongsSet = songsFromDevice.map((e) => e.id).toSet();
+
+    // get all songs ids from the device songs list but not exist in local songs list
+    var newSongsIds = deviceIdSongsSet.difference(localIdSongsSet);
+
+    // new songs based on the difference between device and local
+    var newSongs = songsFromDevice
+        .where((element) => newSongsIds.contains(element.id))
+        .toList();
+    return newSongs;
+  }
+
+  /*
   /// update the database with the new values of [songs] using the
   /// (replace) ConflictAlgorithm so tow songs can not has the same Path.
   static Future<void> updateSongs(List<Song> songs) async {
@@ -79,11 +102,11 @@ class SongOperations implements _SongTable {
       noResult: true,
     );
   }
-
+*/
   /// detect if there is an remove in device songs and return the removed songs ids
   static Future<Set<int>> deleteDetection(List<Song> songsFromDevice) async {
     var db = await LocalDatabase.openLocalDatabase();
-    // get all songs in local db
+    // get all songs ids in local db
     var localIdSongsMap =
         await db.query(_SongTable.tableName, columns: [_SongTable.id]);
 
