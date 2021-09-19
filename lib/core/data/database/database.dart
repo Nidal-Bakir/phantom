@@ -3,7 +3,7 @@ import 'package:phantom/core/data/database/database_table.dart';
 import 'package:sqflite/sqflite.dart';
 
 class LocalDatabase {
-  LocalDatabase._();
+  const LocalDatabase._();
 
   /// Open the local database if it's not open then
   /// return singleton object of [Database] object

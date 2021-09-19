@@ -4,6 +4,8 @@ import 'package:phantom/core/models/song/song.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class LocalSongDataSource {
+  const LocalSongDataSource();
+
   /// add new songs to local database
   Future<void> addSongs(List<Song> newSongs);
 
@@ -11,13 +13,14 @@ abstract class LocalSongDataSource {
   Future<void> deleteSongs(List<Song> songs);
 
   /// delete songs from local db using there ids
-  Future<void> deleteSongsUsingId(List<int> songs);
+  Future<void> deleteSongsUsingId(Set<int> songs);
 
   /// get all songs ids from local database
   Future<Set<int>> getAllSongsIds();
 }
 
 class LocalSongDataSourceImp extends LocalSongDataSource implements SongTable {
+  const LocalSongDataSourceImp();
   @override
   Future<void> addSongs(List<Song> newSongs) async {
     var db = await LocalDatabase.openLocalDatabase();
@@ -34,11 +37,11 @@ class LocalSongDataSourceImp extends LocalSongDataSource implements SongTable {
 
   @override
   Future<void> deleteSongs(List<Song> songs) async {
-    await deleteSongsUsingId(songs.map((e) => e.id).toList());
+    await deleteSongsUsingId(songs.map((e) => e.id).toSet());
   }
 
   @override
-  Future<void> deleteSongsUsingId(List<int> songs) async {
+  Future<void> deleteSongsUsingId(Set<int> songs) async {
     var db = await LocalDatabase.openLocalDatabase();
     var batch = db.batch();
     for (int songId in songs) {

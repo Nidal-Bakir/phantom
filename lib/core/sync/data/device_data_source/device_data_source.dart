@@ -2,6 +2,8 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:phantom/core/models/song/song.dart';
 
 abstract class DeviceDataSource {
+  const DeviceDataSource();
+
   /// Return a stream of songs form internal device:
   ///
   /// * [songSortType] : Defines sort type the query function will use, the [DEFAULT]
@@ -17,7 +19,7 @@ abstract class DeviceDataSource {
 
 class DeviceDataSourceImpl extends DeviceDataSource {
   final OnAudioQuery onAudioQuery;
-  DeviceDataSourceImpl({required this.onAudioQuery});
+  const DeviceDataSourceImpl({required this.onAudioQuery});
   @override
   Stream<Song> querySongsFromDevice(
       {SongSortType songSortType = SongSortType.DATA_ADDED,
