@@ -3,8 +3,8 @@ import 'package:phantom/core/data/database/database_table.dart';
 import 'package:phantom/core/models/song/song.dart';
 import 'package:sqflite/sqflite.dart';
 
-abstract class LocalSongDataSource {
-  const LocalSongDataSource();
+abstract class LocalSyncSongDataSource {
+  const LocalSyncSongDataSource();
 
   /// add new songs to local database
   Future<void> addSongs(List<Song> newSongs);
@@ -19,7 +19,7 @@ abstract class LocalSongDataSource {
   Future<Set<int>> getAllSongsIds();
 }
 
-class LocalSongDataSourceImp extends LocalSongDataSource implements SongTable {
+class LocalSongDataSourceImp extends LocalSyncSongDataSource implements SongTable {
   const LocalSongDataSourceImp();
   @override
   Future<void> addSongs(List<Song> newSongs) async {

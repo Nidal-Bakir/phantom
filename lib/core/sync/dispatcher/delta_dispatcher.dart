@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:phantom/core/models/delta/delta.dart';
 import 'package:phantom/core/sync/data/device_data_source/device_data_source.dart';
-import 'package:phantom/core/sync/data/local_data_source/local_song_data_source.dart';
+import 'package:phantom/core/sync/data/local_data_source/local_sync_song_data_source.dart';
 
 import 'package:phantom/core/sync/repository/sync_repository.dart';
 
