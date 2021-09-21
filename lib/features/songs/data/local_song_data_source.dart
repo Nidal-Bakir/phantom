@@ -46,7 +46,7 @@ class LocalSongDataSourceImp extends LocalSongDataSource {
           SongTable.tableName,
           limit: limit,
           offset: offset,
-          orderBy: '"$orderByColumn" $orderType',
+          orderBy: '$orderByColumn $orderType',
         )
         .asStream()
         .expand((element) => element)
