@@ -21,7 +21,7 @@ class DeltaDispatcher {
   ///
   /// listen to the delta (changes) form [deltaStream] to know what has been added
   /// or deleted form local database on the fly.
-  void startSongsSyncing() async {
+  Future<void> startSongsSyncing() async {
     // the return will be [SongsDelta] object as bytes
     var byteSongDelta =
         await compute<void, TransferableTypedData>(_startSongsSyncing, null);
@@ -32,13 +32,16 @@ class DeltaDispatcher {
     // convert the json string to actual object
     var songDelta = SongsDelta.fromJson(
         jsonDecode(stringSongDelta) as Map<String, dynamic>);
-    // add the delta to the stream
-    _controller.sink.add(songDelta);
+
+    if (songDelta.newSongs.isNotEmpty || songDelta.deletedSongsIds.isNotEmpty) {
+      // add the delta to the stream
+      _controller.sink.add(songDelta);
+    }
   }
 
   /// close the delta stream controller.
   Future<void> dispose() async {
-    _controller.close();
+    await _controller.close();
   }
 }
 

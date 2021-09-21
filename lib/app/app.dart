@@ -14,10 +14,9 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   @override
-  void initState() {
-    super.initState();
-    // start syncing when the app start.
-    GetIt.I.get<DeltaDispatcher>().startSongsSyncing();
+  void dispose() {
+    super.dispose();
+    GetIt.I.get<DeltaDispatcher>().dispose();
   }
 
   @override
