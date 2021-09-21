@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
+import 'package:phantom/core/sync/dispatcher/delta_dispatcher.dart';
 import 'package:phantom/l10n/l10n.dart';
+import 'package:phantom/routes/app_routes.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    // start syncing when the app start.
+    GetIt.I.get<DeltaDispatcher>().startSongsSyncing();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +35,7 @@ class App extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
+      onGenerateRoute: onGenerateRoute,
     );
   }
 }

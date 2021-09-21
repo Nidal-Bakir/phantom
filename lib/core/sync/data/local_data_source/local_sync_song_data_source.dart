@@ -19,8 +19,8 @@ abstract class LocalSyncSongDataSource {
   Future<Set<int>> getAllSongsIds();
 }
 
-class LocalSongDataSourceImp extends LocalSyncSongDataSource implements SongTable {
-  const LocalSongDataSourceImp();
+class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource implements SongTable {
+  const LocalSyncSongDataSourceImp();
   @override
   Future<void> addSongs(List<Song> newSongs) async {
     var db = await LocalDatabase.openLocalDatabase();

@@ -49,7 +49,7 @@ FutureOr<TransferableTypedData> _startSongsSyncing(void _) async {
   // the dependency created and destroyed inside the isolate because it no longer
   // need it outside the isolate.
   var repo = SyncRepository(
-      const LocalSongDataSourceImp(),
+      const LocalSyncSongDataSourceImp(),
       DeviceDataSourceImpl(
         onAudioQuery: OnAudioQuery(),
       ));
