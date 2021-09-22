@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:phantom/core/models/delta/delta.dart';
 import 'package:phantom/core/models/song/song.dart';
 import 'package:phantom/core/sync/dispatcher/delta_dispatcher.dart';
 import 'package:phantom/core/util/constants.dart';
 import 'package:phantom/features/songs/data/local_song_data_source.dart';
-import 'package:phantom/core/models/delta/delta.dart';
 import 'package:rxdart/rxdart.dart';
 
+part 'songs_bloc.freezed.dart';
 part 'songs_event.dart';
 part 'songs_state.dart';
-part 'songs_bloc.freezed.dart';
 
 class SongsBloc extends Bloc<SongsEvent, SongsState> {
   final DeltaDispatcher _deltaDispatcher;
@@ -21,7 +21,7 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
       : super(const SongsInProgress()) {
     _deltaDispatcher.deltaStream.listen((deltaEvent) {
       // when new songs added to database.
-      if (deltaEvent is SongsDelta) {
+      if (deltaEvent is DeltaSongs) {
         add(const SongsRefreshed());
       }
     });
@@ -48,7 +48,7 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
     if (fromDevice) {
       _deltaDispatcher.startSongsSyncing();
       // Wait for a signal from dispatcher, no need for query song from local
-      // database because it's redundant.
+      // database because it's redundant or maybe there is no update.
       return;
     }
     var _currentState = state;

@@ -14,7 +14,7 @@ class SyncRepository {
   /// * check the deleted songs from the device and delete them form local database.
   ///
   /// Returns [SongsDelta] contain the changes that happened to local database.
-  Future<SongsDelta> syncLocalSongsWithDeviceSongs() async {
+  Future<DeltaSongs> syncLocalSongsWithDeviceSongs() async {
     var songsFromDevice =
         await _deviceDataSource.querySongsFromDevice().toList();
 
@@ -29,7 +29,9 @@ class SyncRepository {
           .deleteSongsUsingId(deletedSongsIds); // delete songs form local db
     }
 
-    return SongsDelta(newSongs: newSongs, deletedSongsIds: deletedSongsIds);
+    return DeltaSongs(
+        newSongsIds: newSongs.map((e) => e.id).toSet(),
+        deletedSongsIds: deletedSongsIds);
   }
 
   /// Identify new songs from list of songs [songsFromDevice] based on local db

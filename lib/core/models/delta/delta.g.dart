@@ -6,17 +6,16 @@ part of 'delta.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SongsDelta _$$SongsDeltaFromJson(Map<String, dynamic> json) => _$SongsDelta(
-      newSongs: (json['newSongs'] as List<dynamic>)
-          .map((e) => Song.fromJson(e as Map<String, dynamic>))
-          .toList(),
+_$DeltaSongs _$$DeltaSongsFromJson(Map<String, dynamic> json) => _$DeltaSongs(
+      newSongsIds:
+          (json['newSongsIds'] as List<dynamic>).map((e) => e as int).toSet(),
       deletedSongsIds: (json['deletedSongsIds'] as List<dynamic>)
           .map((e) => e as int)
           .toSet(),
     );
 
-Map<String, dynamic> _$$SongsDeltaToJson(_$SongsDelta instance) =>
+Map<String, dynamic> _$$DeltaSongsToJson(_$DeltaSongs instance) =>
     <String, dynamic>{
-      'newSongs': instance.newSongs.map((e) => e.toJson()).toList(),
+      'newSongsIds': instance.newSongsIds.toList(),
       'deletedSongsIds': instance.deletedSongsIds.toList(),
     };

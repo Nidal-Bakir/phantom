@@ -14,17 +14,17 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 Delta _$DeltaFromJson(Map<String, dynamic> json) {
-  return SongsDelta.fromJson(json);
+  return DeltaSongs.fromJson(json);
 }
 
 /// @nodoc
 class _$DeltaTearOff {
   const _$DeltaTearOff();
 
-  SongsDelta songsDelta(
-      {required List<Song> newSongs, required Set<int> deletedSongsIds}) {
-    return SongsDelta(
-      newSongs: newSongs,
+  DeltaSongs deltaSongs(
+      {required Set<int> newSongsIds, required Set<int> deletedSongsIds}) {
+    return DeltaSongs(
+      newSongsIds: newSongsIds,
       deletedSongsIds: deletedSongsIds,
     );
   }
@@ -39,39 +39,41 @@ const $Delta = _$DeltaTearOff();
 
 /// @nodoc
 mixin _$Delta {
-  List<Song> get newSongs => throw _privateConstructorUsedError;
+  Set<int> get newSongsIds => throw _privateConstructorUsedError;
   Set<int> get deletedSongsIds => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Song> newSongs, Set<int> deletedSongsIds)
-        songsDelta,
+    required TResult Function(Set<int> newSongsIds, Set<int> deletedSongsIds)
+        deltaSongs,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Song> newSongs, Set<int> deletedSongsIds)? songsDelta,
+    TResult Function(Set<int> newSongsIds, Set<int> deletedSongsIds)?
+        deltaSongs,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Song> newSongs, Set<int> deletedSongsIds)? songsDelta,
+    TResult Function(Set<int> newSongsIds, Set<int> deletedSongsIds)?
+        deltaSongs,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(SongsDelta value) songsDelta,
+    required TResult Function(DeltaSongs value) deltaSongs,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SongsDelta value)? songsDelta,
+    TResult Function(DeltaSongs value)? deltaSongs,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(SongsDelta value)? songsDelta,
+    TResult Function(DeltaSongs value)? deltaSongs,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -84,7 +86,7 @@ mixin _$Delta {
 abstract class $DeltaCopyWith<$Res> {
   factory $DeltaCopyWith(Delta value, $Res Function(Delta) then) =
       _$DeltaCopyWithImpl<$Res>;
-  $Res call({List<Song> newSongs, Set<int> deletedSongsIds});
+  $Res call({Set<int> newSongsIds, Set<int> deletedSongsIds});
 }
 
 /// @nodoc
@@ -97,14 +99,14 @@ class _$DeltaCopyWithImpl<$Res> implements $DeltaCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? newSongs = freezed,
+    Object? newSongsIds = freezed,
     Object? deletedSongsIds = freezed,
   }) {
     return _then(_value.copyWith(
-      newSongs: newSongs == freezed
-          ? _value.newSongs
-          : newSongs // ignore: cast_nullable_to_non_nullable
-              as List<Song>,
+      newSongsIds: newSongsIds == freezed
+          ? _value.newSongsIds
+          : newSongsIds // ignore: cast_nullable_to_non_nullable
+              as Set<int>,
       deletedSongsIds: deletedSongsIds == freezed
           ? _value.deletedSongsIds
           : deletedSongsIds // ignore: cast_nullable_to_non_nullable
@@ -114,33 +116,33 @@ class _$DeltaCopyWithImpl<$Res> implements $DeltaCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class $SongsDeltaCopyWith<$Res> implements $DeltaCopyWith<$Res> {
-  factory $SongsDeltaCopyWith(
-          SongsDelta value, $Res Function(SongsDelta) then) =
-      _$SongsDeltaCopyWithImpl<$Res>;
+abstract class $DeltaSongsCopyWith<$Res> implements $DeltaCopyWith<$Res> {
+  factory $DeltaSongsCopyWith(
+          DeltaSongs value, $Res Function(DeltaSongs) then) =
+      _$DeltaSongsCopyWithImpl<$Res>;
   @override
-  $Res call({List<Song> newSongs, Set<int> deletedSongsIds});
+  $Res call({Set<int> newSongsIds, Set<int> deletedSongsIds});
 }
 
 /// @nodoc
-class _$SongsDeltaCopyWithImpl<$Res> extends _$DeltaCopyWithImpl<$Res>
-    implements $SongsDeltaCopyWith<$Res> {
-  _$SongsDeltaCopyWithImpl(SongsDelta _value, $Res Function(SongsDelta) _then)
-      : super(_value, (v) => _then(v as SongsDelta));
+class _$DeltaSongsCopyWithImpl<$Res> extends _$DeltaCopyWithImpl<$Res>
+    implements $DeltaSongsCopyWith<$Res> {
+  _$DeltaSongsCopyWithImpl(DeltaSongs _value, $Res Function(DeltaSongs) _then)
+      : super(_value, (v) => _then(v as DeltaSongs));
 
   @override
-  SongsDelta get _value => super._value as SongsDelta;
+  DeltaSongs get _value => super._value as DeltaSongs;
 
   @override
   $Res call({
-    Object? newSongs = freezed,
+    Object? newSongsIds = freezed,
     Object? deletedSongsIds = freezed,
   }) {
-    return _then(SongsDelta(
-      newSongs: newSongs == freezed
-          ? _value.newSongs
-          : newSongs // ignore: cast_nullable_to_non_nullable
-              as List<Song>,
+    return _then(DeltaSongs(
+      newSongsIds: newSongsIds == freezed
+          ? _value.newSongsIds
+          : newSongsIds // ignore: cast_nullable_to_non_nullable
+              as Set<int>,
       deletedSongsIds: deletedSongsIds == freezed
           ? _value.deletedSongsIds
           : deletedSongsIds // ignore: cast_nullable_to_non_nullable
@@ -152,29 +154,30 @@ class _$SongsDeltaCopyWithImpl<$Res> extends _$DeltaCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$SongsDelta implements SongsDelta {
-  const _$SongsDelta({required this.newSongs, required this.deletedSongsIds});
+class _$DeltaSongs implements DeltaSongs {
+  const _$DeltaSongs(
+      {required this.newSongsIds, required this.deletedSongsIds});
 
-  factory _$SongsDelta.fromJson(Map<String, dynamic> json) =>
-      _$$SongsDeltaFromJson(json);
+  factory _$DeltaSongs.fromJson(Map<String, dynamic> json) =>
+      _$$DeltaSongsFromJson(json);
 
   @override
-  final List<Song> newSongs;
+  final Set<int> newSongsIds;
   @override
   final Set<int> deletedSongsIds;
 
   @override
   String toString() {
-    return 'Delta.songsDelta(newSongs: $newSongs, deletedSongsIds: $deletedSongsIds)';
+    return 'Delta.deltaSongs(newSongsIds: $newSongsIds, deletedSongsIds: $deletedSongsIds)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsDelta &&
-            (identical(other.newSongs, newSongs) ||
+        (other is DeltaSongs &&
+            (identical(other.newSongsIds, newSongsIds) ||
                 const DeepCollectionEquality()
-                    .equals(other.newSongs, newSongs)) &&
+                    .equals(other.newSongsIds, newSongsIds)) &&
             (identical(other.deletedSongsIds, deletedSongsIds) ||
                 const DeepCollectionEquality()
                     .equals(other.deletedSongsIds, deletedSongsIds)));
@@ -183,39 +186,41 @@ class _$SongsDelta implements SongsDelta {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(newSongs) ^
+      const DeepCollectionEquality().hash(newSongsIds) ^
       const DeepCollectionEquality().hash(deletedSongsIds);
 
   @JsonKey(ignore: true)
   @override
-  $SongsDeltaCopyWith<SongsDelta> get copyWith =>
-      _$SongsDeltaCopyWithImpl<SongsDelta>(this, _$identity);
+  $DeltaSongsCopyWith<DeltaSongs> get copyWith =>
+      _$DeltaSongsCopyWithImpl<DeltaSongs>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Song> newSongs, Set<int> deletedSongsIds)
-        songsDelta,
+    required TResult Function(Set<int> newSongsIds, Set<int> deletedSongsIds)
+        deltaSongs,
   }) {
-    return songsDelta(newSongs, deletedSongsIds);
+    return deltaSongs(newSongsIds, deletedSongsIds);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Song> newSongs, Set<int> deletedSongsIds)? songsDelta,
+    TResult Function(Set<int> newSongsIds, Set<int> deletedSongsIds)?
+        deltaSongs,
   }) {
-    return songsDelta?.call(newSongs, deletedSongsIds);
+    return deltaSongs?.call(newSongsIds, deletedSongsIds);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Song> newSongs, Set<int> deletedSongsIds)? songsDelta,
+    TResult Function(Set<int> newSongsIds, Set<int> deletedSongsIds)?
+        deltaSongs,
     required TResult orElse(),
   }) {
-    if (songsDelta != null) {
-      return songsDelta(newSongs, deletedSongsIds);
+    if (deltaSongs != null) {
+      return deltaSongs(newSongsIds, deletedSongsIds);
     }
     return orElse();
   }
@@ -223,51 +228,51 @@ class _$SongsDelta implements SongsDelta {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(SongsDelta value) songsDelta,
+    required TResult Function(DeltaSongs value) deltaSongs,
   }) {
-    return songsDelta(this);
+    return deltaSongs(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SongsDelta value)? songsDelta,
+    TResult Function(DeltaSongs value)? deltaSongs,
   }) {
-    return songsDelta?.call(this);
+    return deltaSongs?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(SongsDelta value)? songsDelta,
+    TResult Function(DeltaSongs value)? deltaSongs,
     required TResult orElse(),
   }) {
-    if (songsDelta != null) {
-      return songsDelta(this);
+    if (deltaSongs != null) {
+      return deltaSongs(this);
     }
     return orElse();
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SongsDeltaToJson(this);
+    return _$$DeltaSongsToJson(this);
   }
 }
 
-abstract class SongsDelta implements Delta {
-  const factory SongsDelta(
-      {required List<Song> newSongs,
-      required Set<int> deletedSongsIds}) = _$SongsDelta;
+abstract class DeltaSongs implements Delta {
+  const factory DeltaSongs(
+      {required Set<int> newSongsIds,
+      required Set<int> deletedSongsIds}) = _$DeltaSongs;
 
-  factory SongsDelta.fromJson(Map<String, dynamic> json) =
-      _$SongsDelta.fromJson;
+  factory DeltaSongs.fromJson(Map<String, dynamic> json) =
+      _$DeltaSongs.fromJson;
 
   @override
-  List<Song> get newSongs => throw _privateConstructorUsedError;
+  Set<int> get newSongsIds => throw _privateConstructorUsedError;
   @override
   Set<int> get deletedSongsIds => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
-  $SongsDeltaCopyWith<SongsDelta> get copyWith =>
+  $DeltaSongsCopyWith<DeltaSongs> get copyWith =>
       throw _privateConstructorUsedError;
 }
