@@ -23,7 +23,7 @@ abstract class SongTable {
   static const tableCreation = '''CREATE TABLE ${SongTable.tableName} (
         ${SongTable.id} INTEGER PRIMARY KEY,
         ${SongTable.title} TEXT NOT NULL,
-        ${SongTable.displayName} TEXT NOT NULL,
+        ${SongTable.displayName} TEXT,
         ${SongTable.displayNameWithOutExtension} TEXT NOT NULL,
         ${SongTable.albumId} INTEGER,
         ${SongTable.album} TEXT,
@@ -37,7 +37,7 @@ abstract class SongTable {
         ${SongTable.dateAdded} INTEGER NOT NULL,
         ${SongTable.dateModified} INTEGER NOT NULL,
         ${SongTable.fileExtension} TEXT NOT NULL,
-        ${SongTable.songArtwork} BLOB
+        ${SongTable.songArtwork} BLOB,
         ${SongTable.favorite} INTEGER
              )''';
 }

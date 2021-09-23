@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'song.freezed.dart';
 part 'song.g.dart';
 
@@ -18,7 +19,7 @@ class Song with _$Song {
     @JsonKey(name: '_uri') String? uri,
 
     /// Return song [displayName]
-    @JsonKey(name: '_display_name') required String displayName,
+    @JsonKey(name: '_display_name') String? displayName,
 
     /// Return song [displayName] without Extension
     @JsonKey(name: '_display_name_wo_ext') required String displayNameWOExt,

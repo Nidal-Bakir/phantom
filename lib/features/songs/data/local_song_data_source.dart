@@ -13,6 +13,8 @@ enum SongOrderType {
 }
 
 abstract class LocalSongDataSource {
+  const LocalSongDataSource();
+
   /// Query songs from the database.
   /// * [songSortType] the orderBy column when query the songs.
   /// * [songOrderType] the order type [ASC] or [DESC].
@@ -28,6 +30,8 @@ abstract class LocalSongDataSource {
 }
 
 class LocalSongDataSourceImp extends LocalSongDataSource {
+  const LocalSongDataSourceImp();
+
   @override
   Stream<Song> querySongsFromLocalDatabase({
     SongSortType songSortType = SongSortType.songName,
@@ -37,9 +41,9 @@ class LocalSongDataSourceImp extends LocalSongDataSource {
   }) async* {
     var db = await LocalDatabase.openLocalDatabase();
 
-    var orderByColumn = _convertSongOrderTypeToColumnName(songSortType);
+    final orderByColumn = _convertSongOrderTypeToColumnName(songSortType);
 
-    var orderType = songOrderType == SongOrderType.asc ? 'ASC' : 'DESC';
+    final orderType = songOrderType == SongOrderType.asc ? 'ASC' : 'DESC';
 
     yield* db
         .query(

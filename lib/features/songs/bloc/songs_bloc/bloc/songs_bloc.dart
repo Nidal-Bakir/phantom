@@ -16,15 +16,22 @@ part 'songs_state.dart';
 class SongsBloc extends Bloc<SongsEvent, SongsState> {
   final DeltaDispatcher _deltaDispatcher;
   final LocalSongDataSource _localSongDataSource;
+  late final StreamSubscription streamSubscription;
 
   SongsBloc(this._localSongDataSource, this._deltaDispatcher)
       : super(const SongsInProgress()) {
-    _deltaDispatcher.deltaStream.listen((deltaEvent) {
+    streamSubscription = _deltaDispatcher.deltaStream.listen((deltaEvent) {
       // when new songs added to database.
       if (deltaEvent is DeltaSongs) {
         add(const SongsRefreshed());
       }
     });
+  }
+
+  @override
+  Future<void> close() {
+    streamSubscription.cancel();
+    return super.close();
   }
 
   @override
@@ -51,7 +58,7 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
       // database because it's redundant or maybe there is no update.
       return;
     }
-    var _currentState = state;
+    final _currentState = state;
     var orderType = SongOrderType.asc;
     var sortType = SongSortType.songName;
 
@@ -84,7 +91,7 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
     SongSortType sortType,
     SongOrderType orderType,
   ) async* {
-    var _currentState = state;
+    final _currentState = state;
     yield* _localSongDataSource
         .querySongsFromLocalDatabase(
           songOrderType: orderType,

@@ -19,7 +19,9 @@ abstract class DeviceDataSource {
 
 class DeviceDataSourceImpl extends DeviceDataSource {
   final OnAudioQuery onAudioQuery;
+
   const DeviceDataSourceImpl({required this.onAudioQuery});
+
   @override
   Stream<Song> querySongsFromDevice(
       {SongSortType songSortType = SongSortType.DATA_ADDED,
@@ -32,10 +34,12 @@ class DeviceDataSourceImpl extends DeviceDataSource {
         .expand((element) => element)
         // to get the artwork and plug it in device songs map
         .asyncMap((event) async {
-      var artwork =
+      final map = Map<String, dynamic>.from(event.getMap);
+
+      final artwork =
           await onAudioQuery.queryArtwork(event.id, ArtworkType.AUDIO);
-      event.getMap['song_artwork'] = artwork;
-      return Song.fromJson(event.getMap as Map<String, dynamic>);
+      map['song_artwork'] = artwork;
+      return Song.fromJson(map);
     });
   }
 }

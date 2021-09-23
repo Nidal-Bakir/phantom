@@ -29,7 +29,7 @@ class _$SongTearOff {
       @JsonKey(name: '_uri')
           String? uri,
       @JsonKey(name: '_display_name')
-          required String displayName,
+          String? displayName,
       @JsonKey(name: '_display_name_wo_ext')
           required String displayNameWOExt,
       @JsonKey(name: '_size')
@@ -104,7 +104,7 @@ mixin _$Song {
 
   /// Return song [displayName]
   @JsonKey(name: '_display_name')
-  String get displayName => throw _privateConstructorUsedError;
+  String? get displayName => throw _privateConstructorUsedError;
 
   /// Return song [displayName] without Extension
   @JsonKey(name: '_display_name_wo_ext')
@@ -179,7 +179,7 @@ abstract class $SongCopyWith<$Res> {
       @JsonKey(name: '_uri')
           String? uri,
       @JsonKey(name: '_display_name')
-          String displayName,
+          String? displayName,
       @JsonKey(name: '_display_name_wo_ext')
           String displayNameWOExt,
       @JsonKey(name: '_size')
@@ -255,7 +255,7 @@ class _$SongCopyWithImpl<$Res> implements $SongCopyWith<$Res> {
       displayName: displayName == freezed
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       displayNameWOExt: displayNameWOExt == freezed
           ? _value.displayNameWOExt
           : displayNameWOExt // ignore: cast_nullable_to_non_nullable
@@ -329,7 +329,7 @@ abstract class _$SongCopyWith<$Res> implements $SongCopyWith<$Res> {
       @JsonKey(name: '_uri')
           String? uri,
       @JsonKey(name: '_display_name')
-          String displayName,
+          String? displayName,
       @JsonKey(name: '_display_name_wo_ext')
           String displayNameWOExt,
       @JsonKey(name: '_size')
@@ -406,7 +406,7 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
       displayName: displayName == freezed
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       displayNameWOExt: displayNameWOExt == freezed
           ? _value.displayNameWOExt
           : displayNameWOExt // ignore: cast_nullable_to_non_nullable
@@ -479,7 +479,7 @@ class _$_Song implements _Song {
       @JsonKey(name: '_uri')
           this.uri,
       @JsonKey(name: '_display_name')
-          required this.displayName,
+          this.displayName,
       @JsonKey(name: '_display_name_wo_ext')
           required this.displayNameWOExt,
       @JsonKey(name: '_size')
@@ -530,7 +530,7 @@ class _$_Song implements _Song {
 
   /// Return song [displayName]
   @JsonKey(name: '_display_name')
-  final String displayName;
+  final String? displayName;
   @override
 
   /// Return song [displayName] without Extension
@@ -703,7 +703,7 @@ abstract class _Song implements Song {
       @JsonKey(name: '_uri')
           String? uri,
       @JsonKey(name: '_display_name')
-          required String displayName,
+          String? displayName,
       @JsonKey(name: '_display_name_wo_ext')
           required String displayNameWOExt,
       @JsonKey(name: '_size')
@@ -754,7 +754,7 @@ abstract class _Song implements Song {
 
   /// Return song [displayName]
   @JsonKey(name: '_display_name')
-  String get displayName => throw _privateConstructorUsedError;
+  String? get displayName => throw _privateConstructorUsedError;
   @override
 
   /// Return song [displayName] without Extension

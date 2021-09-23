@@ -19,13 +19,15 @@ abstract class LocalSyncSongDataSource {
   Future<Set<int>> getAllSongsIds();
 }
 
-class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource implements SongTable {
+class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
+    implements SongTable {
   const LocalSyncSongDataSourceImp();
+
   @override
   Future<void> addSongs(List<Song> newSongs) async {
-    var db = await LocalDatabase.openLocalDatabase();
+    final db = await LocalDatabase.openLocalDatabase();
 
-    var batch = db.batch();
+    final batch = db.batch();
     for (Song song in newSongs) {
       batch.insert(SongTable.tableName, song.toJson(),
           conflictAlgorithm: ConflictAlgorithm.abort);
@@ -42,8 +44,8 @@ class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource implements Song
 
   @override
   Future<void> deleteSongsUsingId(Set<int> songs) async {
-    var db = await LocalDatabase.openLocalDatabase();
-    var batch = db.batch();
+    final db = await LocalDatabase.openLocalDatabase();
+    final batch = db.batch();
     for (int songId in songs) {
       batch.delete(
         SongTable.tableName,
@@ -56,9 +58,9 @@ class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource implements Song
 
   @override
   Future<Set<int>> getAllSongsIds() async {
-    var db = await LocalDatabase.openLocalDatabase();
+    final db = await LocalDatabase.openLocalDatabase();
     // get ids for all local songs
-    var localIdSongsMap =
+    final localIdSongsMap =
         await db.query(SongTable.tableName, columns: [SongTable.id]);
 
     return localIdSongsMap.map((e) => e[SongTable.id] as int).toSet();

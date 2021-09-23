@@ -10,7 +10,7 @@ _$_Song _$$_SongFromJson(Map<String, dynamic> json) => _$_Song(
       id: json['_id'] as int,
       absolutePath: json['_data'] as String,
       uri: json['_uri'] as String?,
-      displayName: json['_display_name'] as String,
+      displayName: json['_display_name'] as String?,
       displayNameWOExt: json['_display_name_wo_ext'] as String,
       size: json['_size'] as int,
       album: json['album'] as String?,

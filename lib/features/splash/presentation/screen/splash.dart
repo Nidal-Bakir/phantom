@@ -18,7 +18,7 @@ class _SplashState extends State<Splash> {
     GetIt.I
         .get<DeltaDispatcher>()
         .startSongsSyncing()
-        .then((value) => Navigator.of(context).pushNamed('/songs'));
+        .then((value) => Navigator.of(context).pushReplacementNamed('/songs'));
   }
 
   @override
