@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phantom/features/songs/bloc/songs_bloc/bloc/songs_bloc.dart';
-import 'package:phantom/features/songs/data/local_song_data_source.dart';
 import 'package:phantom/features/songs/presentation/widget/song_item.dart';
 
 class SongsList extends StatefulWidget {
@@ -23,13 +22,25 @@ class _SongsListState extends State<SongsList> {
             );
           },
           songLoadSuccess: (sortType, orderType, songs) {
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                return SongItem(
-                  song: songs[index],
-                );
+            return NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                if (notification.metrics.pixels >=
+                    notification.metrics.maxScrollExtent * 0.8) {
+                  context.read<SongsBloc>().add(SongsLoaded(
+                        songSortType: sortType,
+                        songOrderType: orderType,
+                      ));
+                }
+                return true;
               },
-              itemCount: songs.length,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return SongItem(
+                    song: songs[index],
+                  );
+                },
+                itemCount: songs.length,
+              ),
             );
           },
         );
