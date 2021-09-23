@@ -1,5 +1,6 @@
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:phantom/core/models/song/song.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 abstract class DeviceDataSource {
   const DeviceDataSource();
@@ -33,7 +34,7 @@ class DeviceDataSourceImpl extends DeviceDataSource {
         .asStream()
         .expand((element) => element)
         // to get the artwork and plug it in device songs map
-        .asyncMap((event) async {
+        .concurrentAsyncMap((event) async {
       final map = Map<String, dynamic>.from(event.getMap);
 
       final artwork =

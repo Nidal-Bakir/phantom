@@ -604,7 +604,7 @@ class _$_Song implements _Song {
 
   @override
   String toString() {
-    return 'Song(id: $id, absolutePath: $absolutePath, uri: $uri, displayName: $displayName, displayNameWOExt: $displayNameWOExt, size: $size, album: $album, albumId: $albumId, artist: $artist, artistId: $artistId, bookmark: $bookmark, composer: $composer, dateAdded: $dateAdded, dateModified: $dateModified, title: $title, fileExtension: $fileExtension, songArtwork: $songArtwork, favorite: $favorite)';
+    return 'Song(id: $id, absolutePath: $absolutePath, uri: $uri, displayName: $displayName, displayNameWOExt: $displayNameWOExt, size: $size, album: $album, albumId: $albumId, artist: $artist, artistId: $artistId, bookmark: $bookmark, composer: $composer, dateAdded: $dateAdded, dateModified: $dateModified, title: $title, fileExtension: $fileExtension, favorite: $favorite)';
   }
 
   @override
