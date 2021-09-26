@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phantom/features/songs/bloc/songs_bloc/bloc/songs_bloc.dart';
+import 'package:phantom/features/songs/presentation/bloc/songs_bloc/bloc/songs_bloc.dart';
+
 import 'package:phantom/features/songs/presentation/widget/song_item.dart';
 
 class SongsList extends StatefulWidget {
@@ -21,7 +22,7 @@ class _SongsListState extends State<SongsList> {
               child: Text('loading....'),
             );
           },
-          songLoadSuccess: (sortType, orderType, songs) {
+          songLoadSuccess: (sortType, orderType, songsContainer) {
             return NotificationListener<ScrollNotification>(
               onNotification: (notification) {
                 if (notification.metrics.pixels >=
@@ -35,11 +36,13 @@ class _SongsListState extends State<SongsList> {
               },
               child: ListView.builder(
                 itemBuilder: (context, index) {
+                  final _song = songsContainer.songs[index];
                   return SongItem(
-                    song: songs[index],
+                    song: _song,
+                    artwork: songsContainer.albumArtwork[_song.albumId],
                   );
                 },
-                itemCount: songs.length,
+                itemCount: songsContainer.songs.length,
               ),
             );
           },

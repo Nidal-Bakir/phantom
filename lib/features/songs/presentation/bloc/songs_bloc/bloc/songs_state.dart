@@ -7,6 +7,6 @@ class SongsState with _$SongsState {
   const factory SongsState.songLoadSuccess({
     required SongSortType sortType,
     required SongOrderType orderType,
-    required UnmodifiableListView<Song> songs,
+    required SongsContainer songsContainer,
   }) = SongsLoadSuccess;
 }

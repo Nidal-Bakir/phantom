@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:phantom/core/models/song/song.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'delta.freezed.dart';

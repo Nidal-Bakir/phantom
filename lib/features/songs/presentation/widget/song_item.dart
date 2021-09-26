@@ -1,9 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:phantom/core/models/song/song.dart';
 
 class SongItem extends StatefulWidget {
   final Song song;
-  const SongItem({Key? key, required this.song}) : super(key: key);
+  final Uint8List? artwork;
+  const SongItem({Key? key, required this.song, required this.artwork})
+      : super(key: key);
 
   @override
   State<SongItem> createState() => _SongItemState();
@@ -34,12 +38,12 @@ class _SongItemState extends State<SongItem>
     return ListTile(
       leading: AspectRatio(
         aspectRatio: 1.0,
-        child: widget.song.songArtwork == null
+        child: widget.artwork == null
             ? Container()
             : ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.memory(
-                  widget.song.songArtwork!,
+                  widget.artwork!,
                   cacheHeight: 200,
                   cacheWidth: 200,
                   frameBuilder:
@@ -60,10 +64,10 @@ class _SongItemState extends State<SongItem>
               ),
       ),
       title: Text(
-        widget.song.title,
+        _song.title,
       ),
       subtitle: Text(
-        widget.song.artist ?? 'Unknown artist',
+       _song.artist ?? 'Unknown artist',
       ),
       trailing: IconButton(
         icon: Icon(

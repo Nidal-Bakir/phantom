@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:phantom/core/data/database/database.dart';
 import 'package:phantom/core/data/database/database_table.dart';
 import 'package:phantom/core/models/song/song.dart';
@@ -6,17 +8,28 @@ import 'package:sqflite/sqflite.dart';
 abstract class LocalSyncSongDataSource {
   const LocalSyncSongDataSource();
 
-  /// add new songs to local database
+  /// add new songs to songs table
   Future<void> addSongs(List<Song> newSongs);
 
-  /// delete songs from local db
+  /// delete songs from songs table
   Future<void> deleteSongs(List<Song> songs);
 
-  /// delete songs from local db using there ids
+  /// delete songs from songs table using songs ids
   Future<void> deleteSongsUsingId(Set<int> songs);
 
-  /// get all songs ids from local database
+  /// get all songs ids from songs table
   Future<Set<int>> getAllSongsIds();
+
+  /// get all albums ids from artwork table
+  Future<Set<int>> getAllAlbumIds();
+
+  /// add new album artworks to artwork  table
+  Future<void> addAlbumArtworks(Map<int, Uint8List?> newAlbumArtworks);
+
+  /// delete all artworks not referenced by any songs in songs table
+  /// that's happened when deleting songs from database and all songs that use
+  /// an artwork deleted, this method to clean that up.
+  Future<void> deleteArtworksNotReferencedByAnySong();
 }
 
 class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
@@ -32,9 +45,7 @@ class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
       batch.insert(SongTable.tableName, song.toJson(),
           conflictAlgorithm: ConflictAlgorithm.abort);
     }
-    await batch.commit(
-      noResult: true,
-    );
+    await batch.commit(noResult: true);
   }
 
   @override
@@ -64,5 +75,42 @@ class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
         await db.query(SongTable.tableName, columns: [SongTable.id]);
 
     return localIdSongsMap.map((e) => e[SongTable.id] as int).toSet();
+  }
+
+  @override
+  Future<void> addAlbumArtworks(Map<int, Uint8List?> newAlbumArtworks) async {
+    final db = await LocalDatabase.openLocalDatabase();
+    final batch = db.batch();
+    newAlbumArtworks.forEach((albumId, artwork) {
+      batch.insert(
+        ArtworkTable.tableName,
+        {
+          ArtworkTable.albumId: albumId,
+          ArtworkTable.albumArtwork: artwork,
+        },
+      );
+    });
+    await batch.commit(noResult: true);
+  }
+
+  @override
+  Future<Set<int>> getAllAlbumIds() async {
+    final db = await LocalDatabase.openLocalDatabase();
+    final albumsIds = await db.query(
+      ArtworkTable.tableName,
+      columns: [ArtworkTable.albumId],
+      where: '${ArtworkTable.albumId} IS NOT NULL',
+    );
+    return albumsIds.map((e) => e[ArtworkTable.albumId] as int).toSet();
+  }
+
+  @override
+  Future<void> deleteArtworksNotReferencedByAnySong() async {
+    final db = await LocalDatabase.openLocalDatabase();
+    db.rawQuery(''' DELETE FROM ${ArtworkTable.tableName} WHERE 
+    ${ArtworkTable.albumId} NOT IN 
+      (SELECT ${SongTable.albumId} FROM ${SongTable.tableName} WHERE
+           ${SongTable.albumId} IS NOT NULL)
+     ''');
   }
 }

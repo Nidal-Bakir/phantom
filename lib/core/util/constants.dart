@@ -1,3 +1,3 @@
-class Constants{
-  static const pageSize = 50;
+class Constants {
+  static const pageSize = 20;
 }

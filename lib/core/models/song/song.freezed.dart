@@ -29,7 +29,7 @@ class _$SongTearOff {
       @JsonKey(name: '_uri')
           String? uri,
       @JsonKey(name: '_display_name')
-          String? displayName,
+          required String displayName,
       @JsonKey(name: '_display_name_wo_ext')
           required String displayNameWOExt,
       @JsonKey(name: '_size')
@@ -54,8 +54,6 @@ class _$SongTearOff {
           required String title,
       @JsonKey(name: 'file_extension')
           required String fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
-          Uint8List? songArtwork,
       @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
           bool favorite = false}) {
     return _Song(
@@ -75,7 +73,6 @@ class _$SongTearOff {
       dateModified: dateModified,
       title: title,
       fileExtension: fileExtension,
-      songArtwork: songArtwork,
       favorite: favorite,
     );
   }
@@ -104,7 +101,7 @@ mixin _$Song {
 
   /// Return song [displayName]
   @JsonKey(name: '_display_name')
-  String? get displayName => throw _privateConstructorUsedError;
+  String get displayName => throw _privateConstructorUsedError;
 
   /// Return song [displayName] without Extension
   @JsonKey(name: '_display_name_wo_ext')
@@ -138,7 +135,7 @@ mixin _$Song {
   @JsonKey(name: 'composer')
   String? get composer => throw _privateConstructorUsedError;
 
-  /// Return song [dateAdded]
+  /// Return song [dateAdded] to the app database
   @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
   DateTime? get dateAdded => throw _privateConstructorUsedError;
 
@@ -153,10 +150,6 @@ mixin _$Song {
   /// Return song only the [fileExtension]
   @JsonKey(name: 'file_extension')
   String get fileExtension => throw _privateConstructorUsedError;
-
-  /// Return song artwork
-  @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
-  Uint8List? get songArtwork => throw _privateConstructorUsedError;
 
   /// if is a favorite song
   @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
@@ -179,7 +172,7 @@ abstract class $SongCopyWith<$Res> {
       @JsonKey(name: '_uri')
           String? uri,
       @JsonKey(name: '_display_name')
-          String? displayName,
+          String displayName,
       @JsonKey(name: '_display_name_wo_ext')
           String displayNameWOExt,
       @JsonKey(name: '_size')
@@ -204,8 +197,6 @@ abstract class $SongCopyWith<$Res> {
           String title,
       @JsonKey(name: 'file_extension')
           String fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
-          Uint8List? songArtwork,
       @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
           bool favorite});
 }
@@ -236,7 +227,6 @@ class _$SongCopyWithImpl<$Res> implements $SongCopyWith<$Res> {
     Object? dateModified = freezed,
     Object? title = freezed,
     Object? fileExtension = freezed,
-    Object? songArtwork = freezed,
     Object? favorite = freezed,
   }) {
     return _then(_value.copyWith(
@@ -255,7 +245,7 @@ class _$SongCopyWithImpl<$Res> implements $SongCopyWith<$Res> {
       displayName: displayName == freezed
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       displayNameWOExt: displayNameWOExt == freezed
           ? _value.displayNameWOExt
           : displayNameWOExt // ignore: cast_nullable_to_non_nullable
@@ -304,10 +294,6 @@ class _$SongCopyWithImpl<$Res> implements $SongCopyWith<$Res> {
           ? _value.fileExtension
           : fileExtension // ignore: cast_nullable_to_non_nullable
               as String,
-      songArtwork: songArtwork == freezed
-          ? _value.songArtwork
-          : songArtwork // ignore: cast_nullable_to_non_nullable
-              as Uint8List?,
       favorite: favorite == freezed
           ? _value.favorite
           : favorite // ignore: cast_nullable_to_non_nullable
@@ -329,7 +315,7 @@ abstract class _$SongCopyWith<$Res> implements $SongCopyWith<$Res> {
       @JsonKey(name: '_uri')
           String? uri,
       @JsonKey(name: '_display_name')
-          String? displayName,
+          String displayName,
       @JsonKey(name: '_display_name_wo_ext')
           String displayNameWOExt,
       @JsonKey(name: '_size')
@@ -354,8 +340,6 @@ abstract class _$SongCopyWith<$Res> implements $SongCopyWith<$Res> {
           String title,
       @JsonKey(name: 'file_extension')
           String fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
-          Uint8List? songArtwork,
       @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
           bool favorite});
 }
@@ -387,7 +371,6 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
     Object? dateModified = freezed,
     Object? title = freezed,
     Object? fileExtension = freezed,
-    Object? songArtwork = freezed,
     Object? favorite = freezed,
   }) {
     return _then(_Song(
@@ -406,7 +389,7 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
       displayName: displayName == freezed
           ? _value.displayName
           : displayName // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       displayNameWOExt: displayNameWOExt == freezed
           ? _value.displayNameWOExt
           : displayNameWOExt // ignore: cast_nullable_to_non_nullable
@@ -455,10 +438,6 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
           ? _value.fileExtension
           : fileExtension // ignore: cast_nullable_to_non_nullable
               as String,
-      songArtwork: songArtwork == freezed
-          ? _value.songArtwork
-          : songArtwork // ignore: cast_nullable_to_non_nullable
-              as Uint8List?,
       favorite: favorite == freezed
           ? _value.favorite
           : favorite // ignore: cast_nullable_to_non_nullable
@@ -479,7 +458,7 @@ class _$_Song implements _Song {
       @JsonKey(name: '_uri')
           this.uri,
       @JsonKey(name: '_display_name')
-          this.displayName,
+          required this.displayName,
       @JsonKey(name: '_display_name_wo_ext')
           required this.displayNameWOExt,
       @JsonKey(name: '_size')
@@ -504,8 +483,6 @@ class _$_Song implements _Song {
           required this.title,
       @JsonKey(name: 'file_extension')
           required this.fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
-          this.songArtwork,
       @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
           this.favorite = false});
 
@@ -530,7 +507,7 @@ class _$_Song implements _Song {
 
   /// Return song [displayName]
   @JsonKey(name: '_display_name')
-  final String? displayName;
+  final String displayName;
   @override
 
   /// Return song [displayName] without Extension
@@ -573,7 +550,7 @@ class _$_Song implements _Song {
   final String? composer;
   @override
 
-  /// Return song [dateAdded]
+  /// Return song [dateAdded] to the app database
   @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
   final DateTime? dateAdded;
   @override
@@ -591,11 +568,6 @@ class _$_Song implements _Song {
   /// Return song only the [fileExtension]
   @JsonKey(name: 'file_extension')
   final String fileExtension;
-  @override
-
-  /// Return song artwork
-  @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
-  final Uint8List? songArtwork;
   @override
 
   /// if is a favorite song
@@ -653,9 +625,6 @@ class _$_Song implements _Song {
             (identical(other.fileExtension, fileExtension) ||
                 const DeepCollectionEquality()
                     .equals(other.fileExtension, fileExtension)) &&
-            (identical(other.songArtwork, songArtwork) ||
-                const DeepCollectionEquality()
-                    .equals(other.songArtwork, songArtwork)) &&
             (identical(other.favorite, favorite) ||
                 const DeepCollectionEquality()
                     .equals(other.favorite, favorite)));
@@ -680,7 +649,6 @@ class _$_Song implements _Song {
       const DeepCollectionEquality().hash(dateModified) ^
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(fileExtension) ^
-      const DeepCollectionEquality().hash(songArtwork) ^
       const DeepCollectionEquality().hash(favorite);
 
   @JsonKey(ignore: true)
@@ -703,7 +671,7 @@ abstract class _Song implements Song {
       @JsonKey(name: '_uri')
           String? uri,
       @JsonKey(name: '_display_name')
-          String? displayName,
+          required String displayName,
       @JsonKey(name: '_display_name_wo_ext')
           required String displayNameWOExt,
       @JsonKey(name: '_size')
@@ -728,8 +696,6 @@ abstract class _Song implements Song {
           required String title,
       @JsonKey(name: 'file_extension')
           required String fileExtension,
-      @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
-          Uint8List? songArtwork,
       @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
           bool favorite}) = _$_Song;
 
@@ -754,7 +720,7 @@ abstract class _Song implements Song {
 
   /// Return song [displayName]
   @JsonKey(name: '_display_name')
-  String? get displayName => throw _privateConstructorUsedError;
+  String get displayName => throw _privateConstructorUsedError;
   @override
 
   /// Return song [displayName] without Extension
@@ -797,7 +763,7 @@ abstract class _Song implements Song {
   String? get composer => throw _privateConstructorUsedError;
   @override
 
-  /// Return song [dateAdded]
+  /// Return song [dateAdded] to the app database
   @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
   DateTime? get dateAdded => throw _privateConstructorUsedError;
   @override
@@ -815,11 +781,6 @@ abstract class _Song implements Song {
   /// Return song only the [fileExtension]
   @JsonKey(name: 'file_extension')
   String get fileExtension => throw _privateConstructorUsedError;
-  @override
-
-  /// Return song artwork
-  @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
-  Uint8List? get songArtwork => throw _privateConstructorUsedError;
   @override
 
   /// if is a favorite song

@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -19,7 +18,7 @@ class Song with _$Song {
     @JsonKey(name: '_uri') String? uri,
 
     /// Return song [displayName]
-    @JsonKey(name: '_display_name') String? displayName,
+    @JsonKey(name: '_display_name') required String displayName,
 
     /// Return song [displayName] without Extension
     @JsonKey(name: '_display_name_wo_ext') required String displayNameWOExt,
@@ -45,7 +44,7 @@ class Song with _$Song {
     /// Return song [composer]
     @JsonKey(name: 'composer') String? composer,
 
-    /// Return song [dateAdded]
+    /// Return song [dateAdded] to the app database
     @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
         DateTime? dateAdded,
 
@@ -58,10 +57,6 @@ class Song with _$Song {
 
     /// Return song only the [fileExtension]
     @JsonKey(name: 'file_extension') required String fileExtension,
-
-    /// Return song artwork
-    @JsonKey(name: 'song_artwork', fromJson: _songArtwork)
-        Uint8List? songArtwork,
 
     /// if is a favorite song
     @JsonKey(
@@ -80,8 +75,6 @@ DateTime? _dateFromMap(int? date) {
 int? _dateToMap(DateTime? date) {
   return date?.millisecondsSinceEpoch;
 }
-
-Uint8List? _songArtwork(Uint8List? song) => song;
 
 int _favoriteToMap(bool favorite) => favorite ? 1 : 0;
 bool _favoriteFromMap(int favorite) => favorite == 1 ? true : false;

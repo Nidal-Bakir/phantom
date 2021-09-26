@@ -19,6 +19,7 @@ class LocalDatabase {
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       // When creating the db, create the tables
+      await db.execute(ArtworkTable.tableCreation);
       await db.execute(SongTable.tableCreation);
     });
   }

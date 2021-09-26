@@ -29,7 +29,7 @@ class DeltaDispatcher {
 
     final receivePort = ReceivePort();
 
-    // span new flutter_isolate to start the sync process
+    // spawn new flutter_isolate to start the sync process
     final songsSyncIsolate = await FlutterIsolate.spawn<SendPort>(
         _startSongsSyncing, receivePort.sendPort);
 

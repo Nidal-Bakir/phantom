@@ -605,11 +605,11 @@ class _$SongsStateTearOff {
   SongsLoadSuccess songLoadSuccess(
       {required SongSortType sortType,
       required SongOrderType orderType,
-      required UnmodifiableListView<Song> songs}) {
+      required SongsContainer songsContainer}) {
     return SongsLoadSuccess(
       sortType: sortType,
       orderType: orderType,
-      songs: songs,
+      songsContainer: songsContainer,
     );
   }
 }
@@ -623,7 +623,7 @@ mixin _$SongsState {
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
     required TResult Function(SongSortType sortType, SongOrderType orderType,
-            UnmodifiableListView<Song> songs)
+            SongsContainer songsContainer)
         songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
@@ -631,7 +631,7 @@ mixin _$SongsState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            UnmodifiableListView<Song> songs)?
+            SongsContainer songsContainer)?
         songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
@@ -639,7 +639,7 @@ mixin _$SongsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            UnmodifiableListView<Song> songs)?
+            SongsContainer songsContainer)?
         songLoadSuccess,
     required TResult orElse(),
   }) =>
@@ -722,7 +722,7 @@ class _$SongsInProgress implements SongsInProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
     required TResult Function(SongSortType sortType, SongOrderType orderType,
-            UnmodifiableListView<Song> songs)
+            SongsContainer songsContainer)
         songLoadSuccess,
   }) {
     return inProgress();
@@ -733,7 +733,7 @@ class _$SongsInProgress implements SongsInProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            UnmodifiableListView<Song> songs)?
+            SongsContainer songsContainer)?
         songLoadSuccess,
   }) {
     return inProgress?.call();
@@ -744,7 +744,7 @@ class _$SongsInProgress implements SongsInProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            UnmodifiableListView<Song> songs)?
+            SongsContainer songsContainer)?
         songLoadSuccess,
     required TResult orElse(),
   }) {
@@ -798,7 +798,7 @@ abstract class $SongsLoadSuccessCopyWith<$Res> {
   $Res call(
       {SongSortType sortType,
       SongOrderType orderType,
-      UnmodifiableListView<Song> songs});
+      SongsContainer songsContainer});
 }
 
 /// @nodoc
@@ -816,7 +816,7 @@ class _$SongsLoadSuccessCopyWithImpl<$Res>
   $Res call({
     Object? sortType = freezed,
     Object? orderType = freezed,
-    Object? songs = freezed,
+    Object? songsContainer = freezed,
   }) {
     return _then(SongsLoadSuccess(
       sortType: sortType == freezed
@@ -827,10 +827,10 @@ class _$SongsLoadSuccessCopyWithImpl<$Res>
           ? _value.orderType
           : orderType // ignore: cast_nullable_to_non_nullable
               as SongOrderType,
-      songs: songs == freezed
-          ? _value.songs
-          : songs // ignore: cast_nullable_to_non_nullable
-              as UnmodifiableListView<Song>,
+      songsContainer: songsContainer == freezed
+          ? _value.songsContainer
+          : songsContainer // ignore: cast_nullable_to_non_nullable
+              as SongsContainer,
     ));
   }
 }
@@ -839,18 +839,20 @@ class _$SongsLoadSuccessCopyWithImpl<$Res>
 
 class _$SongsLoadSuccess implements SongsLoadSuccess {
   const _$SongsLoadSuccess(
-      {required this.sortType, required this.orderType, required this.songs});
+      {required this.sortType,
+      required this.orderType,
+      required this.songsContainer});
 
   @override
   final SongSortType sortType;
   @override
   final SongOrderType orderType;
   @override
-  final UnmodifiableListView<Song> songs;
+  final SongsContainer songsContainer;
 
   @override
   String toString() {
-    return 'SongsState.songLoadSuccess(sortType: $sortType, orderType: $orderType, songs: $songs)';
+    return 'SongsState.songLoadSuccess(sortType: $sortType, orderType: $orderType, songsContainer: $songsContainer)';
   }
 
   @override
@@ -863,8 +865,9 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
             (identical(other.orderType, orderType) ||
                 const DeepCollectionEquality()
                     .equals(other.orderType, orderType)) &&
-            (identical(other.songs, songs) ||
-                const DeepCollectionEquality().equals(other.songs, songs)));
+            (identical(other.songsContainer, songsContainer) ||
+                const DeepCollectionEquality()
+                    .equals(other.songsContainer, songsContainer)));
   }
 
   @override
@@ -872,7 +875,7 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(sortType) ^
       const DeepCollectionEquality().hash(orderType) ^
-      const DeepCollectionEquality().hash(songs);
+      const DeepCollectionEquality().hash(songsContainer);
 
   @JsonKey(ignore: true)
   @override
@@ -884,10 +887,10 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
     required TResult Function(SongSortType sortType, SongOrderType orderType,
-            UnmodifiableListView<Song> songs)
+            SongsContainer songsContainer)
         songLoadSuccess,
   }) {
-    return songLoadSuccess(sortType, orderType, songs);
+    return songLoadSuccess(sortType, orderType, songsContainer);
   }
 
   @override
@@ -895,10 +898,10 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            UnmodifiableListView<Song> songs)?
+            SongsContainer songsContainer)?
         songLoadSuccess,
   }) {
-    return songLoadSuccess?.call(sortType, orderType, songs);
+    return songLoadSuccess?.call(sortType, orderType, songsContainer);
   }
 
   @override
@@ -906,12 +909,12 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            UnmodifiableListView<Song> songs)?
+            SongsContainer songsContainer)?
         songLoadSuccess,
     required TResult orElse(),
   }) {
     if (songLoadSuccess != null) {
-      return songLoadSuccess(sortType, orderType, songs);
+      return songLoadSuccess(sortType, orderType, songsContainer);
     }
     return orElse();
   }
@@ -952,11 +955,11 @@ abstract class SongsLoadSuccess implements SongsState {
   const factory SongsLoadSuccess(
       {required SongSortType sortType,
       required SongOrderType orderType,
-      required UnmodifiableListView<Song> songs}) = _$SongsLoadSuccess;
+      required SongsContainer songsContainer}) = _$SongsLoadSuccess;
 
   SongSortType get sortType => throw _privateConstructorUsedError;
   SongOrderType get orderType => throw _privateConstructorUsedError;
-  UnmodifiableListView<Song> get songs => throw _privateConstructorUsedError;
+  SongsContainer get songsContainer => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SongsLoadSuccessCopyWith<SongsLoadSuccess> get copyWith =>
       throw _privateConstructorUsedError;

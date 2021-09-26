@@ -1,13 +1,14 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:phantom/core/models/delta/delta.dart';
-import 'package:phantom/core/models/song/song.dart';
+import 'package:phantom/core/models/songs_container/songs_container.dart';
 import 'package:phantom/core/sync/dispatcher/delta_dispatcher.dart';
 import 'package:phantom/core/util/constants.dart';
 import 'package:phantom/features/songs/data/local_song_data_source.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:phantom/features/songs/repository/songs_repository.dart';
 
 part 'songs_bloc.freezed.dart';
 part 'songs_event.dart';
@@ -15,11 +16,13 @@ part 'songs_state.dart';
 
 class SongsBloc extends Bloc<SongsEvent, SongsState> {
   final DeltaDispatcher _deltaDispatcher;
-  final LocalSongDataSource _localSongDataSource;
+  final SongsRepository _songsRepository;
   late final StreamSubscription streamSubscription;
 
-  SongsBloc(this._localSongDataSource, this._deltaDispatcher)
-      : super(const SongsInProgress()) {
+  SongsBloc(
+    this._deltaDispatcher,
+    this._songsRepository,
+  ) : super(const SongsInProgress()) {
     streamSubscription = _deltaDispatcher.deltaStream.listen((deltaEvent) {
       // when new songs added to database.
       if (deltaEvent is DeltaSongs) {
@@ -51,12 +54,12 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
   /// the songs from the local database.
   ///
   /// ``coped from [SongsRefreshed]``
-  Stream<SongsState> _songsRefreshedHandler(bool fromDevice) async* {
+  Stream<SongsState> _songsRefreshedHandler(bool fromDevice) {
     if (fromDevice) {
       _deltaDispatcher.startSongsSyncing();
       // Wait for a signal from dispatcher, no need for query song from local
       // database because it's redundant or maybe there is no update.
-      return;
+      return const Stream.empty();
     }
     final _currentState = state;
     var orderType = SongOrderType.asc;
@@ -67,17 +70,17 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
       orderType = _currentState.orderType;
       sortType = _currentState.sortType;
     }
-    yield* _localSongDataSource
-        .querySongsFromLocalDatabase(
+    return _songsRepository
+        .querySongs(
           songOrderType: orderType,
           songSortType: sortType,
           limit: Constants.pageSize,
         )
-        .bufferCount(Constants.pageSize)
+        .asStream()
         .map((event) => SongsLoadSuccess(
               orderType: orderType,
               sortType: sortType,
-              songs: UnmodifiableListView(event),
+              songsContainer: event,
             ));
   }
 
@@ -90,30 +93,40 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
   Stream<SongsState> _songsLoadedHandler(
     SongSortType sortType,
     SongOrderType orderType,
-  ) async* {
+  ) {
     final _currentState = state;
-    yield* _localSongDataSource
-        .querySongsFromLocalDatabase(
+    return _songsRepository
+        .querySongs(
           songOrderType: orderType,
           songSortType: sortType,
           limit: Constants.pageSize,
           offset: _currentState is SongsLoadSuccess
               // offset the number of songs in the current list and get
               // the next page (50 songs) from db.
-              ? _currentState.songs.length
+              ? _currentState.songsContainer.songs.length
               : 0, // do not offset if it's the first page (call).
         )
-        .bufferCount(Constants.pageSize)
+        .asStream()
         .map(
           (event) => SongsLoadSuccess(
             orderType: orderType,
             sortType: sortType,
-            songs: UnmodifiableListView(
-              [
-                // add the current list to new list to emit.
-                if (_currentState is SongsLoadSuccess) ..._currentState.songs,
-                ...event
-              ],
+            songsContainer: SongsContainer(
+              songs: UnmodifiableListView(
+                [
+                  // add the current list to new list to emit.
+                  if (_currentState is SongsLoadSuccess)
+                    ..._currentState.songsContainer.songs,
+                  ...event.songs
+                ],
+              ),
+              albumArtwork: event.albumArtwork
+                ..addAll(
+                  // add all new artworks from prev state
+                  _currentState is SongsLoadSuccess
+                      ? _currentState.songsContainer.albumArtwork
+                      : {},
+                ),
             ),
           ),
         );
@@ -128,17 +141,17 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
   ) async* {
     yield const SongsInProgress();
 
-    yield* _localSongDataSource
-        .querySongsFromLocalDatabase(
+    yield* _songsRepository
+        .querySongs(
           songOrderType: orderType,
           songSortType: sortType,
           limit: Constants.pageSize,
         )
-        .bufferCount(Constants.pageSize)
+        .asStream()
         .map((event) => SongsLoadSuccess(
               orderType: orderType,
               sortType: sortType,
-              songs: UnmodifiableListView(event),
+              songsContainer: event,
             ));
   }
 }
