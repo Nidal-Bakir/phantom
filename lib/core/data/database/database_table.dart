@@ -42,7 +42,7 @@ abstract class SongTable {
 }
 
 abstract class ArtworkTable {
-  static const tableName = 'artwork_table';
+  static const tableName = 'artwork';
   static const albumId = 'song_album_id';
   static const albumArtwork = 'album_artwork';
 

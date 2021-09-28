@@ -9,42 +9,55 @@ import 'package:phantom/core/models/delta/delta.dart';
 import 'package:phantom/core/sync/data/device_data_source/device_data_source.dart';
 import 'package:phantom/core/sync/data/local_data_source/local_sync_song_data_source.dart';
 import 'package:phantom/core/sync/repository/sync_repository.dart';
+import 'package:phantom/core/util/constants.dart';
 
 class DeltaDispatcher {
-  late final StreamController<Delta> _controller = StreamController.broadcast();
+  late final StreamController<Delta> _deltaStreamController =
+      StreamController.broadcast();
 
-  /// broadcast stream of Delta changes
-  Stream<Delta> get deltaStream => _controller.stream;
+  late final StreamController<int> _progressStreamController =
+      StreamController.broadcast();
 
-  /// spawn new isolate to start song sync operation in it.
+  /// broadcast stream of sync progress
+  Stream<int> get progressStream => _progressStreamController.stream;
+
+  /// Broadcast stream of Delta changes like new added songs
+  Stream<Delta> get deltaStream => _deltaStreamController.stream;
+
+  /// Spawn new isolate to start song sync operation in it.
   ///
-  /// listen to the delta (changes) form [deltaStream] to know what has been added
-  /// or deleted form local database on the fly.
+  /// Listen to the delta (changes) form [deltaStream] to know what has been added
+  /// to local database on the fly.
   Future<void> startSongsSyncing() async {
-    final permissionGranted = await _requestPermissions();
-    if (!permissionGranted) {
+    final isPermissionGranted = await _requestPermissions();
+    if (!isPermissionGranted) {
       // no need to complete we do not have Permissions
       return;
     }
 
     final receivePort = ReceivePort();
+    late final StreamSubscription subscription;
 
     // spawn new flutter_isolate to start the sync process
     final songsSyncIsolate = await FlutterIsolate.spawn<SendPort>(
         _startSongsSyncing, receivePort.sendPort);
 
-    // the return will be [DeltaSongs] object as bytes
-    final byteDeltaSongs = (await receivePort.first) as TransferableTypedData;
+    subscription = receivePort.listen((message) {
+      if (message is TransferableTypedData) {
+        // the message will be [DeltaSongs] object as bytes
+        final delta = _convertByteDeltaToObject(message);
 
-    final deltaSongs = _convertByteDeltaSongsToObject(byteDeltaSongs);
+        // add the delta to the stream
+        _deltaStreamController.sink.add(delta);
+      } else if (message == Constants.pageSize) {
+        songsSyncIsolate.kill();
 
-    if (deltaSongs.newSongsIds.isNotEmpty ||
-        deltaSongs.deletedSongsIds.isNotEmpty) {
-      // add the delta to the stream
-      _controller.sink.add(deltaSongs);
-    }
-
-    songsSyncIsolate.kill();
+        subscription.cancel();
+      } else {
+        // it is a progress message
+        _progressStreamController.sink.add(message);
+      }
+    });
   }
 
   Future<bool> _requestPermissions() async {
@@ -59,26 +72,25 @@ class DeltaDispatcher {
     return false;
   }
 
-  DeltaSongs _convertByteDeltaSongsToObject(
-      TransferableTypedData byteDeltaSongs) {
+  Delta _convertByteDeltaToObject(TransferableTypedData byteDelta) {
     // convert the byte to Uint8List first then decode it to string (json).
-    final stringSongDelta =
-        const Utf8Decoder().convert(byteDeltaSongs.materialize().asUint8List());
+    final stringDelta =
+        const Utf8Decoder().convert(byteDelta.materialize().asUint8List());
 
     // convert the json string to actual object
-    return DeltaSongs.fromJson(
-        jsonDecode(stringSongDelta) as Map<String, dynamic>);
+    return Delta.fromJson(
+        jsonDecode(stringDelta) as Map<String, dynamic>);
   }
 
   /// close the delta stream controller.
   Future<void> dispose() async {
-    await _controller.close();
+    await _deltaStreamController.close();
   }
 }
 
 /// the top-level function to run in the isolate.
 ///
-/// Returns [DeltaSongs] as [TransferableTypedData] aka bytes.
+/// Sends [DeltaSongs] as [TransferableTypedData] aka bytes to [sendPort]
 void _startSongsSyncing(SendPort sendPort) async {
   // the dependency created and destroyed inside the isolate because it no longer
   // need it outside the isolate.
@@ -88,12 +100,18 @@ void _startSongsSyncing(SendPort sendPort) async {
         onAudioQuery: OnAudioQuery(),
       ));
 
-  final deltaSong = await repo.syncLocalSongsWithDeviceSongs();
+  repo.progressStream.listen((progress) {
+    sendPort.send(progress);
+  });
 
-  // convert the deltaSongs object to json(Map) then to String and finally to bytes
-  // to send it back to the main isolate.
-  final deltaSongAsUint8List =
-      Uint8List.fromList(jsonEncode(deltaSong.toJson()).codeUnits);
+  repo.deltaStream.listen((delta) {
+    // convert the deltaSongs object to json(Map) then to String and finally to bytes
+    // to send it back to the main isolate.
+    final deltaAsUint8List =
+        Uint8List.fromList(jsonEncode(delta.toJson()).codeUnits);
 
-  sendPort.send(TransferableTypedData.fromList([deltaSongAsUint8List]));
+    sendPort.send(TransferableTypedData.fromList([deltaAsUint8List]));
+  });
+
+  await repo.syncLocalSongsWithDeviceSongs();
 }

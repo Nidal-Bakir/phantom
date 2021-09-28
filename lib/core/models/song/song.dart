@@ -1,18 +1,19 @@
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'song.freezed.dart';
 part 'song.g.dart';
 
 @freezed
-class Song with _$Song {
+class Song extends Comparable<int> with _$Song {
+  Song._();
   @JsonSerializable()
-  const factory Song({
+  factory Song({
     /// Return song [id]
     @JsonKey(name: '_id') required int id,
 
     /// Return song [absolute path]
-    @JsonKey(name: '_data') required String absolutePath,
+    @JsonKey(name: '_data')
+        required String absolutePath, // TODO: change the _data filed deprecated
 
     /// Return song [uri]
     @JsonKey(name: '_uri') String? uri,
@@ -66,6 +67,16 @@ class Song with _$Song {
   }) = _Song;
 
   factory Song.fromJson(Map<String, dynamic> map) => _$SongFromJson(map);
+
+  @override
+  int compareTo(Object other) {
+    if (other is Song) {
+      return albumId?.compareTo(other.albumId ?? -1) ?? -1;
+    } else if (other is int) {
+      return albumId?.compareTo(other) ?? -1;
+    }
+    return -1;
+  }
 }
 
 DateTime? _dateFromMap(int? date) {

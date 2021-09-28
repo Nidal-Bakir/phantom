@@ -93,8 +93,8 @@ mixin _$Song {
 
   /// Return song [absolute path]
   @JsonKey(name: '_data')
-  String get absolutePath => throw _privateConstructorUsedError;
-
+  String get absolutePath =>
+      throw _privateConstructorUsedError; // TODO: change the _data filed deprecated
   /// Return song [uri]
   @JsonKey(name: '_uri')
   String? get uri => throw _privateConstructorUsedError;
@@ -449,8 +449,8 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable()
-class _$_Song implements _Song {
-  const _$_Song(
+class _$_Song extends _Song {
+  _$_Song(
       {@JsonKey(name: '_id')
           required this.id,
       @JsonKey(name: '_data')
@@ -484,7 +484,8 @@ class _$_Song implements _Song {
       @JsonKey(name: 'file_extension')
           required this.fileExtension,
       @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
-          this.favorite = false});
+          this.favorite = false})
+      : super._();
 
   factory _$_Song.fromJson(Map<String, dynamic> json) => _$$_SongFromJson(json);
 
@@ -498,8 +499,7 @@ class _$_Song implements _Song {
   /// Return song [absolute path]
   @JsonKey(name: '_data')
   final String absolutePath;
-  @override
-
+  @override // TODO: change the _data filed deprecated
   /// Return song [uri]
   @JsonKey(name: '_uri')
   final String? uri;
@@ -662,8 +662,8 @@ class _$_Song implements _Song {
   }
 }
 
-abstract class _Song implements Song {
-  const factory _Song(
+abstract class _Song extends Song {
+  factory _Song(
       {@JsonKey(name: '_id')
           required int id,
       @JsonKey(name: '_data')
@@ -698,6 +698,7 @@ abstract class _Song implements Song {
           required String fileExtension,
       @JsonKey(name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
           bool favorite}) = _$_Song;
+  _Song._() : super._();
 
   factory _Song.fromJson(Map<String, dynamic> json) = _$_Song.fromJson;
 
@@ -711,8 +712,7 @@ abstract class _Song implements Song {
   /// Return song [absolute path]
   @JsonKey(name: '_data')
   String get absolutePath => throw _privateConstructorUsedError;
-  @override
-
+  @override // TODO: change the _data filed deprecated
   /// Return song [uri]
   @JsonKey(name: '_uri')
   String? get uri => throw _privateConstructorUsedError;

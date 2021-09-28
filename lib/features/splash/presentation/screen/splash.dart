@@ -13,18 +13,17 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    // start syncing when the app start and
-    // when the sync complete navigate to the home screen.
     GetIt.I
         .get<DeltaDispatcher>()
         .startSongsSyncing()
         .then((value) => Navigator.of(context).pushReplacementNamed('/songs'));
+     
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: FlutterLogo(),
+    return Center(
+      child: Text('_progress'),
     );
   }
 }

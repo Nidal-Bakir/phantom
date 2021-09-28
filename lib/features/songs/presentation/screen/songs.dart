@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:phantom/core/data/database/database.dart';
 
 import 'package:phantom/features/songs/data/local_song_data_source.dart';
 import 'package:phantom/features/songs/presentation/bloc/songs_bloc/bloc/songs_bloc.dart';
@@ -17,9 +18,20 @@ class Songs extends StatelessWidget {
           songSortType: SongSortType.songName,
           songOrderType: SongOrderType.asc,
         )),
+        
       child: Builder(
         builder: (context) => Scaffold(
-          appBar: AppBar(title: Text('songs')),
+          appBar: AppBar(
+              title: TextButton(
+            child: Text('sd'),
+            onPressed: () {
+              LocalDatabase.openLocalDatabase().then((value) {
+                  value.delete('song');
+                  value.delete('artwork');
+
+              });
+            },
+          )),
           body: const SongsList(),
         ),
       ),

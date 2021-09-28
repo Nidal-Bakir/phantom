@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phantom/features/songs/presentation/bloc/songs_bloc/bloc/songs_bloc.dart';
-
 import 'package:phantom/features/songs/presentation/widget/song_item.dart';
 
 class SongsList extends StatefulWidget {
@@ -27,10 +26,10 @@ class _SongsListState extends State<SongsList> {
               onNotification: (notification) {
                 if (notification.metrics.pixels >=
                     notification.metrics.maxScrollExtent * 0.8) {
-                  context.read<SongsBloc>().add(SongsLoaded(
-                        songSortType: sortType,
-                        songOrderType: orderType,
-                      ));
+                  // context.read<SongsBloc>().add(SongsLoaded(
+                  //       songSortType: sortType,
+                  //       songOrderType: orderType,
+                  //     ));
                 }
                 return true;
               },

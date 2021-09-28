@@ -24,10 +24,11 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
     this._songsRepository,
   ) : super(const SongsInProgress()) {
     streamSubscription = _deltaDispatcher.deltaStream.listen((deltaEvent) {
-      // when new songs added to database.
-      if (deltaEvent is DeltaSongs) {
-        add(const SongsRefreshed());
-      }
+      // when new songs added or deleted to database.
+      deltaEvent.whenOrNull(
+        newAddedSongs: (newSongs) => add(const SongsRefreshed()),
+        deletedSongsIds: (deletedSongsIds) => add(const SongsRefreshed()),
+      );
     });
   }
 

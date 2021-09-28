@@ -13,7 +13,7 @@ abstract class DeviceDataSource {
   /// * [orderType] : Defines the order type : [ASC, DESC] , ASC is the default.
   /// * [uriType] : EXTERNAL storage or INTERNAL storage. EXTERNAL as default.
   Future<List<Song>> querySongs({
-    SongSortType songSortType = SongSortType.DATA_ADDED,
+    SongSortType songSortType = SongSortType.DATE_ADDED,
     OrderType orderType = OrderType.DESC_OR_GREATER,
     UriType uriType = UriType.EXTERNAL,
   });
@@ -30,19 +30,17 @@ class DeviceDataSourceImpl extends DeviceDataSource {
 
   @override
   Future<List<Song>> querySongs(
-      {SongSortType songSortType = SongSortType.DATA_ADDED,
+      {SongSortType songSortType = SongSortType.DATE_ADDED,
       OrderType orderType = OrderType.DESC_OR_GREATER,
       UriType uriType = UriType.EXTERNAL}) async {
     final deviceSongs = await onAudioQuery.querySongs(
         orderType: orderType, sortType: songSortType, uriType: uriType);
-   
-    return deviceSongs
-        .map((event) {
-           var map = Map<String,dynamic>.from(event.getMap);
-           map['date_added']=DateTime.now().millisecondsSinceEpoch;
-          return Song.fromJson(map);
-        })
-        .toList();
+
+    return deviceSongs.map((event) {
+      var map = Map<String, dynamic>.from(event.getMap);
+      map['date_added'] = DateTime.now().millisecondsSinceEpoch;
+      return Song.fromJson(map);
+    }).toList();
   }
 
   @override
@@ -50,6 +48,7 @@ class DeviceDataSourceImpl extends DeviceDataSource {
         songId,
         ArtworkType.AUDIO,
         format: ArtworkFormat.JPEG,
-        size: 100,
+        size: 50,
+        quality: 5,
       );
 }
