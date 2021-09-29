@@ -72,8 +72,19 @@ class LocalSongDataSourceImp extends LocalSongDataSource {
     for (var song in songs) {
       // if a song do not has album id then it do not has artwork
       if (song[SongTable.albumId] != null) {
-        tempAlbumArtworkBuffer.putIfAbsent(song[ArtworkTable.albumId] as int,
-            () => song[ArtworkTable.albumArtwork] as Uint8List?);
+        var art = song[ArtworkTable.albumArtwork] as Uint8List?;
+        // by checking that the art is not empty we avoid a bug in flutter
+        // the bug happens specifically for android 5.1 api level 23, causing
+        // the app to crash immediately when flutter try to paint the image.
+
+        // we should report the bug but still cannot find a way to reproduce it
+        // without database because the db give us the uing8list (_Uint8ArrayList)
+        // with some wrong bytes perhaps or some bug in the actual _Uint8ArrayList,
+        // sill cannot find a way to reproduce the same bytes!.
+        if (art != null && art.isNotEmpty) {
+          tempAlbumArtworkBuffer.putIfAbsent(
+              song[ArtworkTable.albumId] as int, () => art);
+        }
       }
 
       tempSongsBuffer.add(Song.fromJson(song));

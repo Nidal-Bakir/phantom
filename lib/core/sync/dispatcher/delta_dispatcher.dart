@@ -49,7 +49,7 @@ class DeltaDispatcher {
 
         // add the delta to the stream
         _deltaStreamController.sink.add(delta);
-      } else if (message == Constants.pageSize) {
+      } else if (message == Constants.syncDone) {
         songsSyncIsolate.kill();
 
         subscription.cancel();
@@ -78,8 +78,7 @@ class DeltaDispatcher {
         const Utf8Decoder().convert(byteDelta.materialize().asUint8List());
 
     // convert the json string to actual object
-    return Delta.fromJson(
-        jsonDecode(stringDelta) as Map<String, dynamic>);
+    return Delta.fromJson(jsonDecode(stringDelta) as Map<String, dynamic>);
   }
 
   /// close the delta stream controller.
@@ -114,4 +113,5 @@ void _startSongsSyncing(SendPort sendPort) async {
   });
 
   await repo.syncLocalSongsWithDeviceSongs();
+  sendPort.send(Constants.syncDone);
 }
