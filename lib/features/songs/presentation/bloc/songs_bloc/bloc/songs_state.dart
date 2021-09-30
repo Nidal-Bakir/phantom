@@ -8,5 +8,6 @@ class SongsState with _$SongsState {
     required SongSortType sortType,
     required SongOrderType orderType,
     required SongsContainer songsContainer,
+    @Default(false) bool isLastPage,
   }) = SongsLoadSuccess;
 }

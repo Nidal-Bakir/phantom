@@ -21,15 +21,16 @@ class _SongsListState extends State<SongsList> {
               child: Text('loading....'),
             );
           },
-          songLoadSuccess: (sortType, orderType, songsContainer) {
+          songLoadSuccess: (sortType, orderType, songsContainer, isLastPage) {
             return NotificationListener<ScrollNotification>(
               onNotification: (notification) {
-                if (notification.metrics.pixels >=
-                    notification.metrics.maxScrollExtent * 0.8) {
-                  // context.read<SongsBloc>().add(SongsLoaded(
-                  //       songSortType: sortType,
-                  //       songOrderType: orderType,
-                  //     ));
+                if (!isLastPage &&
+                    notification.metrics.pixels >=
+                        notification.metrics.maxScrollExtent * 0.1) {
+                  context.read<SongsBloc>().add(SongsLoaded(
+                        songSortType: sortType,
+                        songOrderType: orderType,
+                      ));
                 }
                 return true;
               },
@@ -37,6 +38,7 @@ class _SongsListState extends State<SongsList> {
                 itemBuilder: (context, index) {
                   final _song = songsContainer.songs[index];
                   return SongItem(
+                    key: Key(_song.id.toString()),
                     song: _song,
                     artwork: songsContainer.albumArtwork[_song.albumId],
                   );

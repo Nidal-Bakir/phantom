@@ -605,11 +605,13 @@ class _$SongsStateTearOff {
   SongsLoadSuccess songLoadSuccess(
       {required SongSortType sortType,
       required SongOrderType orderType,
-      required SongsContainer songsContainer}) {
+      required SongsContainer songsContainer,
+      bool isLastPage = false}) {
     return SongsLoadSuccess(
       sortType: sortType,
       orderType: orderType,
       songsContainer: songsContainer,
+      isLastPage: isLastPage,
     );
   }
 }
@@ -623,7 +625,7 @@ mixin _$SongsState {
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
     required TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer)
+            SongsContainer songsContainer, bool isLastPage)
         songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
@@ -631,7 +633,7 @@ mixin _$SongsState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer)?
+            SongsContainer songsContainer, bool isLastPage)?
         songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
@@ -639,7 +641,7 @@ mixin _$SongsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer)?
+            SongsContainer songsContainer, bool isLastPage)?
         songLoadSuccess,
     required TResult orElse(),
   }) =>
@@ -722,7 +724,7 @@ class _$SongsInProgress implements SongsInProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
     required TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer)
+            SongsContainer songsContainer, bool isLastPage)
         songLoadSuccess,
   }) {
     return inProgress();
@@ -733,7 +735,7 @@ class _$SongsInProgress implements SongsInProgress {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer)?
+            SongsContainer songsContainer, bool isLastPage)?
         songLoadSuccess,
   }) {
     return inProgress?.call();
@@ -744,7 +746,7 @@ class _$SongsInProgress implements SongsInProgress {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer)?
+            SongsContainer songsContainer, bool isLastPage)?
         songLoadSuccess,
     required TResult orElse(),
   }) {
@@ -798,7 +800,8 @@ abstract class $SongsLoadSuccessCopyWith<$Res> {
   $Res call(
       {SongSortType sortType,
       SongOrderType orderType,
-      SongsContainer songsContainer});
+      SongsContainer songsContainer,
+      bool isLastPage});
 }
 
 /// @nodoc
@@ -817,6 +820,7 @@ class _$SongsLoadSuccessCopyWithImpl<$Res>
     Object? sortType = freezed,
     Object? orderType = freezed,
     Object? songsContainer = freezed,
+    Object? isLastPage = freezed,
   }) {
     return _then(SongsLoadSuccess(
       sortType: sortType == freezed
@@ -831,6 +835,10 @@ class _$SongsLoadSuccessCopyWithImpl<$Res>
           ? _value.songsContainer
           : songsContainer // ignore: cast_nullable_to_non_nullable
               as SongsContainer,
+      isLastPage: isLastPage == freezed
+          ? _value.isLastPage
+          : isLastPage // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -841,7 +849,8 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   const _$SongsLoadSuccess(
       {required this.sortType,
       required this.orderType,
-      required this.songsContainer});
+      required this.songsContainer,
+      this.isLastPage = false});
 
   @override
   final SongSortType sortType;
@@ -849,10 +858,13 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   final SongOrderType orderType;
   @override
   final SongsContainer songsContainer;
+  @JsonKey(defaultValue: false)
+  @override
+  final bool isLastPage;
 
   @override
   String toString() {
-    return 'SongsState.songLoadSuccess(sortType: $sortType, orderType: $orderType, songsContainer: $songsContainer)';
+    return 'SongsState.songLoadSuccess(sortType: $sortType, orderType: $orderType, songsContainer: $songsContainer, isLastPage: $isLastPage)';
   }
 
   @override
@@ -867,7 +879,10 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
                     .equals(other.orderType, orderType)) &&
             (identical(other.songsContainer, songsContainer) ||
                 const DeepCollectionEquality()
-                    .equals(other.songsContainer, songsContainer)));
+                    .equals(other.songsContainer, songsContainer)) &&
+            (identical(other.isLastPage, isLastPage) ||
+                const DeepCollectionEquality()
+                    .equals(other.isLastPage, isLastPage)));
   }
 
   @override
@@ -875,7 +890,8 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(sortType) ^
       const DeepCollectionEquality().hash(orderType) ^
-      const DeepCollectionEquality().hash(songsContainer);
+      const DeepCollectionEquality().hash(songsContainer) ^
+      const DeepCollectionEquality().hash(isLastPage);
 
   @JsonKey(ignore: true)
   @override
@@ -887,10 +903,10 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
     required TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer)
+            SongsContainer songsContainer, bool isLastPage)
         songLoadSuccess,
   }) {
-    return songLoadSuccess(sortType, orderType, songsContainer);
+    return songLoadSuccess(sortType, orderType, songsContainer, isLastPage);
   }
 
   @override
@@ -898,10 +914,11 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer)?
+            SongsContainer songsContainer, bool isLastPage)?
         songLoadSuccess,
   }) {
-    return songLoadSuccess?.call(sortType, orderType, songsContainer);
+    return songLoadSuccess?.call(
+        sortType, orderType, songsContainer, isLastPage);
   }
 
   @override
@@ -909,12 +926,12 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
     TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer)?
+            SongsContainer songsContainer, bool isLastPage)?
         songLoadSuccess,
     required TResult orElse(),
   }) {
     if (songLoadSuccess != null) {
-      return songLoadSuccess(sortType, orderType, songsContainer);
+      return songLoadSuccess(sortType, orderType, songsContainer, isLastPage);
     }
     return orElse();
   }
@@ -955,11 +972,13 @@ abstract class SongsLoadSuccess implements SongsState {
   const factory SongsLoadSuccess(
       {required SongSortType sortType,
       required SongOrderType orderType,
-      required SongsContainer songsContainer}) = _$SongsLoadSuccess;
+      required SongsContainer songsContainer,
+      bool isLastPage}) = _$SongsLoadSuccess;
 
   SongSortType get sortType => throw _privateConstructorUsedError;
   SongOrderType get orderType => throw _privateConstructorUsedError;
   SongsContainer get songsContainer => throw _privateConstructorUsedError;
+  bool get isLastPage => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SongsLoadSuccessCopyWith<SongsLoadSuccess> get copyWith =>
       throw _privateConstructorUsedError;
