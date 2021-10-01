@@ -48,7 +48,7 @@ class DeviceDataSourceImpl extends DeviceDataSource {
         songId,
         ArtworkType.AUDIO,
         format: ArtworkFormat.JPEG,
-        size: 50,
-        quality: 5,
+        size: 20,
+        quality: 2,
       );
 }

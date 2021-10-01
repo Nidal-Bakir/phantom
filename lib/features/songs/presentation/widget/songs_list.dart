@@ -26,7 +26,7 @@ class _SongsListState extends State<SongsList> {
               onNotification: (notification) {
                 if (!isLastPage &&
                     notification.metrics.pixels >=
-                        notification.metrics.maxScrollExtent * 0.1) {
+                        notification.metrics.maxScrollExtent * 0.5) {
                   context.read<SongsBloc>().add(SongsLoaded(
                         songSortType: sortType,
                         songOrderType: orderType,
