@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:phantom/core/data/database/database.dart';
 import 'package:phantom/core/data/database/database_table.dart';
 

@@ -1,36 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:phantom/core/data/database/database.dart';
+import 'package:phantom/core/widget/common_list_tile_item.dart';
 
-import 'package:phantom/features/songs/data/local_song_data_source.dart';
 import 'package:phantom/features/songs/presentation/bloc/songs_bloc/songs_bloc.dart';
-import 'package:phantom/features/songs/presentation/widget/songs_list.dart';
 
 class SongsScreen extends StatelessWidget {
-  static const String routeName = '/songs-screen';
   const SongsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SongsBloc>(
-      create: (context) => GetIt.I.get()
-        ..add(const SongsLoaded(
-          songSortType: SongSortType.songName,
-          songOrderType: SongOrderType.asc,
-        )),
-      child: Scaffold(
-        appBar: AppBar(
-            title: TextButton(
-          child: Text('sd'),
-          onPressed: () {
-            LocalDatabase.openLocalDatabase().then((value) {
-              value.delete('song');
-              value.delete('artwork');
-            });
-          },
-        )),
-        body: const SongsList(),
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: BlocBuilder<SongsBloc, SongsState>(
+        builder: (context, state) {
+          return state.when(
+            inProgress: () {
+              return const Center(
+                child: Text('loading....'),
+              );
+            },
+            songLoadSuccess: (sortType, orderType, songsContainer, isLastPage) {
+              return NotificationListener<ScrollNotification>(
+                onNotification: (notification) {
+                  if (!isLastPage &&
+                      notification.metrics.pixels >=
+                          notification.metrics.maxScrollExtent * 0.5) {
+                    context.read<SongsBloc>().add(SongsLoaded(
+                          songSortType: sortType,
+                          songOrderType: orderType,
+                        ));
+                  }
+                  return true;
+                },
+                child: CustomScrollView(
+                  key: const PageStorageKey<String>('songs'),
+                  slivers: <Widget>[
+                    SliverPadding(
+                      padding: const EdgeInsets.all(8.0),
+                      sliver: SliverFixedExtentList(
+                        itemExtent: 70.0,
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            final _song = songsContainer.songs[index];
+                            return CommonListTileItem(
+                              key: Key(_song.id.toString()),
+                              title: _song.title,
+                              subtitle: _song.artist,
+                              artwork:
+                                  songsContainer.albumArtwork[_song.albumId],
+                              trailing: IconButton(
+                                icon: Icon(
+                                  _song.favorite
+                                      ? Icons.favorite_outlined
+                                      : Icons.favorite_outlined,
+                                ),
+                                onPressed: () {},
+                              ),
+                            );
+                          },
+                          childCount: songsContainer.songs.length,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }

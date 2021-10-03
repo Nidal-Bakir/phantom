@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:phantom/core/data/database/database_table.dart';
@@ -43,10 +44,15 @@ class SongsRepository {
 
     for (var song in songs) {
       // if a song do not has album id then it do not has artwork
-      if (song[SongTable.albumId] != null) {
+      if (song[SongTable.albumId] != null && artworks.isNotEmpty) {
         // get the corresponding artwork for this song
-        final artworkRow = artworks.firstWhere((artRow) =>
-            artRow[ArtworkTable.albumId] == song[SongTable.albumId]);
+        final artworkRow = artworks.firstWhere(
+          (artRow) => artRow[ArtworkTable.albumId] == song[SongTable.albumId],
+          orElse: () => {
+            ArtworkTable.albumArtwork: null,
+            ArtworkTable.albumId: song[SongTable.albumId]
+          },
+        );
 
         final artwork = artworkRow[ArtworkTable.albumArtwork] as Uint8List?;
         final artworkAlbumId = artworkRow[ArtworkTable.albumId] as int;

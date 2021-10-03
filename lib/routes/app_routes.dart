@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:phantom/features/songs/presentation/screen/songs_screen.dart';
-import 'package:phantom/features/songs_folders/presentation/screen/folders_screen.dart';
+import 'package:phantom/core/screen/home_screen.dart';
 import 'package:phantom/features/splash/presentation/screen/splash_screen.dart';
 
 Route<dynamic>? onGenerateRoute(RouteSettings settings) {
@@ -10,15 +9,12 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
         builder: (_) => const SplashScreen(),
       );
 
-    case SongsScreen.routeName:
+    case HomeScreen.routeName:
       return MaterialPageRoute(
-        builder: (_) => const SongsScreen(),
+        builder: (_) =>   HomeScreen(),
       );
 
-    case FoldersScreen.routeName:
-      return MaterialPageRoute(
-        builder: (_) => const FoldersScreen(),
-      );
+   
   }
   assert(false, 'Need to implement ${settings.name}');
   return null;
