@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:phantom/core/data/database/database_table.dart';
 
 part 'song.freezed.dart';
 part 'song.g.dart';
@@ -9,59 +10,64 @@ class Song extends Comparable<int> with _$Song {
   @JsonSerializable()
   factory Song({
     /// Return song [id]
-    @JsonKey(name: '_id') required int id,
+    @JsonKey(name: SongTable.id) required int id,
 
     /// Return song [absolute path]
-    @JsonKey(name: '_data')
-        required String absolutePath, // TODO: change the _data filed deprecated
+    @JsonKey(name: SongTable.songPath) required String absolutePath,
+
+    /// Return song [folder name]
+    @JsonKey(name: SongTable.folderName) required String folderName,
 
     /// Return song [uri]
-    @JsonKey(name: '_uri') String? uri,
+    @JsonKey(name: SongTable.uri) String? uri,
 
     /// Return song [displayName]
-    @JsonKey(name: '_display_name') required String displayName,
+    @JsonKey(name: SongTable.displayName) required String displayName,
 
     /// Return song [displayName] without Extension
-    @JsonKey(name: '_display_name_wo_ext') required String displayNameWOExt,
+    @JsonKey(name: SongTable.displayNameWithOutExtension)
+        required String displayNameWOExt,
 
     /// Return song [size]
-    @JsonKey(name: '_size') required int size,
+    @JsonKey(name: SongTable.size) required int size,
 
     /// Return song [album]
-    @JsonKey(name: 'album') String? album,
+    @JsonKey(name: SongTable.album) String? album,
 
     /// Return song [albumId]
-    @JsonKey(name: 'album_id') int? albumId,
+    @JsonKey(name: SongTable.albumId) int? albumId,
 
     /// Return song [artist]
-    @JsonKey(name: 'artist') String? artist,
+    @JsonKey(name: SongTable.artist) String? artist,
 
     /// Return song [artistId]
-    @JsonKey(name: 'artist_id') int? artistId,
+    @JsonKey(name: SongTable.artistId) int? artistId,
 
     /// Return song [bookmark]
-    @JsonKey(name: 'bookmark') int? bookmark,
+    @JsonKey(name: SongTable.bookmark) int? bookmark,
 
     /// Return song [composer]
-    @JsonKey(name: 'composer') String? composer,
+    @JsonKey(name: SongTable.composer) String? composer,
 
     /// Return song [dateAdded] to the app database
-    @JsonKey(name: 'date_added', fromJson: _dateFromMap, toJson: _dateToMap)
+    @JsonKey(name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
         DateTime? dateAdded,
 
     /// Return song [dateModified]
-    @JsonKey(name: 'date_modified', fromJson: _dateFromMap, toJson: _dateToMap)
+    @JsonKey(name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
         DateTime? dateModified,
 
     /// Return song [title]
-    @JsonKey(name: 'title') required String title,
+    @JsonKey(name: SongTable.title) required String title,
 
     /// Return song only the [fileExtension]
-    @JsonKey(name: 'file_extension') required String fileExtension,
+    @JsonKey(name: SongTable.fileExtension) required String fileExtension,
 
     /// if is a favorite song
     @JsonKey(
-        name: 'favorite', fromJson: _favoriteFromMap, toJson: _favoriteToMap)
+        name: SongTable.favorite,
+        fromJson: _favoriteFromMap,
+        toJson: _favoriteToMap)
     @Default(false)
         bool favorite,
   }) = _Song;

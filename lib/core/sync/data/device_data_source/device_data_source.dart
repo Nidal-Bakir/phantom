@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:phantom/core/data/database/database_table.dart';
 import 'package:phantom/core/models/song/song.dart';
+import 'package:path/path.dart' as p;
 
 abstract class DeviceDataSource {
   const DeviceDataSource();
@@ -38,7 +40,12 @@ class DeviceDataSourceImpl extends DeviceDataSource {
 
     return deviceSongs.map((event) {
       var map = Map<String, dynamic>.from(event.getMap);
-      map['date_added'] = DateTime.now().millisecondsSinceEpoch;
+      map[SongTable.dateAdded] = DateTime.now().millisecondsSinceEpoch;
+
+      // ../folder_name/song.mp3 => ['..','folder_name','song.mp3'] => folder_name
+      final folderName = (p.split(map[SongTable.songPath])..removeLast()).last;
+      map[SongTable.folderName] = folderName;
+
       return Song.fromJson(map);
     }).toList();
   }

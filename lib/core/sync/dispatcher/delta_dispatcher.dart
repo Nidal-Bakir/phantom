@@ -75,7 +75,7 @@ class DeltaDispatcher {
   Delta _convertByteDeltaToObject(TransferableTypedData byteDelta) {
     // convert the byte to Uint8List first then decode it to string (json).
     final stringDelta =
-        const Utf8Decoder().convert(byteDelta.materialize().asUint8List());
+        const Utf8Decoder(allowMalformed: true).convert(byteDelta.materialize().asUint8List());
 
     // convert the json string to actual object
     return Delta.fromJson(jsonDecode(stringDelta) as Map<String, dynamic>);

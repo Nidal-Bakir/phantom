@@ -13,21 +13,30 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Folder _$FolderFromJson(Map<String, dynamic> json) {
+  return SongsFolder.fromJson(json);
+}
+
 /// @nodoc
 class _$FolderTearOff {
   const _$FolderTearOff();
 
   SongsFolder songsFolder(
-      {required String folderName,
-      required Uint8List? artWork,
-      required int songsCount,
-      required String folderPath}) {
+      {@JsonKey(name: SongTable.folderName)
+          required String folderName,
+      @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+          required Uint8List? artWork,
+      @JsonKey(name: 'songs_count')
+          required int songsCount}) {
     return SongsFolder(
       folderName: folderName,
       artWork: artWork,
       songsCount: songsCount,
-      folderPath: folderPath,
     );
+  }
+
+  Folder fromJson(Map<String, Object> json) {
+    return Folder.fromJson(json);
   }
 }
 
@@ -36,29 +45,46 @@ const $Folder = _$FolderTearOff();
 
 /// @nodoc
 mixin _$Folder {
+  @JsonKey(name: SongTable.folderName)
   String get folderName => throw _privateConstructorUsedError;
+  @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
   Uint8List? get artWork => throw _privateConstructorUsedError;
+  @JsonKey(name: 'songs_count')
   int get songsCount => throw _privateConstructorUsedError;
-  String get folderPath => throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String folderName, Uint8List? artWork,
-            int songsCount, String folderPath)
+    required TResult Function(
+            @JsonKey(name: SongTable.folderName)
+                String folderName,
+            @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+                Uint8List? artWork,
+            @JsonKey(name: 'songs_count')
+                int songsCount)
         songsFolder,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String folderName, Uint8List? artWork, int songsCount,
-            String folderPath)?
+    TResult Function(
+            @JsonKey(name: SongTable.folderName)
+                String folderName,
+            @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+                Uint8List? artWork,
+            @JsonKey(name: 'songs_count')
+                int songsCount)?
         songsFolder,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String folderName, Uint8List? artWork, int songsCount,
-            String folderPath)?
+    TResult Function(
+            @JsonKey(name: SongTable.folderName)
+                String folderName,
+            @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+                Uint8List? artWork,
+            @JsonKey(name: 'songs_count')
+                int songsCount)?
         songsFolder,
     required TResult orElse(),
   }) =>
@@ -79,7 +105,7 @@ mixin _$Folder {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FolderCopyWith<Folder> get copyWith => throw _privateConstructorUsedError;
 }
@@ -89,10 +115,12 @@ abstract class $FolderCopyWith<$Res> {
   factory $FolderCopyWith(Folder value, $Res Function(Folder) then) =
       _$FolderCopyWithImpl<$Res>;
   $Res call(
-      {String folderName,
-      Uint8List? artWork,
-      int songsCount,
-      String folderPath});
+      {@JsonKey(name: SongTable.folderName)
+          String folderName,
+      @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+          Uint8List? artWork,
+      @JsonKey(name: 'songs_count')
+          int songsCount});
 }
 
 /// @nodoc
@@ -108,7 +136,6 @@ class _$FolderCopyWithImpl<$Res> implements $FolderCopyWith<$Res> {
     Object? folderName = freezed,
     Object? artWork = freezed,
     Object? songsCount = freezed,
-    Object? folderPath = freezed,
   }) {
     return _then(_value.copyWith(
       folderName: folderName == freezed
@@ -123,10 +150,6 @@ class _$FolderCopyWithImpl<$Res> implements $FolderCopyWith<$Res> {
           ? _value.songsCount
           : songsCount // ignore: cast_nullable_to_non_nullable
               as int,
-      folderPath: folderPath == freezed
-          ? _value.folderPath
-          : folderPath // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -138,10 +161,12 @@ abstract class $SongsFolderCopyWith<$Res> implements $FolderCopyWith<$Res> {
       _$SongsFolderCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String folderName,
-      Uint8List? artWork,
-      int songsCount,
-      String folderPath});
+      {@JsonKey(name: SongTable.folderName)
+          String folderName,
+      @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+          Uint8List? artWork,
+      @JsonKey(name: 'songs_count')
+          int songsCount});
 }
 
 /// @nodoc
@@ -159,7 +184,6 @@ class _$SongsFolderCopyWithImpl<$Res> extends _$FolderCopyWithImpl<$Res>
     Object? folderName = freezed,
     Object? artWork = freezed,
     Object? songsCount = freezed,
-    Object? folderPath = freezed,
   }) {
     return _then(SongsFolder(
       folderName: folderName == freezed
@@ -174,35 +198,38 @@ class _$SongsFolderCopyWithImpl<$Res> extends _$FolderCopyWithImpl<$Res>
           ? _value.songsCount
           : songsCount // ignore: cast_nullable_to_non_nullable
               as int,
-      folderPath: folderPath == freezed
-          ? _value.folderPath
-          : folderPath // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
 
 /// @nodoc
 
+@JsonSerializable()
 class _$SongsFolder implements SongsFolder {
   const _$SongsFolder(
-      {required this.folderName,
-      required this.artWork,
-      required this.songsCount,
-      required this.folderPath});
+      {@JsonKey(name: SongTable.folderName)
+          required this.folderName,
+      @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+          required this.artWork,
+      @JsonKey(name: 'songs_count')
+          required this.songsCount});
+
+  factory _$SongsFolder.fromJson(Map<String, dynamic> json) =>
+      _$$SongsFolderFromJson(json);
 
   @override
+  @JsonKey(name: SongTable.folderName)
   final String folderName;
   @override
+  @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
   final Uint8List? artWork;
   @override
+  @JsonKey(name: 'songs_count')
   final int songsCount;
-  @override
-  final String folderPath;
 
   @override
   String toString() {
-    return 'Folder.songsFolder(folderName: $folderName, artWork: $artWork, songsCount: $songsCount, folderPath: $folderPath)';
+    return 'Folder.songsFolder(folderName: $folderName, artWork: $artWork, songsCount: $songsCount)';
   }
 
   @override
@@ -217,10 +244,7 @@ class _$SongsFolder implements SongsFolder {
                     .equals(other.artWork, artWork)) &&
             (identical(other.songsCount, songsCount) ||
                 const DeepCollectionEquality()
-                    .equals(other.songsCount, songsCount)) &&
-            (identical(other.folderPath, folderPath) ||
-                const DeepCollectionEquality()
-                    .equals(other.folderPath, folderPath)));
+                    .equals(other.songsCount, songsCount)));
   }
 
   @override
@@ -228,8 +252,7 @@ class _$SongsFolder implements SongsFolder {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(folderName) ^
       const DeepCollectionEquality().hash(artWork) ^
-      const DeepCollectionEquality().hash(songsCount) ^
-      const DeepCollectionEquality().hash(folderPath);
+      const DeepCollectionEquality().hash(songsCount);
 
   @JsonKey(ignore: true)
   @override
@@ -239,33 +262,48 @@ class _$SongsFolder implements SongsFolder {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String folderName, Uint8List? artWork,
-            int songsCount, String folderPath)
+    required TResult Function(
+            @JsonKey(name: SongTable.folderName)
+                String folderName,
+            @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+                Uint8List? artWork,
+            @JsonKey(name: 'songs_count')
+                int songsCount)
         songsFolder,
   }) {
-    return songsFolder(folderName, artWork, songsCount, folderPath);
+    return songsFolder(folderName, artWork, songsCount);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(String folderName, Uint8List? artWork, int songsCount,
-            String folderPath)?
+    TResult Function(
+            @JsonKey(name: SongTable.folderName)
+                String folderName,
+            @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+                Uint8List? artWork,
+            @JsonKey(name: 'songs_count')
+                int songsCount)?
         songsFolder,
   }) {
-    return songsFolder?.call(folderName, artWork, songsCount, folderPath);
+    return songsFolder?.call(folderName, artWork, songsCount);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String folderName, Uint8List? artWork, int songsCount,
-            String folderPath)?
+    TResult Function(
+            @JsonKey(name: SongTable.folderName)
+                String folderName,
+            @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+                Uint8List? artWork,
+            @JsonKey(name: 'songs_count')
+                int songsCount)?
         songsFolder,
     required TResult orElse(),
   }) {
     if (songsFolder != null) {
-      return songsFolder(folderName, artWork, songsCount, folderPath);
+      return songsFolder(folderName, artWork, songsCount);
     }
     return orElse();
   }
@@ -297,23 +335,34 @@ class _$SongsFolder implements SongsFolder {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SongsFolderToJson(this);
+  }
 }
 
 abstract class SongsFolder implements Folder {
   const factory SongsFolder(
-      {required String folderName,
-      required Uint8List? artWork,
-      required int songsCount,
-      required String folderPath}) = _$SongsFolder;
+      {@JsonKey(name: SongTable.folderName)
+          required String folderName,
+      @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
+          required Uint8List? artWork,
+      @JsonKey(name: 'songs_count')
+          required int songsCount}) = _$SongsFolder;
+
+  factory SongsFolder.fromJson(Map<String, dynamic> json) =
+      _$SongsFolder.fromJson;
 
   @override
+  @JsonKey(name: SongTable.folderName)
   String get folderName => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
   Uint8List? get artWork => throw _privateConstructorUsedError;
   @override
+  @JsonKey(name: 'songs_count')
   int get songsCount => throw _privateConstructorUsedError;
-  @override
-  String get folderPath => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   $SongsFolderCopyWith<SongsFolder> get copyWith =>

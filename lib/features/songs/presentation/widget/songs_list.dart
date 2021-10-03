@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:phantom/features/songs/presentation/bloc/songs_bloc/bloc/songs_bloc.dart';
-import 'package:phantom/features/songs/presentation/widget/song_item.dart';
+import 'package:phantom/features/songs/presentation/bloc/songs_bloc/songs_bloc.dart';
+import 'package:phantom/core/widget/common_list_tile_item.dart';
 
 class SongsList extends StatefulWidget {
   const SongsList({Key? key}) : super(key: key);
@@ -37,10 +37,19 @@ class _SongsListState extends State<SongsList> {
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   final _song = songsContainer.songs[index];
-                  return SongItem(
+                  return CommonListTileItem(
                     key: Key(_song.id.toString()),
-                    song: _song,
+                    title: _song.title,
+                    subtitle: _song.artist,
                     artwork: songsContainer.albumArtwork[_song.albumId],
+                    trailing: IconButton(
+                      icon: Icon(
+                        _song.favorite
+                            ? Icons.favorite_outlined
+                            : Icons.favorite_outlined,
+                      ),
+                      onPressed: () {},
+                    ),
                   );
                 },
                 itemCount: songsContainer.songs.length,

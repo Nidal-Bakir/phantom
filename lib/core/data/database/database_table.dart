@@ -10,7 +10,8 @@ abstract class SongTable {
   static const artistId = 'artist_id';
   static const displayNameWithOutExtension = '_display_name_wo_ext';
   static const composer = 'composer';
-  static const data = '_data';
+  static const songPath = '_data';
+  static const folderName = 'folder_name';
   static const uri = '_uri';
   static const size = '_size';
   static const bookmark = 'bookmark';
@@ -29,7 +30,8 @@ abstract class SongTable {
         ${SongTable.artist} TEXT,
         ${SongTable.artistId} INTEGER,
         ${SongTable.composer} TEXT,
-        ${SongTable.data} TEXT NOT NULL UNIQUE,
+        ${SongTable.songPath} TEXT NOT NULL UNIQUE,
+        ${SongTable.folderName} TEXT NUT NULL,
         ${SongTable.uri} TEXT,
         ${SongTable.size} INTEGER NOT NULL,
         ${SongTable.bookmark} INTEGER,

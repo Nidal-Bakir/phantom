@@ -9,6 +9,7 @@ part of 'song.dart';
 _$_Song _$$_SongFromJson(Map<String, dynamic> json) => _$_Song(
       id: json['_id'] as int,
       absolutePath: json['_data'] as String,
+      folderName: json['folder_name'] as String,
       uri: json['_uri'] as String?,
       displayName: json['_display_name'] as String,
       displayNameWOExt: json['_display_name_wo_ext'] as String,
@@ -31,6 +32,7 @@ _$_Song _$$_SongFromJson(Map<String, dynamic> json) => _$_Song(
 Map<String, dynamic> _$$_SongToJson(_$_Song instance) => <String, dynamic>{
       '_id': instance.id,
       '_data': instance.absolutePath,
+      'folder_name': instance.folderName,
       '_uri': instance.uri,
       '_display_name': instance.displayName,
       '_display_name_wo_ext': instance.displayNameWOExt,

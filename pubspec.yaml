@@ -28,14 +28,15 @@ dependencies:
 
   get_it: ^7.2.0
 
-  dartz: ^0.10.0
-  equatable: ^2.0.3
+  # dartz: ^0.10.0
+  # equatable: ^2.0.3
 
   flutter_bloc: ^7.3.0
-
-  cupertino_icons: ^1.0.2
   flutter_isolate: ^2.0.0
   bloc_concurrency: ^0.1.0
+
+  cupertino_icons: ^1.0.2
+
   
 
 dev_dependencies:

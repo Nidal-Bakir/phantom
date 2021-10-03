@@ -104,7 +104,7 @@ class SyncRepository {
     final length = newAlbumsIds.length;
 
     // add all album artworks with their Corresponding songs as chunk store them
-    // and notify the [_newAddedSongsStreamController] about the songs.
+    // and notify the [_deltaStreamController] about the songs.
     for (int i = 0; i < length; i++) {
       _progressStreamController.sink.add((i / length * 100).ceil());
 
@@ -125,7 +125,17 @@ class SyncRepository {
           sortedSongsIdentifiedAsNew.elementAt(positionOfSongId).id);
 
       // Buffer the album id with its corresponding artwork
-      newAlbumArtworks[newAlbumsIds.elementAt(i)] = artwork;
+      if (artwork?.isNotEmpty ?? true) {
+        // by checking that the art is not empty we avoid a bug in flutter
+        // the bug happens specifically for android 5.1 api level 23, causing
+        // the app to crash immediately when flutter try to paint the image.
+
+        // We should report the bug but still cannot find a way to reproduce it
+        // without database because the db give us the uing8list (_Uint8ArrayList)
+        // with some wrong bytes perhaps or some bug in the actual _Uint8ArrayList,
+        // sill cannot find a way to reproduce the same bytes!.
+        newAlbumArtworks[newAlbumsIds.elementAt(i)] = artwork;
+      }
 
       // Add new albums to the database as chunks, collect 20 artwork with their
       // songs then send them to the database as a chunk to add, so we do not full the

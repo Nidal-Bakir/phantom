@@ -4,11 +4,12 @@ import 'package:get_it/get_it.dart';
 import 'package:phantom/core/data/database/database.dart';
 
 import 'package:phantom/features/songs/data/local_song_data_source.dart';
-import 'package:phantom/features/songs/presentation/bloc/songs_bloc/bloc/songs_bloc.dart';
+import 'package:phantom/features/songs/presentation/bloc/songs_bloc/songs_bloc.dart';
 import 'package:phantom/features/songs/presentation/widget/songs_list.dart';
 
-class Songs extends StatelessWidget {
-  const Songs({Key? key}) : super(key: key);
+class SongsScreen extends StatelessWidget {
+  static const String routeName = '/songs-screen';
+  const SongsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,22 +19,18 @@ class Songs extends StatelessWidget {
           songSortType: SongSortType.songName,
           songOrderType: SongOrderType.asc,
         )),
-        
-      child: Builder(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-              title: TextButton(
-            child: Text('sd'),
-            onPressed: () {
-              LocalDatabase.openLocalDatabase().then((value) {
-                  value.delete('song');
-                  value.delete('artwork');
-
-              });
-            },
-          )),
-          body: const SongsList(),
-        ),
+      child: Scaffold(
+        appBar: AppBar(
+            title: TextButton(
+          child: Text('sd'),
+          onPressed: () {
+            LocalDatabase.openLocalDatabase().then((value) {
+              value.delete('song');
+              value.delete('artwork');
+            });
+          },
+        )),
+        body: const SongsList(),
       ),
     );
   }

@@ -1,3 +1,8 @@
+import 'dart:collection';
+import 'dart:typed_data';
+
+import 'package:phantom/core/data/database/database_table.dart';
+import 'package:phantom/core/models/song/song.dart';
 import 'package:phantom/features/songs/data/local_song_data_source.dart';
 import 'package:phantom/core/models/songs_container/songs_container.dart';
 
@@ -17,19 +22,56 @@ class SongsRepository {
   /// * [offset] specifies the starting index.
   ///
   /// Returns [SongsContainer] contain list of [Song] and map of album artworks,
-  /// where each song correspond to one or none artwork based on their album id.
-  /// 
-  /// `` coped from [LocalSongDataSource.querySongsFromLocalDatabase]``
+  /// where each song correspond to one or Zero artwork based on their album id.
   Future<SongsContainer> querySongs({
     SongSortType songSortType = SongSortType.songName,
     SongOrderType songOrderType = SongOrderType.asc,
     int? limit,
     int? offset,
-  }) =>
-      _localSongDataSource.querySongsFromLocalDatabase(
-        songOrderType: songOrderType,
-        songSortType: songSortType,
-        limit: limit,
-        offset: offset,
-      );
+  }) async {
+    final songs = await _localSongDataSource.querySongsFromLocalDatabase(
+      songOrderType: songOrderType,
+      songSortType: songSortType,
+      limit: limit,
+      offset: offset,
+    );
+
+    final artworks = await _querySongsArtworks(songs);
+
+    final Map<int, Uint8List?> tempAlbumArtworkBuffer = {};
+    final tempSongsBuffer = <Song>[];
+
+    for (var song in songs) {
+      // if a song do not has album id then it do not has artwork
+      if (song[SongTable.albumId] != null) {
+        // get the corresponding artwork for this song
+        final artworkRow = artworks.firstWhere((artRow) =>
+            artRow[ArtworkTable.albumId] == song[SongTable.albumId]);
+
+        final artwork = artworkRow[ArtworkTable.albumArtwork] as Uint8List?;
+        final artworkAlbumId = artworkRow[ArtworkTable.albumId] as int;
+
+        if (artwork != null) {
+          tempAlbumArtworkBuffer.putIfAbsent(artworkAlbumId, () => artwork);
+        }
+      }
+
+      tempSongsBuffer.add(Song.fromJson(song));
+    }
+
+    return SongsContainer(
+        albumArtwork: tempAlbumArtworkBuffer,
+        songs: UnmodifiableListView(tempSongsBuffer));
+  }
+
+  Future<List<Map<String, Object?>>> _querySongsArtworks(
+      List<Map<String, Object?>> songs) async {
+    final songsAlbumIds = songs
+        .where((e) => e[SongTable.albumId] != null)
+        .map((e) => e[SongTable.albumId] as int)
+        .toSet();
+
+    return await _localSongDataSource
+        .queryArtworksForSongsAlbumIds(songsAlbumIds);
+  }
 }

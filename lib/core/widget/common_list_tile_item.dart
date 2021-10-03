@@ -1,21 +1,26 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:phantom/core/models/song/song.dart';
 
-class SongItem extends StatefulWidget {
-  final Song song;
+class CommonListTileItem extends StatefulWidget {
+  final String title;
+  final String? subtitle;
+  final Widget? trailing;
   final Uint8List? artwork;
-  const SongItem({Key? key, required this.song, required this.artwork})
-      : super(key: key);
+  const CommonListTileItem({
+    Key? key,
+    required this.artwork,
+    required this.title,
+    this.subtitle,
+    this.trailing,
+  }) : super(key: key);
 
   @override
-  State<SongItem> createState() => _SongItemState();
+  State<CommonListTileItem> createState() => _CommonListTileItemState();
 }
 
-class _SongItemState extends State<SongItem>
+class _CommonListTileItemState extends State<CommonListTileItem>
     with SingleTickerProviderStateMixin {
-  late final Song _song = widget.song;
   late final _opacityController = AnimationController(
     vsync: this,
     duration: const Duration(seconds: 1),
@@ -64,16 +69,10 @@ class _SongItemState extends State<SongItem>
               ),
       ),
       title: Text(
-        _song.title,
+        widget.title,
       ),
       subtitle: Text(
-       _song.artist ?? 'Unknown artist',
-      ),
-      trailing: IconButton(
-        icon: Icon(
-          _song.favorite ? Icons.favorite_outlined : Icons.favorite_outlined,
-        ),
-        onPressed: () {},
+        widget.subtitle ?? 'Unknown',
       ),
     );
   }
