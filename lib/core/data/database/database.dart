@@ -7,7 +7,7 @@ class LocalDatabase {
   LocalDatabase._();
 
   /// Open the local database if it's not open then
-  /// return singleton object of [Database] object
+  /// return singleton object of [Database] object.
   ///
   /// All the tables are created in this function if the database not
   /// exist yet using the [onCreate] callback.

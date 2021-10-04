@@ -30,6 +30,12 @@ abstract class LocalSyncSongDataSource {
   /// that's happened when deleting songs from database and all songs that use
   /// an artwork deleted, this method to clean that up.
   Future<void> deleteArtworksNotReferencedByAnySong();
+
+  /// Query songs from database sorted by a [columnToSortBasedOn]
+  Future<List<Song>> getAllSongsSortedBy(String columnToSortBasedOn);
+
+  /// Update a list of songs in the database with new songs info [songsToUpdate]
+  Future<void> updateSongs(List<Song> songsToUpdate);
 }
 
 class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
@@ -112,5 +118,28 @@ class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
       (SELECT ${SongTable.albumId} FROM ${SongTable.tableName} WHERE
            ${SongTable.albumId} IS NOT NULL)
      ''');
+  }
+
+  @override
+  Future<List<Song>> getAllSongsSortedBy(String columnToSortBasedOn) async {
+    final db = await LocalDatabase.openLocalDatabase();
+    final songs =
+        await db.query(SongTable.tableName, orderBy: columnToSortBasedOn);
+    return songs.map((e) => Song.fromJson(e)).toList();
+  }
+
+  @override
+  Future<void> updateSongs(List<Song> songsToUpdate) async {
+    final db = await LocalDatabase.openLocalDatabase();
+    final batch = db.batch();
+    for (var song in songsToUpdate) {
+      batch.update(
+        SongTable.tableName,
+        song.toJson(),
+        where: '${SongTable.id} = ?',
+        whereArgs: [song.id],
+      );
+    }
+    await batch.commit(noResult: true);
   }
 }

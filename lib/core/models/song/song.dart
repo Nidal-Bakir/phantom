@@ -77,7 +77,7 @@ class Song extends Comparable<int> with _$Song {
   @override
   int compareTo(Object other) {
     if (other is Song) {
-      return albumId?.compareTo(other.albumId ?? -1) ?? -1;
+      return id.compareTo(other.id);
     } else if (other is int) {
       return albumId?.compareTo(other) ?? -1;
     }

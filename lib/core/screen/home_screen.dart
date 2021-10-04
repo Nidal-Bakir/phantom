@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:phantom/features/songs/data/local_song_data_source.dart';
 import 'package:phantom/features/songs/presentation/bloc/songs_bloc/songs_bloc.dart';
 import 'package:phantom/features/songs/presentation/screen/songs_screen.dart';
-import 'package:phantom/features/songs_folders/presentation/bloc/folder_bloc/folder_bloc.dart';
+import 'package:phantom/features/songs_folders/presentation/bloc/folders_bloc/folders_bloc.dart';
 import 'package:phantom/features/songs_folders/presentation/screen/folders_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,8 +22,8 @@ class HomeScreen extends StatelessWidget {
               songOrderType: SongOrderType.asc,
             )),
         ),
-        BlocProvider<FolderBloc>(
-          create: (context) => GetIt.I.get()..add(const FolderLoaded()),
+        BlocProvider<FoldersBloc>(
+          create: (context) => GetIt.I.get()..add(const FoldersLoaded()),
         ),
       ],
       child: DefaultTabController(

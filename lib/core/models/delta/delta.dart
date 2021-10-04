@@ -9,14 +9,23 @@ part 'delta.g.dart';
 class Delta with _$Delta {
   @JsonSerializable(explicitToJson: true)
 
-  /// the new added songs to the database.
+  /// New added songs to the database.
   const factory Delta.newAddedSongs({
     required List<Song> newSongs,
   }) = NewAddedSongs;
 
+  /// Deleted ids songs from database.
   const factory Delta.deletedSongsIds({
     required Set<int> deletedSongsIds,
   }) = DeletedSongsIds;
 
+  /// Updated songs in the database.
+  const factory Delta.updatedSongs({
+    required List<Song> updatedSongs,
+  }) = UpdatedSongs;
+
+  /// Done publishing delta changes (sync is done).
+  const factory Delta.donePublishing() = DonePublishing;
+  
   factory Delta.fromJson(Map<String, dynamic> map) => _$DeltaFromJson(map);
 }

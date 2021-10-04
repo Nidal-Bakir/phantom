@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phantom/core/widget/common_list_tile_item.dart';
-import 'package:phantom/features/songs_folders/presentation/bloc/folder_bloc/folder_bloc.dart';
+import 'package:phantom/features/songs_folders/presentation/bloc/folders_bloc/folders_bloc.dart';
 
 class FoldersScreen extends StatelessWidget {
   const FoldersScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FolderBloc, FolderState>(
+    return BlocBuilder<FoldersBloc, FoldersState>(
       builder: (context, state) {
         return state.when(
-          folderInProgress: () {
+          foldersInProgress: () {
             return const Center(
               child: Text('loading....'),
             );
           },
-          folderLoadSuccess: (folders) {
+          foldersLoadSuccess: (folders) {
             return CustomScrollView(
               key: const PageStorageKey<String>('folders'),
               slivers: <Widget>[

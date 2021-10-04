@@ -4,10 +4,10 @@ import 'package:phantom/core/data/database/database_table.dart';
 import 'package:phantom/features/songs_folders/data/songs_folders_local_data_surce.dart';
 import 'package:phantom/features/songs_folders/model/songs_folder.dart';
 
-class FolderRepository {
+class FoldersRepository {
   final SongsFoldersLocalDataSource _folderDataSource;
 
-  FolderRepository(this._folderDataSource);
+  FoldersRepository(this._folderDataSource);
 
   /// Query songs folders with information about the folder:
   /// * Folder name.

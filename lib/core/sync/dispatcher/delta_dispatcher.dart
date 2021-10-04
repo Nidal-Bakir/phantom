@@ -29,6 +29,7 @@ class DeltaDispatcher {
   /// Listen to the delta (changes) form [deltaStream] to know what has been added
   /// to local database on the fly.
   Future<void> startSongsSyncing() async {
+    var _isSomeDeltaPublished = false;
     final isPermissionGranted = await _requestPermissions();
     if (!isPermissionGranted) {
       // no need to complete we do not have Permissions
@@ -49,10 +50,16 @@ class DeltaDispatcher {
 
         // add the delta to the stream
         _deltaStreamController.sink.add(delta);
+
+        // mark that there are some publishing done.
+        _isSomeDeltaPublished = true;
       } else if (message == Constants.syncDone) {
         songsSyncIsolate.kill();
-
         subscription.cancel();
+        if (_isSomeDeltaPublished) {
+          // to mark that there are some delta change and its done.
+          _deltaStreamController.sink.add(const DonePublishing());
+        }
       } else {
         // it is a progress message
         _progressStreamController.sink.add(message);
@@ -74,8 +81,8 @@ class DeltaDispatcher {
 
   Delta _convertByteDeltaToObject(TransferableTypedData byteDelta) {
     // convert the byte to Uint8List first then decode it to string (json).
-    final stringDelta =
-        const Utf8Decoder(allowMalformed: true).convert(byteDelta.materialize().asUint8List());
+    final stringDelta = const Utf8Decoder(allowMalformed: true)
+        .convert(byteDelta.materialize().asUint8List());
 
     // convert the json string to actual object
     return Delta.fromJson(jsonDecode(stringDelta) as Map<String, dynamic>);

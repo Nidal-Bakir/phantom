@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:phantom/core/data/database/database_table.dart';
 import 'package:phantom/core/models/delta/delta.dart';
 import 'package:phantom/core/models/song/song.dart';
 import 'package:phantom/core/sync/data/device_data_source/device_data_source.dart';
@@ -35,7 +36,8 @@ class SyncRepository {
   /// Note: all songs will use their album image rather than their image for
   /// better performance.
   ///
-  /// Listen to [deltaStream] to get notified every time new songs added
+  /// Listen to [deltaStream] to get notified every time new songs added,
+  /// deleted or updated.
   Future<void> syncLocalSongsWithDeviceSongs() async {
     var songsFromDevice = await _deviceDataSource.querySongs();
 
@@ -46,8 +48,35 @@ class SyncRepository {
 
     await _addNewSongsWithTheirCorrespondingAlbumImages(songsFromDevice);
 
+    await _updateSongsInfo(songsFromDevice);
+
     await _progressStreamController.close();
     await _deltaStreamController.close();
+  }
+
+  /// Compare songs info from device with songs info in database and update the
+  /// song info from local database that hold {x} id with new song info form device
+  /// that hold the same {x} id.
+  Future<void> _updateSongsInfo(List<Song> songsFromDevice) async {
+    List<Song> songsToBeUpdated = [];
+
+    final sortedLocalSongs =
+        await _localSyncSongDataSource.getAllSongsSortedBy(SongTable.id);
+
+    for (var songFromDevice in songsFromDevice) {
+      final songIndex =
+          customBinarySearch<Song, Song>(sortedLocalSongs, songFromDevice);
+      // check if the info is tha same if not add the new song info (songFromDevice)
+      // to songsToBeUpdated list.
+      if (sortedLocalSongs[songIndex] != songFromDevice) {
+        songsToBeUpdated.add(songFromDevice);
+      }
+    }
+    if (songsToBeUpdated.isNotEmpty) {
+      await _localSyncSongDataSource.updateSongs(songsToBeUpdated);
+      _deltaStreamController.sink
+          .add(UpdatedSongs(updatedSongs: songsToBeUpdated));
+    }
   }
 
   Future<void> _addNewSongsWithTheirCorrespondingAlbumImages(
@@ -55,8 +84,13 @@ class SyncRepository {
     // sorting the list will help us while searching using binary search.
     // immutable so no other function can update the list by reference and
     // efficient [Iterable.length] and [Iterable.elementAt]
-    final newSongs = UnmodifiableListView(
-        (await _identifyNewSongs(songsFromDevice))..sort());
+    final newSongs =
+        UnmodifiableListView((await _identifyNewSongs(songsFromDevice))
+          ..sort(
+            //sort based on album id.
+            (song1, song2) =>
+                song1.albumId?.compareTo(song2.albumId ?? -1) ?? -1,
+          ));
 
     if (newSongs.isNotEmpty) {
       // Identify new albums artworks not cached in the database based on song album id
