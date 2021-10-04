@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:phantom/core/data/database/database_table.dart';
@@ -45,20 +44,12 @@ class SongsRepository {
     for (var song in songs) {
       // if a song do not has album id then it do not has artwork
       if (song[SongTable.albumId] != null && artworks.isNotEmpty) {
-        // get the corresponding artwork for this song
-        final artworkRow = artworks.firstWhere(
-          (artRow) => artRow[ArtworkTable.albumId] == song[SongTable.albumId],
-          orElse: () => {
-            ArtworkTable.albumArtwork: null,
-            ArtworkTable.albumId: song[SongTable.albumId]
-          },
-        );
+        final artworkWithAlbumId =
+            _extractArtworkAssociatedWithAlbumId(artworks, song);
 
-        final artwork = artworkRow[ArtworkTable.albumArtwork] as Uint8List?;
-        final artworkAlbumId = artworkRow[ArtworkTable.albumId] as int;
-
-        if (artwork != null) {
-          tempAlbumArtworkBuffer.putIfAbsent(artworkAlbumId, () => artwork);
+        if (artworkWithAlbumId.value != null) {
+          tempAlbumArtworkBuffer.putIfAbsent(
+              artworkWithAlbumId.key, () => artworkWithAlbumId.value);
         }
       }
 
@@ -68,6 +59,23 @@ class SongsRepository {
     return SongsContainer(
         albumArtwork: tempAlbumArtworkBuffer,
         songs: UnmodifiableListView(tempSongsBuffer));
+  }
+
+  MapEntry<int, Uint8List?> _extractArtworkAssociatedWithAlbumId(
+      List<Map<String, Object?>> artworks, Map<String, Object?> song) {
+    // get the corresponding artwork for this song
+    final artworkRow = artworks.firstWhere(
+      (artRow) => artRow[ArtworkTable.albumId] == song[SongTable.albumId],
+      orElse: () => {
+        ArtworkTable.albumArtwork: null,
+        ArtworkTable.albumId: song[SongTable.albumId]
+      },
+    );
+
+    final artwork = artworkRow[ArtworkTable.albumArtwork] as Uint8List?;
+    final artworkAlbumId = artworkRow[ArtworkTable.albumId] as int;
+
+    return MapEntry(artworkAlbumId, artwork);
   }
 
   Future<List<Map<String, Object?>>> _querySongsArtworks(

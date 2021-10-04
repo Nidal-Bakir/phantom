@@ -8,34 +8,29 @@ import 'package:sqflite/sqflite.dart';
 abstract class LocalSyncSongDataSource {
   const LocalSyncSongDataSource();
 
-  /// add new songs to songs table
+  /// Add new songs to songs table
   Future<void> addSongs(List<Song> newSongs);
 
-  /// delete songs from songs table
+  /// Delete songs from songs table
   Future<void> deleteSongs(List<Song> songs);
 
-  /// delete songs from songs table using songs ids
+  /// Delete songs from songs table using songs ids
   Future<void> deleteSongsUsingId(Set<int> songs);
 
-  /// get all songs ids from songs table
+  /// Get all songs ids from songs table
   Future<Set<int>> getAllSongsIds();
 
-  /// get all albums ids from artwork table
-  Future<Set<int>> getAllAlbumIds();
+  /// Get all albums ids from artwork table
+  Future<Set<int>> getAllAlbumIdsFromArtworkTable();
 
-  /// add new album artworks to artwork  table
+  /// Add new album artworks to artwork table
   Future<void> addAlbumArtworks(Map<int, Uint8List?> newAlbumArtworks);
-
-  /// delete all artworks not referenced by any songs in songs table
-  /// that's happened when deleting songs from database and all songs that use
-  /// an artwork deleted, this method to clean that up.
-  Future<void> deleteArtworksNotReferencedByAnySong();
 
   /// Query songs from database sorted by a [columnToSortBasedOn]
   Future<List<Song>> getAllSongsSortedBy(String columnToSortBasedOn);
 
   /// Update a list of songs in the database with new songs info [songsToUpdate]
-  Future<void> updateSongs(List<Song> songsToUpdate);
+  Future<void> updateSongsInfo(List<Song> songsToUpdate);
 }
 
 class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
@@ -71,6 +66,7 @@ class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
       );
     }
     await batch.commit(noResult: true);
+    await _deleteArtworksNotReferencedByAnySong();
   }
 
   @override
@@ -100,7 +96,7 @@ class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
   }
 
   @override
-  Future<Set<int>> getAllAlbumIds() async {
+  Future<Set<int>> getAllAlbumIdsFromArtworkTable() async {
     final db = await LocalDatabase.openLocalDatabase();
     final albumsIds = await db.query(
       ArtworkTable.tableName,
@@ -110,8 +106,10 @@ class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
     return albumsIds.map((e) => e[ArtworkTable.albumId] as int).toSet();
   }
 
-  @override
-  Future<void> deleteArtworksNotReferencedByAnySong() async {
+  /// delete all artworks not referenced by any songs in songs table
+  /// that's happened when deleting songs from database and all songs that use
+  /// an artwork deleted, this method to clean that up.
+  Future<void> _deleteArtworksNotReferencedByAnySong() async {
     final db = await LocalDatabase.openLocalDatabase();
     db.rawQuery(''' DELETE FROM ${ArtworkTable.tableName} WHERE 
     ${ArtworkTable.albumId} NOT IN 
@@ -129,7 +127,7 @@ class LocalSyncSongDataSourceImp extends LocalSyncSongDataSource
   }
 
   @override
-  Future<void> updateSongs(List<Song> songsToUpdate) async {
+  Future<void> updateSongsInfo(List<Song> songsToUpdate) async {
     final db = await LocalDatabase.openLocalDatabase();
     final batch = db.batch();
     for (var song in songsToUpdate) {
