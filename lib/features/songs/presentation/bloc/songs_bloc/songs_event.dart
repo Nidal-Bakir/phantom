@@ -2,19 +2,14 @@ part of 'songs_bloc.dart';
 
 @freezed
 class SongsEvent with _$SongsEvent {
-  /// (load)/(load more) songs form local database with sort.
-  /// * load first page of songs.
-  /// * Indicate that the user reached the bottom of the list and need more songs
-  /// to display.
+  /// load songs form local database with sort.
   const factory SongsEvent.songsLoaded({
-    required SongSortType songSortType,
-    required SongOrderType songOrderType,
+    required Sort sort,
   }) = SongsLoaded;
 
   /// Reload the songs with different order.
   const factory SongsEvent.songsSorted({
-    required SongSortType songSortType,
-    required SongOrderType songOrderType,
+    required Sort sort,
   }) = SongsSorted;
 
   /// Reload songs from the local database if [fromDevice] is false.
@@ -25,4 +20,14 @@ class SongsEvent with _$SongsEvent {
   const factory SongsEvent.songsRefreshed({
     @Default(false) bool fromDevice,
   }) = SongsRefreshed;
+
+  /// Added new Songs to current list of songs.
+  const factory SongsEvent.songsAdded(SongsContainer newSongsContainer) = SongsAdded;
+
+  /// Delete songs form current song list.
+  const factory SongsEvent.songsDeleted(Set<int> deletedSongsIds) =
+      SongsDeleted;
+
+  /// Update songs in the songs list.
+  const factory SongsEvent.songsUpdated(List<Song> updatedSongs) = SongsUpdated;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:phantom/features/songs/data/local_song_data_source.dart';
+import 'package:phantom/core/util/sort.dart';
 import 'package:phantom/features/songs/presentation/bloc/songs_bloc/songs_bloc.dart';
 import 'package:phantom/features/songs/presentation/screen/songs_screen.dart';
 import 'package:phantom/features/songs_folders/presentation/bloc/folders_bloc/folders_bloc.dart';
@@ -18,8 +18,9 @@ class HomeScreen extends StatelessWidget {
         BlocProvider<SongsBloc>(
           create: (context) => GetIt.I.get()
             ..add(const SongsLoaded(
-              songSortType: SongSortType.songName,
-              songOrderType: SongOrderType.asc,
+              sort: Sort(
+                  orderType: SongOrderType.asc,
+                  sortType: SongSortType.songName),
             )),
         ),
         BlocProvider<FoldersBloc>(

@@ -1,13 +1,11 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart' as concurrency;
+import 'package:phantom/core/models/song/song.dart';
 import 'package:phantom/core/models/songs_container/songs_container.dart';
 import 'package:phantom/core/sync/dispatcher/delta_dispatcher.dart';
-import 'package:phantom/core/util/constants.dart';
-import 'package:phantom/features/songs/data/local_song_data_source.dart';
+import 'package:phantom/core/util/sort.dart';
 import 'package:phantom/features/songs/repository/songs_repository.dart';
 
 part 'songs_bloc.freezed.dart';
@@ -23,15 +21,29 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
     this._deltaDispatcher,
     this._songsRepository,
   ) : super(const SongsInProgress()) {
-    on<SongsLoaded>(_onSongsLoaded, transformer: concurrency.droppable());
-    on<SongsRefreshed>(_onSongsRefreshed);
-    on<SongsSorted>(_onSongsSorted);
+    on<SongsEvent>((SongsEvent songEvent, Emitter<SongsState> emitter) async {
+      await songEvent.map(
+          songsLoaded: (songsLoaded) => _onSongsLoaded(songsLoaded, emitter),
+          songsSorted: (songsSorted) => _onSongsSorted(songsSorted, emitter),
+          songsRefreshed: (songsRefreshed) =>
+              _onSongsRefreshed(songsRefreshed, emitter),
+          songsAdded: (songsAdded) => _onSongsAdded(songsAdded, emitter),
+          songsDeleted: (songsDeleted) =>
+              _onSongsDeleted(songsDeleted, emitter),
+          songsUpdated: (songsUpdated) =>
+              _onSongsUpdated(songsUpdated, emitter));
+    });
 
     streamSubscription = _deltaDispatcher.deltaStream.listen((deltaEvent) {
       // when new songs added or deleted form database.
-      deltaEvent.whenOrNull(
-        newAddedSongs: (newSongs) => add(const SongsRefreshed()),
-        donePublishing: () => add(const SongsRefreshed()),
+      deltaEvent.when(
+        newAddedSongs: (newSongsContainer) =>
+            add(SongsAdded(newSongsContainer)),
+        deletedSongsIds: (Set<int> deletedSongsIds) =>
+            add(SongsDeleted(deletedSongsIds)),
+        updatedSongs: (List<Song> updatedSongs) =>
+            add(SongsUpdated(updatedSongs)),
+        donePublishing: () => null,
       );
     });
   }
@@ -59,74 +71,38 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
       return;
     }
     final _currentState = state;
-    var orderType = SongOrderType.asc;
-    var sortType = SongSortType.songName;
+    var sort = const Sort(
+      orderType: SongOrderType.asc,
+      sortType: SongSortType.songName,
+    );
 
     if (_currentState is SongsLoadSuccess) {
       // to restore the user sort option
-      orderType = _currentState.orderType;
-      sortType = _currentState.sortType;
+      sort = _currentState.sort;
     }
-    final songsContainer = await _songsRepository.querySongs(
-      songOrderType: orderType,
-      songSortType: sortType,
-      limit: Constants.pageSize,
-    );
+    final songsContainer = await _songsRepository.querySongs(sort: sort);
+
     emitter(SongsLoadSuccess(
-      orderType: orderType,
-      sortType: sortType,
+      sort: sort,
       songsContainer: songsContainer,
     ));
   }
 
-  /// (load)/(load more) songs form local database with sort.
-  /// * load first page of songs.
-  /// * Indicate that the user reached the bottom of the list and need more songs
-  /// to display.
+  /// load songs form local database with sort.
   ///
   /// ``coped from [SongsLoaded]``
   FutureOr<void> _onSongsLoaded(
     SongsLoaded songsLoaded,
     Emitter<SongsState> emitter,
   ) async {
-    final _currentState = state;
     final songsContainer = await _songsRepository.querySongs(
-      songOrderType: songsLoaded.songOrderType,
-      songSortType: songsLoaded.songSortType,
-      limit: Constants.pageSize,
-      offset: _currentState is SongsLoadSuccess
-          // offset the number of songs in the current list and get
-          // the next page from db.
-          ? _currentState.songsContainer.songs.length
-          : 0, // do not offset if it's the first page (call).
+      sort: songsLoaded.sort,
     );
 
-    if (songsContainer.songs.isEmpty) return;
-
-    emitter(
-      SongsLoadSuccess(
-        isLastPage: songsContainer.songs.length < Constants.pageSize,
-        orderType: songsLoaded.songOrderType,
-        sortType: songsLoaded.songSortType,
-        songsContainer: SongsContainer(
-          songs: UnmodifiableListView(
-            [
-              // add the current list to new list to emit.
-              if (_currentState is SongsLoadSuccess)
-                ..._currentState.songsContainer.songs,
-              ...songsContainer.songs
-            ],
-          ),
-          albumArtwork: songsContainer.albumArtwork
-            ..addAll(
-              // add all new artworks from prev state
-              _currentState is SongsLoadSuccess
-                  ? _currentState.songsContainer.albumArtwork
-                  : {},
-            ),
-        ),
-      ),
-    );
+    emitter(SongsLoadSuccess(
+      sort: songsLoaded.sort,
+      songsContainer: songsContainer,
+    ));
   }
 
   /// Reload the songs with different order.
@@ -139,14 +115,126 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
     emitter(const SongsInProgress());
 
     final songsContainer = await _songsRepository.querySongs(
-      songOrderType: songsSorted.songOrderType,
-      songSortType: songsSorted.songSortType,
-      limit: Constants.pageSize,
+      sort: songsSorted.sort,
     );
     emitter(SongsLoadSuccess(
-      orderType: songsSorted.songOrderType,
-      sortType: songsSorted.songSortType,
+      sort: songsSorted.sort,
       songsContainer: songsContainer,
     ));
+  }
+
+  /// Added new Songs to current list of songs.
+  ///
+  /// ``coped from [SongsAdded]``
+  _onSongsAdded(SongsAdded songsAdded, Emitter<SongsState> emitter) {
+    final _currentState = state;
+
+    var sort = const Sort(
+      orderType: SongOrderType.asc,
+      sortType: SongSortType.songName,
+    );
+
+    var currentSongContainer =
+        SongsContainer(songs: UnmodifiableListView([]), albumArtwork: {});
+
+    if (_currentState is SongsLoadSuccess) {
+      // to restore the user sort option
+      sort = _currentState.sort;
+
+      currentSongContainer = _currentState.songsContainer;
+    }
+    final newSongsContainer = _addNewSongsToCurrentSongsWithSort(
+      songsAdded.newSongsContainer,
+      currentSongContainer,
+      sort,
+    );
+    emitter(SongsLoadSuccess(sort: sort, songsContainer: newSongsContainer));
+  }
+
+  SongsContainer _addNewSongsToCurrentSongsWithSort(
+      SongsContainer newSongs, SongsContainer currentSongs, Sort sort) {
+    return SongsContainer(
+      songs: UnmodifiableListView(
+        <Song>[...newSongs.songs, ...currentSongs.songs]
+          ..sort(_obtainCompareFuncForSorting(sort)),
+      ),
+      albumArtwork: currentSongs.albumArtwork
+        ..addAll(
+          newSongs.albumArtwork,
+        ),
+    );
+  }
+
+  int Function(Song song1, Song song2) _obtainCompareFuncForSorting(
+    Sort sort,
+  ) {
+    switch (sort.sortType) {
+      case SongSortType.songName:
+        return (Song song1, Song song2) =>
+            song1.title.compareTo(song2.title) *
+            (sort.orderType == SongOrderType.asc ? 1 : -1);
+
+      case SongSortType.artistName:
+        return (Song song1, Song song2) =>
+            (song1.artist?.compareTo(song2.artist ?? '') ?? -1) *
+            (sort.orderType == SongOrderType.asc ? 1 : -1);
+
+      case SongSortType.dateAdded:
+        return (Song song1, Song song2) =>
+            song1.dateAdded.compareTo(song2.dateAdded) *
+            (sort.orderType == SongOrderType.asc ? 1 : -1);
+    }
+  }
+
+  /// Delete songs form current song list.
+  ///
+  /// ``coped from [SongsDeleted]``
+  _onSongsDeleted(SongsDeleted songsDeleted, Emitter<SongsState> emitter) {
+    final _currentState = state;
+    if (_currentState is SongsLoadSuccess) {
+      emitter(
+        SongsLoadSuccess(
+          songsContainer: _currentState.songsContainer.copyWith(
+            songs: UnmodifiableListView(
+              _currentState.songsContainer.songs.toList()
+                ..removeWhere((element) =>
+                    songsDeleted.deletedSongsIds.contains(element.id)),
+            ),
+          ),
+          sort: _currentState.sort,
+        ),
+      );
+    }
+  }
+
+  /// Update songs in the songs list.
+  ///
+  /// ``coped from [SongsUpdated]``
+  _onSongsUpdated(SongsUpdated songsUpdated, Emitter<SongsState> emitter) {
+    final _currentState = state;
+    if (_currentState is SongsLoadSuccess) {
+      final updatedSongList = _replaceOutDatedSongsWithUpdatedOnes(
+          _currentState.songsContainer.songs.toList(), songsUpdated);
+
+      emitter(
+        SongsLoadSuccess(
+          songsContainer: _currentState.songsContainer.copyWith(
+            songs: UnmodifiableListView(updatedSongList),
+          ),
+          sort: _currentState.sort,
+        ),
+      );
+    }
+  }
+
+  List<Song> _replaceOutDatedSongsWithUpdatedOnes(
+      List<Song> updatedSongList, SongsUpdated songsUpdated) {
+    for (var updatedSong in songsUpdated.updatedSongs) {
+      final outDatedSongIndex =
+          updatedSongList.indexWhere((element) => element.id == updatedSong.id);
+      updatedSongList.removeAt(outDatedSongIndex);
+      updatedSongList.insert(outDatedSongIndex, updatedSong);
+    }
+    return updatedSongList;
   }
 }

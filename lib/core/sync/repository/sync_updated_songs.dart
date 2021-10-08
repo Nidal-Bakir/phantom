@@ -46,7 +46,7 @@ class SyncUpdatedSongs extends Sync {
           customBinarySearch<Song, Song>(sortedLocalSongs, songFromDevice);
       // check if the info is tha same if not add the new song info (songFromDevice)
       // to songsToBeUpdated list.
-      if (sortedLocalSongs[songIndex] != songFromDevice) {
+      if (!sortedLocalSongs[songIndex].isEqualMetaSongInfo(songFromDevice)) {
         songsToBeUpdated.add(songFromDevice);
       }
     }

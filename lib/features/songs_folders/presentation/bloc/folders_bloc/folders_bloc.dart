@@ -28,7 +28,7 @@ class FoldersBloc extends Bloc<FoldersEvent, FoldersState> {
       );
     });
   }
-
+  
   @override
   Future<void> close() {
     streamSubscription.cancel();

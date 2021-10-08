@@ -20,51 +20,38 @@ class SongsScreen extends StatelessWidget {
                 child: Text('loading....'),
               );
             },
-            songLoadSuccess: (sortType, orderType, songsContainer, isLastPage) {
-              return NotificationListener<ScrollNotification>(
-                onNotification: (notification) {
-                  if (!isLastPage &&
-                      notification.metrics.pixels >=
-                          notification.metrics.maxScrollExtent * 0.5) {
-                    context.read<SongsBloc>().add(SongsLoaded(
-                          songSortType: sortType,
-                          songOrderType: orderType,
-                        ));
-                  }
-                  return true;
-                },
-                child: CustomScrollView(
-                  key: const PageStorageKey<String>('songs'),
-                  slivers: <Widget>[
-                    SliverPadding(
-                      padding: const EdgeInsets.all(8.0),
-                      sliver: SliverFixedExtentList(
-                        itemExtent: 70.0,
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            final _song = songsContainer.songs[index];
-                            return CommonListTileItem(
-                              key: Key(_song.id.toString()),
-                              title: _song.title,
-                              subtitle: _song.artist,
-                              artwork:
-                                  songsContainer.albumArtwork[_song.albumId],
-                              trailing: IconButton(
-                                icon: Icon(
-                                  _song.favorite
-                                      ? Icons.favorite_outlined
-                                      : Icons.favorite_outlined,
-                                ),
-                                onPressed: () {},
+            songLoadSuccess: (sort, songsContainer) {
+              return CustomScrollView(
+                key: const PageStorageKey<String>('songs'),
+                slivers: <Widget>[
+                  SliverPadding(
+                    padding: const EdgeInsets.all(8.0),
+                    sliver: SliverFixedExtentList(
+                      itemExtent: 70.0,
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          final _song = songsContainer.songs[index];
+                          return CommonListTileItem(
+                            key: Key(_song.id.toString()),
+                            title: _song.title,
+                            subtitle: _song.artist,
+                            artwork:
+                                songsContainer.albumArtwork[_song.albumId],
+                            trailing: IconButton(
+                              icon: Icon(
+                                _song.favorite
+                                    ? Icons.favorite_outlined
+                                    : Icons.favorite_outlined,
                               ),
-                            );
-                          },
-                          childCount: songsContainer.songs.length,
-                        ),
+                              onPressed: () {},
+                            ),
+                          );
+                        },
+                        childCount: songsContainer.songs.length,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           );

@@ -34,9 +34,9 @@ Delta _$DeltaFromJson(Map<String, dynamic> json) {
 class _$DeltaTearOff {
   const _$DeltaTearOff();
 
-  NewAddedSongs newAddedSongs({required List<Song> newSongs}) {
+  NewAddedSongs newAddedSongs({required SongsContainer newSongsContainer}) {
     return NewAddedSongs(
-      newSongs: newSongs,
+      newSongsContainer: newSongsContainer,
     );
   }
 
@@ -68,7 +68,7 @@ const $Delta = _$DeltaTearOff();
 mixin _$Delta {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Song> newSongs) newAddedSongs,
+    required TResult Function(SongsContainer newSongsContainer) newAddedSongs,
     required TResult Function(Set<int> deletedSongsIds) deletedSongsIds,
     required TResult Function(List<Song> updatedSongs) updatedSongs,
     required TResult Function() donePublishing,
@@ -76,7 +76,7 @@ mixin _$Delta {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,
@@ -84,7 +84,7 @@ mixin _$Delta {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,
@@ -139,7 +139,7 @@ abstract class $NewAddedSongsCopyWith<$Res> {
   factory $NewAddedSongsCopyWith(
           NewAddedSongs value, $Res Function(NewAddedSongs) then) =
       _$NewAddedSongsCopyWithImpl<$Res>;
-  $Res call({List<Song> newSongs});
+  $Res call({SongsContainer newSongsContainer});
 }
 
 /// @nodoc
@@ -154,13 +154,13 @@ class _$NewAddedSongsCopyWithImpl<$Res> extends _$DeltaCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? newSongs = freezed,
+    Object? newSongsContainer = freezed,
   }) {
     return _then(NewAddedSongs(
-      newSongs: newSongs == freezed
-          ? _value.newSongs
-          : newSongs // ignore: cast_nullable_to_non_nullable
-              as List<Song>,
+      newSongsContainer: newSongsContainer == freezed
+          ? _value.newSongsContainer
+          : newSongsContainer // ignore: cast_nullable_to_non_nullable
+              as SongsContainer,
     ));
   }
 }
@@ -169,31 +169,32 @@ class _$NewAddedSongsCopyWithImpl<$Res> extends _$DeltaCopyWithImpl<$Res>
 
 @JsonSerializable(explicitToJson: true)
 class _$NewAddedSongs implements NewAddedSongs {
-  const _$NewAddedSongs({required this.newSongs});
+  const _$NewAddedSongs({required this.newSongsContainer});
 
   factory _$NewAddedSongs.fromJson(Map<String, dynamic> json) =>
       _$$NewAddedSongsFromJson(json);
 
   @override
-  final List<Song> newSongs;
+  final SongsContainer newSongsContainer;
 
   @override
   String toString() {
-    return 'Delta.newAddedSongs(newSongs: $newSongs)';
+    return 'Delta.newAddedSongs(newSongsContainer: $newSongsContainer)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is NewAddedSongs &&
-            (identical(other.newSongs, newSongs) ||
+            (identical(other.newSongsContainer, newSongsContainer) ||
                 const DeepCollectionEquality()
-                    .equals(other.newSongs, newSongs)));
+                    .equals(other.newSongsContainer, newSongsContainer)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(newSongs);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(newSongsContainer);
 
   @JsonKey(ignore: true)
   @override
@@ -203,36 +204,36 @@ class _$NewAddedSongs implements NewAddedSongs {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Song> newSongs) newAddedSongs,
+    required TResult Function(SongsContainer newSongsContainer) newAddedSongs,
     required TResult Function(Set<int> deletedSongsIds) deletedSongsIds,
     required TResult Function(List<Song> updatedSongs) updatedSongs,
     required TResult Function() donePublishing,
   }) {
-    return newAddedSongs(newSongs);
+    return newAddedSongs(newSongsContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,
   }) {
-    return newAddedSongs?.call(newSongs);
+    return newAddedSongs?.call(newSongsContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,
     required TResult orElse(),
   }) {
     if (newAddedSongs != null) {
-      return newAddedSongs(newSongs);
+      return newAddedSongs(newSongsContainer);
     }
     return orElse();
   }
@@ -281,12 +282,13 @@ class _$NewAddedSongs implements NewAddedSongs {
 }
 
 abstract class NewAddedSongs implements Delta {
-  const factory NewAddedSongs({required List<Song> newSongs}) = _$NewAddedSongs;
+  const factory NewAddedSongs({required SongsContainer newSongsContainer}) =
+      _$NewAddedSongs;
 
   factory NewAddedSongs.fromJson(Map<String, dynamic> json) =
       _$NewAddedSongs.fromJson;
 
-  List<Song> get newSongs => throw _privateConstructorUsedError;
+  SongsContainer get newSongsContainer => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $NewAddedSongsCopyWith<NewAddedSongs> get copyWith =>
       throw _privateConstructorUsedError;
@@ -361,7 +363,7 @@ class _$DeletedSongsIds implements DeletedSongsIds {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Song> newSongs) newAddedSongs,
+    required TResult Function(SongsContainer newSongsContainer) newAddedSongs,
     required TResult Function(Set<int> deletedSongsIds) deletedSongsIds,
     required TResult Function(List<Song> updatedSongs) updatedSongs,
     required TResult Function() donePublishing,
@@ -372,7 +374,7 @@ class _$DeletedSongsIds implements DeletedSongsIds {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,
@@ -383,7 +385,7 @@ class _$DeletedSongsIds implements DeletedSongsIds {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,
@@ -519,7 +521,7 @@ class _$UpdatedSongs implements UpdatedSongs {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Song> newSongs) newAddedSongs,
+    required TResult Function(SongsContainer newSongsContainer) newAddedSongs,
     required TResult Function(Set<int> deletedSongsIds) deletedSongsIds,
     required TResult Function(List<Song> updatedSongs) updatedSongs,
     required TResult Function() donePublishing,
@@ -530,7 +532,7 @@ class _$UpdatedSongs implements UpdatedSongs {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,
@@ -541,7 +543,7 @@ class _$UpdatedSongs implements UpdatedSongs {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,
@@ -651,7 +653,7 @@ class _$DonePublishing implements DonePublishing {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Song> newSongs) newAddedSongs,
+    required TResult Function(SongsContainer newSongsContainer) newAddedSongs,
     required TResult Function(Set<int> deletedSongsIds) deletedSongsIds,
     required TResult Function(List<Song> updatedSongs) updatedSongs,
     required TResult Function() donePublishing,
@@ -662,7 +664,7 @@ class _$DonePublishing implements DonePublishing {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,
@@ -673,7 +675,7 @@ class _$DonePublishing implements DonePublishing {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Song> newSongs)? newAddedSongs,
+    TResult Function(SongsContainer newSongsContainer)? newAddedSongs,
     TResult Function(Set<int> deletedSongsIds)? deletedSongsIds,
     TResult Function(List<Song> updatedSongs)? updatedSongs,
     TResult Function()? donePublishing,

@@ -48,9 +48,9 @@ class _$SongTearOff {
           int? bookmark,
       @JsonKey(name: SongTable.composer)
           String? composer,
-      @JsonKey(name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
-          DateTime? dateAdded,
-      @JsonKey(name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
+      @JsonKey(name: SongTable.dateAdded, fromJson: _addedDateFromMap, toJson: _addedDateToMap)
+          required DateTime dateAdded,
+      @JsonKey(name: SongTable.dateModified, fromJson: _modifiedDateFromMap, toJson: _modifiedDateToMap)
           DateTime? dateModified,
       @JsonKey(name: SongTable.title)
           required String title,
@@ -144,12 +144,16 @@ mixin _$Song {
 
   /// Return song [dateAdded] to the app database
   @JsonKey(
-      name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
-  DateTime? get dateAdded => throw _privateConstructorUsedError;
+      name: SongTable.dateAdded,
+      fromJson: _addedDateFromMap,
+      toJson: _addedDateToMap)
+  DateTime get dateAdded => throw _privateConstructorUsedError;
 
   /// Return song [dateModified]
   @JsonKey(
-      name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
+      name: SongTable.dateModified,
+      fromJson: _modifiedDateFromMap,
+      toJson: _modifiedDateToMap)
   DateTime? get dateModified => throw _privateConstructorUsedError;
 
   /// Return song [title]
@@ -203,9 +207,9 @@ abstract class $SongCopyWith<$Res> {
           int? bookmark,
       @JsonKey(name: SongTable.composer)
           String? composer,
-      @JsonKey(name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
-          DateTime? dateAdded,
-      @JsonKey(name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
+      @JsonKey(name: SongTable.dateAdded, fromJson: _addedDateFromMap, toJson: _addedDateToMap)
+          DateTime dateAdded,
+      @JsonKey(name: SongTable.dateModified, fromJson: _modifiedDateFromMap, toJson: _modifiedDateToMap)
           DateTime? dateModified,
       @JsonKey(name: SongTable.title)
           String title,
@@ -300,7 +304,7 @@ class _$SongCopyWithImpl<$Res> implements $SongCopyWith<$Res> {
       dateAdded: dateAdded == freezed
           ? _value.dateAdded
           : dateAdded // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       dateModified: dateModified == freezed
           ? _value.dateModified
           : dateModified // ignore: cast_nullable_to_non_nullable
@@ -353,9 +357,9 @@ abstract class _$SongCopyWith<$Res> implements $SongCopyWith<$Res> {
           int? bookmark,
       @JsonKey(name: SongTable.composer)
           String? composer,
-      @JsonKey(name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
-          DateTime? dateAdded,
-      @JsonKey(name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
+      @JsonKey(name: SongTable.dateAdded, fromJson: _addedDateFromMap, toJson: _addedDateToMap)
+          DateTime dateAdded,
+      @JsonKey(name: SongTable.dateModified, fromJson: _modifiedDateFromMap, toJson: _modifiedDateToMap)
           DateTime? dateModified,
       @JsonKey(name: SongTable.title)
           String title,
@@ -451,7 +455,7 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
       dateAdded: dateAdded == freezed
           ? _value.dateAdded
           : dateAdded // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
       dateModified: dateModified == freezed
           ? _value.dateModified
           : dateModified // ignore: cast_nullable_to_non_nullable
@@ -503,9 +507,9 @@ class _$_Song extends _Song {
           this.bookmark,
       @JsonKey(name: SongTable.composer)
           this.composer,
-      @JsonKey(name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
-          this.dateAdded,
-      @JsonKey(name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
+      @JsonKey(name: SongTable.dateAdded, fromJson: _addedDateFromMap, toJson: _addedDateToMap)
+          required this.dateAdded,
+      @JsonKey(name: SongTable.dateModified, fromJson: _modifiedDateFromMap, toJson: _modifiedDateToMap)
           this.dateModified,
       @JsonKey(name: SongTable.title)
           required this.title,
@@ -586,13 +590,17 @@ class _$_Song extends _Song {
 
   /// Return song [dateAdded] to the app database
   @JsonKey(
-      name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
-  final DateTime? dateAdded;
+      name: SongTable.dateAdded,
+      fromJson: _addedDateFromMap,
+      toJson: _addedDateToMap)
+  final DateTime dateAdded;
   @override
 
   /// Return song [dateModified]
   @JsonKey(
-      name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
+      name: SongTable.dateModified,
+      fromJson: _modifiedDateFromMap,
+      toJson: _modifiedDateToMap)
   final DateTime? dateModified;
   @override
 
@@ -733,9 +741,9 @@ abstract class _Song extends Song {
           int? bookmark,
       @JsonKey(name: SongTable.composer)
           String? composer,
-      @JsonKey(name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
-          DateTime? dateAdded,
-      @JsonKey(name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
+      @JsonKey(name: SongTable.dateAdded, fromJson: _addedDateFromMap, toJson: _addedDateToMap)
+          required DateTime dateAdded,
+      @JsonKey(name: SongTable.dateModified, fromJson: _modifiedDateFromMap, toJson: _modifiedDateToMap)
           DateTime? dateModified,
       @JsonKey(name: SongTable.title)
           required String title,
@@ -816,13 +824,17 @@ abstract class _Song extends Song {
 
   /// Return song [dateAdded] to the app database
   @JsonKey(
-      name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
-  DateTime? get dateAdded => throw _privateConstructorUsedError;
+      name: SongTable.dateAdded,
+      fromJson: _addedDateFromMap,
+      toJson: _addedDateToMap)
+  DateTime get dateAdded => throw _privateConstructorUsedError;
   @override
 
   /// Return song [dateModified]
   @JsonKey(
-      name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
+      name: SongTable.dateModified,
+      fromJson: _modifiedDateFromMap,
+      toJson: _modifiedDateToMap)
   DateTime? get dateModified => throw _privateConstructorUsedError;
   @override
 

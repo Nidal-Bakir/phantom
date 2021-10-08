@@ -17,27 +17,39 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$SongsEventTearOff {
   const _$SongsEventTearOff();
 
-  SongsLoaded songsLoaded(
-      {required SongSortType songSortType,
-      required SongOrderType songOrderType}) {
+  SongsLoaded songsLoaded({required Sort sort}) {
     return SongsLoaded(
-      songSortType: songSortType,
-      songOrderType: songOrderType,
+      sort: sort,
     );
   }
 
-  SongsSorted songsSorted(
-      {required SongSortType songSortType,
-      required SongOrderType songOrderType}) {
+  SongsSorted songsSorted({required Sort sort}) {
     return SongsSorted(
-      songSortType: songSortType,
-      songOrderType: songOrderType,
+      sort: sort,
     );
   }
 
   SongsRefreshed songsRefreshed({bool fromDevice = false}) {
     return SongsRefreshed(
       fromDevice: fromDevice,
+    );
+  }
+
+  SongsAdded songsAdded(SongsContainer newSongsContainer) {
+    return SongsAdded(
+      newSongsContainer,
+    );
+  }
+
+  SongsDeleted songsDeleted(Set<int> deletedSongsIds) {
+    return SongsDeleted(
+      deletedSongsIds,
+    );
+  }
+
+  SongsUpdated songsUpdated(List<Song> updatedSongs) {
+    return SongsUpdated(
+      updatedSongs,
     );
   }
 }
@@ -49,31 +61,32 @@ const $SongsEvent = _$SongsEventTearOff();
 mixin _$SongsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            SongSortType songSortType, SongOrderType songOrderType)
-        songsLoaded,
-    required TResult Function(
-            SongSortType songSortType, SongOrderType songOrderType)
-        songsSorted,
+    required TResult Function(Sort sort) songsLoaded,
+    required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
+    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(Set<int> deletedSongsIds) songsDeleted,
+    required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsLoaded,
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsSorted,
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsLoaded,
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsSorted,
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -82,6 +95,9 @@ mixin _$SongsEvent {
     required TResult Function(SongsLoaded value) songsLoaded,
     required TResult Function(SongsSorted value) songsSorted,
     required TResult Function(SongsRefreshed value) songsRefreshed,
+    required TResult Function(SongsAdded value) songsAdded,
+    required TResult Function(SongsDeleted value) songsDeleted,
+    required TResult Function(SongsUpdated value) songsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -89,6 +105,9 @@ mixin _$SongsEvent {
     TResult Function(SongsLoaded value)? songsLoaded,
     TResult Function(SongsSorted value)? songsSorted,
     TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -96,6 +115,9 @@ mixin _$SongsEvent {
     TResult Function(SongsLoaded value)? songsLoaded,
     TResult Function(SongsSorted value)? songsSorted,
     TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -122,7 +144,7 @@ abstract class $SongsLoadedCopyWith<$Res> {
   factory $SongsLoadedCopyWith(
           SongsLoaded value, $Res Function(SongsLoaded) then) =
       _$SongsLoadedCopyWithImpl<$Res>;
-  $Res call({SongSortType songSortType, SongOrderType songOrderType});
+  $Res call({Sort sort});
 }
 
 /// @nodoc
@@ -137,18 +159,13 @@ class _$SongsLoadedCopyWithImpl<$Res> extends _$SongsEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? songSortType = freezed,
-    Object? songOrderType = freezed,
+    Object? sort = freezed,
   }) {
     return _then(SongsLoaded(
-      songSortType: songSortType == freezed
-          ? _value.songSortType
-          : songSortType // ignore: cast_nullable_to_non_nullable
-              as SongSortType,
-      songOrderType: songOrderType == freezed
-          ? _value.songOrderType
-          : songOrderType // ignore: cast_nullable_to_non_nullable
-              as SongOrderType,
+      sort: sort == freezed
+          ? _value.sort
+          : sort // ignore: cast_nullable_to_non_nullable
+              as Sort,
     ));
   }
 }
@@ -156,36 +173,27 @@ class _$SongsLoadedCopyWithImpl<$Res> extends _$SongsEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SongsLoaded implements SongsLoaded {
-  const _$SongsLoaded(
-      {required this.songSortType, required this.songOrderType});
+  const _$SongsLoaded({required this.sort});
 
   @override
-  final SongSortType songSortType;
-  @override
-  final SongOrderType songOrderType;
+  final Sort sort;
 
   @override
   String toString() {
-    return 'SongsEvent.songsLoaded(songSortType: $songSortType, songOrderType: $songOrderType)';
+    return 'SongsEvent.songsLoaded(sort: $sort)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is SongsLoaded &&
-            (identical(other.songSortType, songSortType) ||
-                const DeepCollectionEquality()
-                    .equals(other.songSortType, songSortType)) &&
-            (identical(other.songOrderType, songOrderType) ||
-                const DeepCollectionEquality()
-                    .equals(other.songOrderType, songOrderType)));
+            (identical(other.sort, sort) ||
+                const DeepCollectionEquality().equals(other.sort, sort)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(songSortType) ^
-      const DeepCollectionEquality().hash(songOrderType);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(sort);
 
   @JsonKey(ignore: true)
   @override
@@ -195,41 +203,42 @@ class _$SongsLoaded implements SongsLoaded {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            SongSortType songSortType, SongOrderType songOrderType)
-        songsLoaded,
-    required TResult Function(
-            SongSortType songSortType, SongOrderType songOrderType)
-        songsSorted,
+    required TResult Function(Sort sort) songsLoaded,
+    required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
+    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(Set<int> deletedSongsIds) songsDeleted,
+    required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) {
-    return songsLoaded(songSortType, songOrderType);
+    return songsLoaded(sort);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsLoaded,
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsSorted,
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) {
-    return songsLoaded?.call(songSortType, songOrderType);
+    return songsLoaded?.call(sort);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsLoaded,
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsSorted,
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
   }) {
     if (songsLoaded != null) {
-      return songsLoaded(songSortType, songOrderType);
+      return songsLoaded(sort);
     }
     return orElse();
   }
@@ -240,6 +249,9 @@ class _$SongsLoaded implements SongsLoaded {
     required TResult Function(SongsLoaded value) songsLoaded,
     required TResult Function(SongsSorted value) songsSorted,
     required TResult Function(SongsRefreshed value) songsRefreshed,
+    required TResult Function(SongsAdded value) songsAdded,
+    required TResult Function(SongsDeleted value) songsDeleted,
+    required TResult Function(SongsUpdated value) songsUpdated,
   }) {
     return songsLoaded(this);
   }
@@ -250,6 +262,9 @@ class _$SongsLoaded implements SongsLoaded {
     TResult Function(SongsLoaded value)? songsLoaded,
     TResult Function(SongsSorted value)? songsSorted,
     TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
   }) {
     return songsLoaded?.call(this);
   }
@@ -260,6 +275,9 @@ class _$SongsLoaded implements SongsLoaded {
     TResult Function(SongsLoaded value)? songsLoaded,
     TResult Function(SongsSorted value)? songsSorted,
     TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
     required TResult orElse(),
   }) {
     if (songsLoaded != null) {
@@ -270,12 +288,9 @@ class _$SongsLoaded implements SongsLoaded {
 }
 
 abstract class SongsLoaded implements SongsEvent {
-  const factory SongsLoaded(
-      {required SongSortType songSortType,
-      required SongOrderType songOrderType}) = _$SongsLoaded;
+  const factory SongsLoaded({required Sort sort}) = _$SongsLoaded;
 
-  SongSortType get songSortType => throw _privateConstructorUsedError;
-  SongOrderType get songOrderType => throw _privateConstructorUsedError;
+  Sort get sort => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SongsLoadedCopyWith<SongsLoaded> get copyWith =>
       throw _privateConstructorUsedError;
@@ -286,7 +301,7 @@ abstract class $SongsSortedCopyWith<$Res> {
   factory $SongsSortedCopyWith(
           SongsSorted value, $Res Function(SongsSorted) then) =
       _$SongsSortedCopyWithImpl<$Res>;
-  $Res call({SongSortType songSortType, SongOrderType songOrderType});
+  $Res call({Sort sort});
 }
 
 /// @nodoc
@@ -301,18 +316,13 @@ class _$SongsSortedCopyWithImpl<$Res> extends _$SongsEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? songSortType = freezed,
-    Object? songOrderType = freezed,
+    Object? sort = freezed,
   }) {
     return _then(SongsSorted(
-      songSortType: songSortType == freezed
-          ? _value.songSortType
-          : songSortType // ignore: cast_nullable_to_non_nullable
-              as SongSortType,
-      songOrderType: songOrderType == freezed
-          ? _value.songOrderType
-          : songOrderType // ignore: cast_nullable_to_non_nullable
-              as SongOrderType,
+      sort: sort == freezed
+          ? _value.sort
+          : sort // ignore: cast_nullable_to_non_nullable
+              as Sort,
     ));
   }
 }
@@ -320,36 +330,27 @@ class _$SongsSortedCopyWithImpl<$Res> extends _$SongsEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SongsSorted implements SongsSorted {
-  const _$SongsSorted(
-      {required this.songSortType, required this.songOrderType});
+  const _$SongsSorted({required this.sort});
 
   @override
-  final SongSortType songSortType;
-  @override
-  final SongOrderType songOrderType;
+  final Sort sort;
 
   @override
   String toString() {
-    return 'SongsEvent.songsSorted(songSortType: $songSortType, songOrderType: $songOrderType)';
+    return 'SongsEvent.songsSorted(sort: $sort)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is SongsSorted &&
-            (identical(other.songSortType, songSortType) ||
-                const DeepCollectionEquality()
-                    .equals(other.songSortType, songSortType)) &&
-            (identical(other.songOrderType, songOrderType) ||
-                const DeepCollectionEquality()
-                    .equals(other.songOrderType, songOrderType)));
+            (identical(other.sort, sort) ||
+                const DeepCollectionEquality().equals(other.sort, sort)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(songSortType) ^
-      const DeepCollectionEquality().hash(songOrderType);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(sort);
 
   @JsonKey(ignore: true)
   @override
@@ -359,41 +360,42 @@ class _$SongsSorted implements SongsSorted {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            SongSortType songSortType, SongOrderType songOrderType)
-        songsLoaded,
-    required TResult Function(
-            SongSortType songSortType, SongOrderType songOrderType)
-        songsSorted,
+    required TResult Function(Sort sort) songsLoaded,
+    required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
+    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(Set<int> deletedSongsIds) songsDeleted,
+    required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) {
-    return songsSorted(songSortType, songOrderType);
+    return songsSorted(sort);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsLoaded,
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsSorted,
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) {
-    return songsSorted?.call(songSortType, songOrderType);
+    return songsSorted?.call(sort);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsLoaded,
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsSorted,
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
   }) {
     if (songsSorted != null) {
-      return songsSorted(songSortType, songOrderType);
+      return songsSorted(sort);
     }
     return orElse();
   }
@@ -404,6 +406,9 @@ class _$SongsSorted implements SongsSorted {
     required TResult Function(SongsLoaded value) songsLoaded,
     required TResult Function(SongsSorted value) songsSorted,
     required TResult Function(SongsRefreshed value) songsRefreshed,
+    required TResult Function(SongsAdded value) songsAdded,
+    required TResult Function(SongsDeleted value) songsDeleted,
+    required TResult Function(SongsUpdated value) songsUpdated,
   }) {
     return songsSorted(this);
   }
@@ -414,6 +419,9 @@ class _$SongsSorted implements SongsSorted {
     TResult Function(SongsLoaded value)? songsLoaded,
     TResult Function(SongsSorted value)? songsSorted,
     TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
   }) {
     return songsSorted?.call(this);
   }
@@ -424,6 +432,9 @@ class _$SongsSorted implements SongsSorted {
     TResult Function(SongsLoaded value)? songsLoaded,
     TResult Function(SongsSorted value)? songsSorted,
     TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
     required TResult orElse(),
   }) {
     if (songsSorted != null) {
@@ -434,12 +445,9 @@ class _$SongsSorted implements SongsSorted {
 }
 
 abstract class SongsSorted implements SongsEvent {
-  const factory SongsSorted(
-      {required SongSortType songSortType,
-      required SongOrderType songOrderType}) = _$SongsSorted;
+  const factory SongsSorted({required Sort sort}) = _$SongsSorted;
 
-  SongSortType get songSortType => throw _privateConstructorUsedError;
-  SongOrderType get songOrderType => throw _privateConstructorUsedError;
+  Sort get sort => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SongsSortedCopyWith<SongsSorted> get copyWith =>
       throw _privateConstructorUsedError;
@@ -511,13 +519,12 @@ class _$SongsRefreshed implements SongsRefreshed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            SongSortType songSortType, SongOrderType songOrderType)
-        songsLoaded,
-    required TResult Function(
-            SongSortType songSortType, SongOrderType songOrderType)
-        songsSorted,
+    required TResult Function(Sort sort) songsLoaded,
+    required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
+    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(Set<int> deletedSongsIds) songsDeleted,
+    required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) {
     return songsRefreshed(fromDevice);
   }
@@ -525,11 +532,12 @@ class _$SongsRefreshed implements SongsRefreshed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsLoaded,
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsSorted,
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) {
     return songsRefreshed?.call(fromDevice);
   }
@@ -537,11 +545,12 @@ class _$SongsRefreshed implements SongsRefreshed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsLoaded,
-    TResult Function(SongSortType songSortType, SongOrderType songOrderType)?
-        songsSorted,
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
   }) {
     if (songsRefreshed != null) {
@@ -556,6 +565,9 @@ class _$SongsRefreshed implements SongsRefreshed {
     required TResult Function(SongsLoaded value) songsLoaded,
     required TResult Function(SongsSorted value) songsSorted,
     required TResult Function(SongsRefreshed value) songsRefreshed,
+    required TResult Function(SongsAdded value) songsAdded,
+    required TResult Function(SongsDeleted value) songsDeleted,
+    required TResult Function(SongsUpdated value) songsUpdated,
   }) {
     return songsRefreshed(this);
   }
@@ -566,6 +578,9 @@ class _$SongsRefreshed implements SongsRefreshed {
     TResult Function(SongsLoaded value)? songsLoaded,
     TResult Function(SongsSorted value)? songsSorted,
     TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
   }) {
     return songsRefreshed?.call(this);
   }
@@ -576,6 +591,9 @@ class _$SongsRefreshed implements SongsRefreshed {
     TResult Function(SongsLoaded value)? songsLoaded,
     TResult Function(SongsSorted value)? songsSorted,
     TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
     required TResult orElse(),
   }) {
     if (songsRefreshed != null) {
@@ -595,6 +613,481 @@ abstract class SongsRefreshed implements SongsEvent {
 }
 
 /// @nodoc
+abstract class $SongsAddedCopyWith<$Res> {
+  factory $SongsAddedCopyWith(
+          SongsAdded value, $Res Function(SongsAdded) then) =
+      _$SongsAddedCopyWithImpl<$Res>;
+  $Res call({SongsContainer newSongsContainer});
+}
+
+/// @nodoc
+class _$SongsAddedCopyWithImpl<$Res> extends _$SongsEventCopyWithImpl<$Res>
+    implements $SongsAddedCopyWith<$Res> {
+  _$SongsAddedCopyWithImpl(SongsAdded _value, $Res Function(SongsAdded) _then)
+      : super(_value, (v) => _then(v as SongsAdded));
+
+  @override
+  SongsAdded get _value => super._value as SongsAdded;
+
+  @override
+  $Res call({
+    Object? newSongsContainer = freezed,
+  }) {
+    return _then(SongsAdded(
+      newSongsContainer == freezed
+          ? _value.newSongsContainer
+          : newSongsContainer // ignore: cast_nullable_to_non_nullable
+              as SongsContainer,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SongsAdded implements SongsAdded {
+  const _$SongsAdded(this.newSongsContainer);
+
+  @override
+  final SongsContainer newSongsContainer;
+
+  @override
+  String toString() {
+    return 'SongsEvent.songsAdded(newSongsContainer: $newSongsContainer)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SongsAdded &&
+            (identical(other.newSongsContainer, newSongsContainer) ||
+                const DeepCollectionEquality()
+                    .equals(other.newSongsContainer, newSongsContainer)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(newSongsContainer);
+
+  @JsonKey(ignore: true)
+  @override
+  $SongsAddedCopyWith<SongsAdded> get copyWith =>
+      _$SongsAddedCopyWithImpl<SongsAdded>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Sort sort) songsLoaded,
+    required TResult Function(Sort sort) songsSorted,
+    required TResult Function(bool fromDevice) songsRefreshed,
+    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(Set<int> deletedSongsIds) songsDeleted,
+    required TResult Function(List<Song> updatedSongs) songsUpdated,
+  }) {
+    return songsAdded(newSongsContainer);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
+    TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
+  }) {
+    return songsAdded?.call(newSongsContainer);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
+    TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
+    required TResult orElse(),
+  }) {
+    if (songsAdded != null) {
+      return songsAdded(newSongsContainer);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SongsLoaded value) songsLoaded,
+    required TResult Function(SongsSorted value) songsSorted,
+    required TResult Function(SongsRefreshed value) songsRefreshed,
+    required TResult Function(SongsAdded value) songsAdded,
+    required TResult Function(SongsDeleted value) songsDeleted,
+    required TResult Function(SongsUpdated value) songsUpdated,
+  }) {
+    return songsAdded(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(SongsLoaded value)? songsLoaded,
+    TResult Function(SongsSorted value)? songsSorted,
+    TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
+  }) {
+    return songsAdded?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SongsLoaded value)? songsLoaded,
+    TResult Function(SongsSorted value)? songsSorted,
+    TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
+    required TResult orElse(),
+  }) {
+    if (songsAdded != null) {
+      return songsAdded(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SongsAdded implements SongsEvent {
+  const factory SongsAdded(SongsContainer newSongsContainer) = _$SongsAdded;
+
+  SongsContainer get newSongsContainer => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SongsAddedCopyWith<SongsAdded> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SongsDeletedCopyWith<$Res> {
+  factory $SongsDeletedCopyWith(
+          SongsDeleted value, $Res Function(SongsDeleted) then) =
+      _$SongsDeletedCopyWithImpl<$Res>;
+  $Res call({Set<int> deletedSongsIds});
+}
+
+/// @nodoc
+class _$SongsDeletedCopyWithImpl<$Res> extends _$SongsEventCopyWithImpl<$Res>
+    implements $SongsDeletedCopyWith<$Res> {
+  _$SongsDeletedCopyWithImpl(
+      SongsDeleted _value, $Res Function(SongsDeleted) _then)
+      : super(_value, (v) => _then(v as SongsDeleted));
+
+  @override
+  SongsDeleted get _value => super._value as SongsDeleted;
+
+  @override
+  $Res call({
+    Object? deletedSongsIds = freezed,
+  }) {
+    return _then(SongsDeleted(
+      deletedSongsIds == freezed
+          ? _value.deletedSongsIds
+          : deletedSongsIds // ignore: cast_nullable_to_non_nullable
+              as Set<int>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SongsDeleted implements SongsDeleted {
+  const _$SongsDeleted(this.deletedSongsIds);
+
+  @override
+  final Set<int> deletedSongsIds;
+
+  @override
+  String toString() {
+    return 'SongsEvent.songsDeleted(deletedSongsIds: $deletedSongsIds)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SongsDeleted &&
+            (identical(other.deletedSongsIds, deletedSongsIds) ||
+                const DeepCollectionEquality()
+                    .equals(other.deletedSongsIds, deletedSongsIds)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(deletedSongsIds);
+
+  @JsonKey(ignore: true)
+  @override
+  $SongsDeletedCopyWith<SongsDeleted> get copyWith =>
+      _$SongsDeletedCopyWithImpl<SongsDeleted>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Sort sort) songsLoaded,
+    required TResult Function(Sort sort) songsSorted,
+    required TResult Function(bool fromDevice) songsRefreshed,
+    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(Set<int> deletedSongsIds) songsDeleted,
+    required TResult Function(List<Song> updatedSongs) songsUpdated,
+  }) {
+    return songsDeleted(deletedSongsIds);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
+    TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
+  }) {
+    return songsDeleted?.call(deletedSongsIds);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
+    TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
+    required TResult orElse(),
+  }) {
+    if (songsDeleted != null) {
+      return songsDeleted(deletedSongsIds);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SongsLoaded value) songsLoaded,
+    required TResult Function(SongsSorted value) songsSorted,
+    required TResult Function(SongsRefreshed value) songsRefreshed,
+    required TResult Function(SongsAdded value) songsAdded,
+    required TResult Function(SongsDeleted value) songsDeleted,
+    required TResult Function(SongsUpdated value) songsUpdated,
+  }) {
+    return songsDeleted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(SongsLoaded value)? songsLoaded,
+    TResult Function(SongsSorted value)? songsSorted,
+    TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
+  }) {
+    return songsDeleted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SongsLoaded value)? songsLoaded,
+    TResult Function(SongsSorted value)? songsSorted,
+    TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
+    required TResult orElse(),
+  }) {
+    if (songsDeleted != null) {
+      return songsDeleted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SongsDeleted implements SongsEvent {
+  const factory SongsDeleted(Set<int> deletedSongsIds) = _$SongsDeleted;
+
+  Set<int> get deletedSongsIds => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SongsDeletedCopyWith<SongsDeleted> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SongsUpdatedCopyWith<$Res> {
+  factory $SongsUpdatedCopyWith(
+          SongsUpdated value, $Res Function(SongsUpdated) then) =
+      _$SongsUpdatedCopyWithImpl<$Res>;
+  $Res call({List<Song> updatedSongs});
+}
+
+/// @nodoc
+class _$SongsUpdatedCopyWithImpl<$Res> extends _$SongsEventCopyWithImpl<$Res>
+    implements $SongsUpdatedCopyWith<$Res> {
+  _$SongsUpdatedCopyWithImpl(
+      SongsUpdated _value, $Res Function(SongsUpdated) _then)
+      : super(_value, (v) => _then(v as SongsUpdated));
+
+  @override
+  SongsUpdated get _value => super._value as SongsUpdated;
+
+  @override
+  $Res call({
+    Object? updatedSongs = freezed,
+  }) {
+    return _then(SongsUpdated(
+      updatedSongs == freezed
+          ? _value.updatedSongs
+          : updatedSongs // ignore: cast_nullable_to_non_nullable
+              as List<Song>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SongsUpdated implements SongsUpdated {
+  const _$SongsUpdated(this.updatedSongs);
+
+  @override
+  final List<Song> updatedSongs;
+
+  @override
+  String toString() {
+    return 'SongsEvent.songsUpdated(updatedSongs: $updatedSongs)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SongsUpdated &&
+            (identical(other.updatedSongs, updatedSongs) ||
+                const DeepCollectionEquality()
+                    .equals(other.updatedSongs, updatedSongs)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(updatedSongs);
+
+  @JsonKey(ignore: true)
+  @override
+  $SongsUpdatedCopyWith<SongsUpdated> get copyWith =>
+      _$SongsUpdatedCopyWithImpl<SongsUpdated>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(Sort sort) songsLoaded,
+    required TResult Function(Sort sort) songsSorted,
+    required TResult Function(bool fromDevice) songsRefreshed,
+    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(Set<int> deletedSongsIds) songsDeleted,
+    required TResult Function(List<Song> updatedSongs) songsUpdated,
+  }) {
+    return songsUpdated(updatedSongs);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
+    TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
+  }) {
+    return songsUpdated?.call(updatedSongs);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(Sort sort)? songsLoaded,
+    TResult Function(Sort sort)? songsSorted,
+    TResult Function(bool fromDevice)? songsRefreshed,
+    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(Set<int> deletedSongsIds)? songsDeleted,
+    TResult Function(List<Song> updatedSongs)? songsUpdated,
+    required TResult orElse(),
+  }) {
+    if (songsUpdated != null) {
+      return songsUpdated(updatedSongs);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(SongsLoaded value) songsLoaded,
+    required TResult Function(SongsSorted value) songsSorted,
+    required TResult Function(SongsRefreshed value) songsRefreshed,
+    required TResult Function(SongsAdded value) songsAdded,
+    required TResult Function(SongsDeleted value) songsDeleted,
+    required TResult Function(SongsUpdated value) songsUpdated,
+  }) {
+    return songsUpdated(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(SongsLoaded value)? songsLoaded,
+    TResult Function(SongsSorted value)? songsSorted,
+    TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
+  }) {
+    return songsUpdated?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(SongsLoaded value)? songsLoaded,
+    TResult Function(SongsSorted value)? songsSorted,
+    TResult Function(SongsRefreshed value)? songsRefreshed,
+    TResult Function(SongsAdded value)? songsAdded,
+    TResult Function(SongsDeleted value)? songsDeleted,
+    TResult Function(SongsUpdated value)? songsUpdated,
+    required TResult orElse(),
+  }) {
+    if (songsUpdated != null) {
+      return songsUpdated(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SongsUpdated implements SongsEvent {
+  const factory SongsUpdated(List<Song> updatedSongs) = _$SongsUpdated;
+
+  List<Song> get updatedSongs => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SongsUpdatedCopyWith<SongsUpdated> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 class _$SongsStateTearOff {
   const _$SongsStateTearOff();
 
@@ -603,15 +1096,10 @@ class _$SongsStateTearOff {
   }
 
   SongsLoadSuccess songLoadSuccess(
-      {required SongSortType sortType,
-      required SongOrderType orderType,
-      required SongsContainer songsContainer,
-      bool isLastPage = false}) {
+      {required Sort sort, required SongsContainer songsContainer}) {
     return SongsLoadSuccess(
-      sortType: sortType,
-      orderType: orderType,
+      sort: sort,
       songsContainer: songsContainer,
-      isLastPage: isLastPage,
     );
   }
 }
@@ -624,25 +1112,20 @@ mixin _$SongsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer, bool isLastPage)
+    required TResult Function(Sort sort, SongsContainer songsContainer)
         songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer, bool isLastPage)?
-        songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer, bool isLastPage)?
-        songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -723,8 +1206,7 @@ class _$SongsInProgress implements SongsInProgress {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer, bool isLastPage)
+    required TResult Function(Sort sort, SongsContainer songsContainer)
         songLoadSuccess,
   }) {
     return inProgress();
@@ -734,9 +1216,7 @@ class _$SongsInProgress implements SongsInProgress {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer, bool isLastPage)?
-        songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
   }) {
     return inProgress?.call();
   }
@@ -745,9 +1225,7 @@ class _$SongsInProgress implements SongsInProgress {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer, bool isLastPage)?
-        songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
     required TResult orElse(),
   }) {
     if (inProgress != null) {
@@ -797,11 +1275,7 @@ abstract class $SongsLoadSuccessCopyWith<$Res> {
   factory $SongsLoadSuccessCopyWith(
           SongsLoadSuccess value, $Res Function(SongsLoadSuccess) then) =
       _$SongsLoadSuccessCopyWithImpl<$Res>;
-  $Res call(
-      {SongSortType sortType,
-      SongOrderType orderType,
-      SongsContainer songsContainer,
-      bool isLastPage});
+  $Res call({Sort sort, SongsContainer songsContainer});
 }
 
 /// @nodoc
@@ -817,28 +1291,18 @@ class _$SongsLoadSuccessCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? sortType = freezed,
-    Object? orderType = freezed,
+    Object? sort = freezed,
     Object? songsContainer = freezed,
-    Object? isLastPage = freezed,
   }) {
     return _then(SongsLoadSuccess(
-      sortType: sortType == freezed
-          ? _value.sortType
-          : sortType // ignore: cast_nullable_to_non_nullable
-              as SongSortType,
-      orderType: orderType == freezed
-          ? _value.orderType
-          : orderType // ignore: cast_nullable_to_non_nullable
-              as SongOrderType,
+      sort: sort == freezed
+          ? _value.sort
+          : sort // ignore: cast_nullable_to_non_nullable
+              as Sort,
       songsContainer: songsContainer == freezed
           ? _value.songsContainer
           : songsContainer // ignore: cast_nullable_to_non_nullable
               as SongsContainer,
-      isLastPage: isLastPage == freezed
-          ? _value.isLastPage
-          : isLastPage // ignore: cast_nullable_to_non_nullable
-              as bool,
     ));
   }
 }
@@ -846,52 +1310,34 @@ class _$SongsLoadSuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SongsLoadSuccess implements SongsLoadSuccess {
-  const _$SongsLoadSuccess(
-      {required this.sortType,
-      required this.orderType,
-      required this.songsContainer,
-      this.isLastPage = false});
+  const _$SongsLoadSuccess({required this.sort, required this.songsContainer});
 
   @override
-  final SongSortType sortType;
-  @override
-  final SongOrderType orderType;
+  final Sort sort;
   @override
   final SongsContainer songsContainer;
-  @JsonKey(defaultValue: false)
-  @override
-  final bool isLastPage;
 
   @override
   String toString() {
-    return 'SongsState.songLoadSuccess(sortType: $sortType, orderType: $orderType, songsContainer: $songsContainer, isLastPage: $isLastPage)';
+    return 'SongsState.songLoadSuccess(sort: $sort, songsContainer: $songsContainer)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is SongsLoadSuccess &&
-            (identical(other.sortType, sortType) ||
-                const DeepCollectionEquality()
-                    .equals(other.sortType, sortType)) &&
-            (identical(other.orderType, orderType) ||
-                const DeepCollectionEquality()
-                    .equals(other.orderType, orderType)) &&
+            (identical(other.sort, sort) ||
+                const DeepCollectionEquality().equals(other.sort, sort)) &&
             (identical(other.songsContainer, songsContainer) ||
                 const DeepCollectionEquality()
-                    .equals(other.songsContainer, songsContainer)) &&
-            (identical(other.isLastPage, isLastPage) ||
-                const DeepCollectionEquality()
-                    .equals(other.isLastPage, isLastPage)));
+                    .equals(other.songsContainer, songsContainer)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(sortType) ^
-      const DeepCollectionEquality().hash(orderType) ^
-      const DeepCollectionEquality().hash(songsContainer) ^
-      const DeepCollectionEquality().hash(isLastPage);
+      const DeepCollectionEquality().hash(sort) ^
+      const DeepCollectionEquality().hash(songsContainer);
 
   @JsonKey(ignore: true)
   @override
@@ -902,36 +1348,30 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer, bool isLastPage)
+    required TResult Function(Sort sort, SongsContainer songsContainer)
         songLoadSuccess,
   }) {
-    return songLoadSuccess(sortType, orderType, songsContainer, isLastPage);
+    return songLoadSuccess(sort, songsContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer, bool isLastPage)?
-        songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
   }) {
-    return songLoadSuccess?.call(
-        sortType, orderType, songsContainer, isLastPage);
+    return songLoadSuccess?.call(sort, songsContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(SongSortType sortType, SongOrderType orderType,
-            SongsContainer songsContainer, bool isLastPage)?
-        songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
     required TResult orElse(),
   }) {
     if (songLoadSuccess != null) {
-      return songLoadSuccess(sortType, orderType, songsContainer, isLastPage);
+      return songLoadSuccess(sort, songsContainer);
     }
     return orElse();
   }
@@ -970,15 +1410,11 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
 
 abstract class SongsLoadSuccess implements SongsState {
   const factory SongsLoadSuccess(
-      {required SongSortType sortType,
-      required SongOrderType orderType,
-      required SongsContainer songsContainer,
-      bool isLastPage}) = _$SongsLoadSuccess;
+      {required Sort sort,
+      required SongsContainer songsContainer}) = _$SongsLoadSuccess;
 
-  SongSortType get sortType => throw _privateConstructorUsedError;
-  SongOrderType get orderType => throw _privateConstructorUsedError;
+  Sort get sort => throw _privateConstructorUsedError;
   SongsContainer get songsContainer => throw _privateConstructorUsedError;
-  bool get isLastPage => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SongsLoadSuccessCopyWith<SongsLoadSuccess> get copyWith =>
       throw _privateConstructorUsedError;

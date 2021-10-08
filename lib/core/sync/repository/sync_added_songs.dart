@@ -6,6 +6,7 @@ import 'dart:typed_data';
 
 import 'package:phantom/core/models/delta/delta.dart';
 import 'package:phantom/core/models/song/song.dart';
+import 'package:phantom/core/models/songs_container/songs_container.dart';
 import 'package:phantom/core/sync/data/device_data_source/device_data_source.dart';
 import 'package:phantom/core/sync/data/local_data_source/local_sync_song_data_source.dart';
 import 'package:phantom/core/sync/repository/sync.dart';
@@ -43,7 +44,12 @@ class SyncAddedSongs extends Sync {
         // album artwork or the album already cached in the database, so we need
         // to add them.
         await localSyncSongDataSource.addSongs(newSongs);
-        deltaStreamController.sink.add(NewAddedSongs(newSongs: newSongs));
+        deltaStreamController.sink.add(NewAddedSongs(
+          newSongsContainer: SongsContainer(
+            albumArtwork: {},
+            songs: UnmodifiableListView(newSongs),
+          ),
+        ));
         return;
       }
 
@@ -78,8 +84,12 @@ class SyncAddedSongs extends Sync {
       await localSyncSongDataSource
           .addSongs(songsDoseNotHaveAlbumIdOrAlbumArtwork);
 
-      deltaStreamController.sink
-          .add(NewAddedSongs(newSongs: songsDoseNotHaveAlbumIdOrAlbumArtwork));
+      deltaStreamController.sink.add(NewAddedSongs(
+        newSongsContainer: SongsContainer(
+          albumArtwork: {},
+          songs: UnmodifiableListView(songsDoseNotHaveAlbumIdOrAlbumArtwork),
+        ),
+      ));
     }
   }
 
@@ -127,7 +137,14 @@ class SyncAddedSongs extends Sync {
         // New songs added to the database in background (isolate).
         // songs added as chunks to the database so every time a chunk of songs added
         // to the database an event added to this stream with those songs.
-        deltaStreamController.sink.add(NewAddedSongs(newSongs: addedSongs));
+        deltaStreamController.sink.add(
+          NewAddedSongs(
+            newSongsContainer: SongsContainer(
+              albumArtwork: newAlbumArtworksBuffer,
+              songs: UnmodifiableListView(addedSongs),
+            ),
+          ),
+        );
 
         // remove songs that has been added to the database.
         songsToBeAddedToDatabaseBuffer.removeWhere(
@@ -159,8 +176,10 @@ class SyncAddedSongs extends Sync {
     int albumId,
   ) async {
     // get position of song id that correspond with an album id
-    final positionOfSongId =
-        customBinarySearch<Song, int>(sortedSongsIdentifiedAsNew, albumId);
+    final positionOfSongId = customBinarySearch<Song, int>(
+        sortedSongsIdentifiedAsNew,
+        albumId,
+        (song, albumId) => song.albumId?.compareTo(albumId ?? -1) ?? -1);
     if (positionOfSongId == -1) {
       log(
         'on: _addNewAlbumArtworksToArtWorkTable(), customBinarySearch() returned -1!! something is wrong.',

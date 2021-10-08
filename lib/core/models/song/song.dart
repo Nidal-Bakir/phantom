@@ -5,7 +5,7 @@ part 'song.freezed.dart';
 part 'song.g.dart';
 
 @freezed
-class Song extends Comparable<int> with _$Song {
+class Song extends Comparable<Song> with _$Song {
   Song._();
   @JsonSerializable()
   factory Song({
@@ -50,11 +50,11 @@ class Song extends Comparable<int> with _$Song {
     @JsonKey(name: SongTable.composer) String? composer,
 
     /// Return song [dateAdded] to the app database
-    @JsonKey(name: SongTable.dateAdded, fromJson: _dateFromMap, toJson: _dateToMap)
-        DateTime? dateAdded,
+    @JsonKey(name: SongTable.dateAdded, fromJson: _addedDateFromMap, toJson: _addedDateToMap)
+        required DateTime dateAdded,
 
     /// Return song [dateModified]
-    @JsonKey(name: SongTable.dateModified, fromJson: _dateFromMap, toJson: _dateToMap)
+    @JsonKey(name: SongTable.dateModified, fromJson: _modifiedDateFromMap, toJson: _modifiedDateToMap)
         DateTime? dateModified,
 
     /// Return song [title]
@@ -78,19 +78,45 @@ class Song extends Comparable<int> with _$Song {
   int compareTo(Object other) {
     if (other is Song) {
       return id.compareTo(other.id);
-    } else if (other is int) {
-      return albumId?.compareTo(other) ?? -1;
     }
     return -1;
   }
+
+  /// compare the meta song info like title,
+  /// song path (in case song moved to anther folder) and displayName ect...
+  ///
+  /// DO NOT compare the added date or modified date they are not reliable and
+  /// change every time query them form the device.
+  ///
+  /// Other members are app specific functionally like favorite, not part
+  /// of meta data for a song.
+  bool isEqualMetaSongInfo(Song other) {
+    return id == other.id &&
+        absolutePath == other.absolutePath &&
+        displayName == other.displayName &&
+        title == other.title &&
+        uri == other.uri &&
+        album == other.album &&
+        albumId == other.albumId &&
+        bookmark == other.bookmark &&
+        composer == other.composer;
+  }
 }
 
-DateTime? _dateFromMap(int? date) {
+DateTime? _modifiedDateFromMap(int? date) {
   return date == null ? null : DateTime.fromMillisecondsSinceEpoch(date);
 }
 
-int? _dateToMap(DateTime? date) {
+int? _modifiedDateToMap(DateTime? date) {
   return date?.millisecondsSinceEpoch;
+}
+
+DateTime _addedDateFromMap(int date) {
+  return DateTime.fromMillisecondsSinceEpoch(date);
+}
+
+int _addedDateToMap(DateTime date) {
+  return date.millisecondsSinceEpoch;
 }
 
 int _favoriteToMap(bool favorite) => favorite ? 1 : 0;
