@@ -170,8 +170,7 @@ class _$SongsContainerCopyWithImpl<$Res> extends _$ContainerCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class _$SongsContainer implements SongsContainer {
   const _$SongsContainer(
       {@UnmodifiableListViewConverter() required this.songs,

@@ -38,7 +38,7 @@ class SongsRepository {
         {},
         (previousValue, element) => previousValue
           ..putIfAbsent(element[ArtworkTable.albumId] as int,
-              () => element[ArtworkTable.albumId] as Uint8List?));
+              () => element[ArtworkTable.albumArtwork] as Uint8List?));
     return artworks;
   }
 

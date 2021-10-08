@@ -10,41 +10,49 @@ part 'songs_container.g.dart';
 
 @freezed
 class Container with _$Container {
-  @JsonSerializable(explicitToJson: true)
   const factory Container.songsContainer({
     @UnmodifiableListViewConverter() required UnmodifiableListView<Song> songs,
     @Uint8ListMapConverter() required Map<int, Uint8List?> albumArtwork,
   }) = SongsContainer;
+
   factory Container.fromJson(Map<String, dynamic> map) =>
       _$ContainerFromJson(map);
 }
 
 class UnmodifiableListViewConverter
-    implements JsonConverter<UnmodifiableListView<Song>, List<Song>> {
+    implements JsonConverter<UnmodifiableListView<Song>, List<dynamic>> {
   const UnmodifiableListViewConverter();
+
   @override
-  UnmodifiableListView<Song> fromJson(List<Song> json) {
-    return UnmodifiableListView(json);
+  UnmodifiableListView<Song> fromJson(List<dynamic> json) {
+    return UnmodifiableListView(
+      json.map(
+        (e) => Song.fromJson(e as Map<String, dynamic>),
+      ),
+    );
   }
 
   @override
-  List<Song> toJson(UnmodifiableListView<Song> object) {
-    return object.toList();
+  List<dynamic> toJson(UnmodifiableListView<Song> object) {
+    return object.map((e) => e.toJson()).toList();
   }
 }
 
 class Uint8ListMapConverter
-    implements JsonConverter<Map<int, Uint8List?>, Map<int, List<int>?>> {
+    implements JsonConverter<Map<int, Uint8List?>, Map<String, dynamic>> {
   const Uint8ListMapConverter();
   @override
-  Map<int, Uint8List?> fromJson(Map<int, List<int>?> json) {
+  Map<int, Uint8List?> fromJson(Map<String, dynamic> json) {
     return json.map((albumId, artwork) => MapEntry(
-        albumId, artwork != null ? Uint8List.fromList(artwork) : null));
+        int.parse(albumId),
+        artwork != null
+            ? Uint8List.fromList(List<int>.from(artwork, growable: false))
+            : null));
   }
 
   @override
-  Map<int, List<int>?> toJson(Map<int, Uint8List?> object) {
-    return object
-        .map((albumId, artwork) => MapEntry(albumId, artwork?.toList()));
+  Map<String, dynamic> toJson(Map<int, Uint8List?> object) {
+    return object.map(
+        (albumId, artwork) => MapEntry(albumId.toString(), artwork?.toList()));
   }
 }

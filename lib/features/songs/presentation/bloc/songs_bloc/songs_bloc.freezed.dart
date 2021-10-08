@@ -35,9 +35,9 @@ class _$SongsEventTearOff {
     );
   }
 
-  SongsAdded songsAdded(SongsContainer newSongsContainer) {
+  SongsAdded songsAdded(List<Song> newSongs) {
     return SongsAdded(
-      newSongsContainer,
+      newSongs,
     );
   }
 
@@ -64,7 +64,7 @@ mixin _$SongsEvent {
     required TResult Function(Sort sort) songsLoaded,
     required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
-    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(List<Song> newSongs) songsAdded,
     required TResult Function(Set<int> deletedSongsIds) songsDeleted,
     required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) =>
@@ -74,7 +74,7 @@ mixin _$SongsEvent {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) =>
@@ -84,7 +84,7 @@ mixin _$SongsEvent {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
@@ -206,7 +206,7 @@ class _$SongsLoaded implements SongsLoaded {
     required TResult Function(Sort sort) songsLoaded,
     required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
-    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(List<Song> newSongs) songsAdded,
     required TResult Function(Set<int> deletedSongsIds) songsDeleted,
     required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) {
@@ -219,7 +219,7 @@ class _$SongsLoaded implements SongsLoaded {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) {
@@ -232,7 +232,7 @@ class _$SongsLoaded implements SongsLoaded {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
@@ -363,7 +363,7 @@ class _$SongsSorted implements SongsSorted {
     required TResult Function(Sort sort) songsLoaded,
     required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
-    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(List<Song> newSongs) songsAdded,
     required TResult Function(Set<int> deletedSongsIds) songsDeleted,
     required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) {
@@ -376,7 +376,7 @@ class _$SongsSorted implements SongsSorted {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) {
@@ -389,7 +389,7 @@ class _$SongsSorted implements SongsSorted {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
@@ -522,7 +522,7 @@ class _$SongsRefreshed implements SongsRefreshed {
     required TResult Function(Sort sort) songsLoaded,
     required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
-    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(List<Song> newSongs) songsAdded,
     required TResult Function(Set<int> deletedSongsIds) songsDeleted,
     required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) {
@@ -535,7 +535,7 @@ class _$SongsRefreshed implements SongsRefreshed {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) {
@@ -548,7 +548,7 @@ class _$SongsRefreshed implements SongsRefreshed {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
@@ -617,7 +617,7 @@ abstract class $SongsAddedCopyWith<$Res> {
   factory $SongsAddedCopyWith(
           SongsAdded value, $Res Function(SongsAdded) then) =
       _$SongsAddedCopyWithImpl<$Res>;
-  $Res call({SongsContainer newSongsContainer});
+  $Res call({List<Song> newSongs});
 }
 
 /// @nodoc
@@ -631,13 +631,13 @@ class _$SongsAddedCopyWithImpl<$Res> extends _$SongsEventCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? newSongsContainer = freezed,
+    Object? newSongs = freezed,
   }) {
     return _then(SongsAdded(
-      newSongsContainer == freezed
-          ? _value.newSongsContainer
-          : newSongsContainer // ignore: cast_nullable_to_non_nullable
-              as SongsContainer,
+      newSongs == freezed
+          ? _value.newSongs
+          : newSongs // ignore: cast_nullable_to_non_nullable
+              as List<Song>,
     ));
   }
 }
@@ -645,29 +645,28 @@ class _$SongsAddedCopyWithImpl<$Res> extends _$SongsEventCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SongsAdded implements SongsAdded {
-  const _$SongsAdded(this.newSongsContainer);
+  const _$SongsAdded(this.newSongs);
 
   @override
-  final SongsContainer newSongsContainer;
+  final List<Song> newSongs;
 
   @override
   String toString() {
-    return 'SongsEvent.songsAdded(newSongsContainer: $newSongsContainer)';
+    return 'SongsEvent.songsAdded(newSongs: $newSongs)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is SongsAdded &&
-            (identical(other.newSongsContainer, newSongsContainer) ||
+            (identical(other.newSongs, newSongs) ||
                 const DeepCollectionEquality()
-                    .equals(other.newSongsContainer, newSongsContainer)));
+                    .equals(other.newSongs, newSongs)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(newSongsContainer);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(newSongs);
 
   @JsonKey(ignore: true)
   @override
@@ -680,11 +679,11 @@ class _$SongsAdded implements SongsAdded {
     required TResult Function(Sort sort) songsLoaded,
     required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
-    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(List<Song> newSongs) songsAdded,
     required TResult Function(Set<int> deletedSongsIds) songsDeleted,
     required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) {
-    return songsAdded(newSongsContainer);
+    return songsAdded(newSongs);
   }
 
   @override
@@ -693,11 +692,11 @@ class _$SongsAdded implements SongsAdded {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) {
-    return songsAdded?.call(newSongsContainer);
+    return songsAdded?.call(newSongs);
   }
 
   @override
@@ -706,13 +705,13 @@ class _$SongsAdded implements SongsAdded {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
   }) {
     if (songsAdded != null) {
-      return songsAdded(newSongsContainer);
+      return songsAdded(newSongs);
     }
     return orElse();
   }
@@ -762,9 +761,9 @@ class _$SongsAdded implements SongsAdded {
 }
 
 abstract class SongsAdded implements SongsEvent {
-  const factory SongsAdded(SongsContainer newSongsContainer) = _$SongsAdded;
+  const factory SongsAdded(List<Song> newSongs) = _$SongsAdded;
 
-  SongsContainer get newSongsContainer => throw _privateConstructorUsedError;
+  List<Song> get newSongs => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $SongsAddedCopyWith<SongsAdded> get copyWith =>
       throw _privateConstructorUsedError;
@@ -839,7 +838,7 @@ class _$SongsDeleted implements SongsDeleted {
     required TResult Function(Sort sort) songsLoaded,
     required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
-    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(List<Song> newSongs) songsAdded,
     required TResult Function(Set<int> deletedSongsIds) songsDeleted,
     required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) {
@@ -852,7 +851,7 @@ class _$SongsDeleted implements SongsDeleted {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) {
@@ -865,7 +864,7 @@ class _$SongsDeleted implements SongsDeleted {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),
@@ -997,7 +996,7 @@ class _$SongsUpdated implements SongsUpdated {
     required TResult Function(Sort sort) songsLoaded,
     required TResult Function(Sort sort) songsSorted,
     required TResult Function(bool fromDevice) songsRefreshed,
-    required TResult Function(SongsContainer newSongsContainer) songsAdded,
+    required TResult Function(List<Song> newSongs) songsAdded,
     required TResult Function(Set<int> deletedSongsIds) songsDeleted,
     required TResult Function(List<Song> updatedSongs) songsUpdated,
   }) {
@@ -1010,7 +1009,7 @@ class _$SongsUpdated implements SongsUpdated {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
   }) {
@@ -1023,7 +1022,7 @@ class _$SongsUpdated implements SongsUpdated {
     TResult Function(Sort sort)? songsLoaded,
     TResult Function(Sort sort)? songsSorted,
     TResult Function(bool fromDevice)? songsRefreshed,
-    TResult Function(SongsContainer newSongsContainer)? songsAdded,
+    TResult Function(List<Song> newSongs)? songsAdded,
     TResult Function(Set<int> deletedSongsIds)? songsDeleted,
     TResult Function(List<Song> updatedSongs)? songsUpdated,
     required TResult orElse(),

@@ -8,13 +8,14 @@ part of 'delta.dart';
 
 _$NewAddedSongs _$$NewAddedSongsFromJson(Map<String, dynamic> json) =>
     _$NewAddedSongs(
-      newSongsContainer: SongsContainer.fromJson(
-          json['newSongsContainer'] as Map<String, dynamic>),
+      newSongs: (json['newSongs'] as List<dynamic>)
+          .map((e) => Song.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$$NewAddedSongsToJson(_$NewAddedSongs instance) =>
     <String, dynamic>{
-      'newSongsContainer': instance.newSongsContainer.toJson(),
+      'newSongs': instance.newSongs.map((e) => e.toJson()).toList(),
     };
 
 _$DeletedSongsIds _$$DeletedSongsIdsFromJson(Map<String, dynamic> json) =>

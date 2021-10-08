@@ -8,10 +8,10 @@ part of 'songs_container.dart';
 
 _$SongsContainer _$$SongsContainerFromJson(Map<String, dynamic> json) =>
     _$SongsContainer(
-      songs: const UnmodifiableListViewConverter()
-          .fromJson(json['songs'] as List<Song>),
+      songs:
+          const UnmodifiableListViewConverter().fromJson(json['songs'] as List),
       albumArtwork: const Uint8ListMapConverter()
-          .fromJson(json['albumArtwork'] as Map<int, List<int>?>),
+          .fromJson(json['albumArtwork'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$SongsContainerToJson(_$SongsContainer instance) =>

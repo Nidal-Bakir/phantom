@@ -37,8 +37,8 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
     streamSubscription = _deltaDispatcher.deltaStream.listen((deltaEvent) {
       // when new songs added or deleted form database.
       deltaEvent.when(
-        newAddedSongs: (newSongsContainer) =>
-            add(SongsAdded(newSongsContainer)),
+        newAddedSongs: (newSongs) =>
+            add(SongsAdded(newSongs)),
         deletedSongsIds: (Set<int> deletedSongsIds) =>
             add(SongsDeleted(deletedSongsIds)),
         updatedSongs: (List<Song> updatedSongs) =>
@@ -126,7 +126,7 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
   /// Added new Songs to current list of songs.
   ///
   /// ``coped from [SongsAdded]``
-  _onSongsAdded(SongsAdded songsAdded, Emitter<SongsState> emitter) {
+  _onSongsAdded(SongsAdded songsAdded, Emitter<SongsState> emitter) async {
     final _currentState = state;
 
     var sort = const Sort(
@@ -134,56 +134,17 @@ class SongsBloc extends Bloc<SongsEvent, SongsState> {
       sortType: SongSortType.songName,
     );
 
-    var currentSongContainer =
-        SongsContainer(songs: UnmodifiableListView([]), albumArtwork: {});
-
     if (_currentState is SongsLoadSuccess) {
       // to restore the user sort option
       sort = _currentState.sort;
-
-      currentSongContainer = _currentState.songsContainer;
     }
-    final newSongsContainer = _addNewSongsToCurrentSongsWithSort(
-      songsAdded.newSongsContainer,
-      currentSongContainer,
-      sort,
-    );
-    emitter(SongsLoadSuccess(sort: sort, songsContainer: newSongsContainer));
-  }
 
-  SongsContainer _addNewSongsToCurrentSongsWithSort(
-      SongsContainer newSongs, SongsContainer currentSongs, Sort sort) {
-    return SongsContainer(
-      songs: UnmodifiableListView(
-        <Song>[...newSongs.songs, ...currentSongs.songs]
-          ..sort(_obtainCompareFuncForSorting(sort)),
-      ),
-      albumArtwork: currentSongs.albumArtwork
-        ..addAll(
-          newSongs.albumArtwork,
-        ),
-    );
-  }
+    final songsContainer = await _songsRepository.querySongs(sort: sort);
 
-  int Function(Song song1, Song song2) _obtainCompareFuncForSorting(
-    Sort sort,
-  ) {
-    switch (sort.sortType) {
-      case SongSortType.songName:
-        return (Song song1, Song song2) =>
-            song1.title.compareTo(song2.title) *
-            (sort.orderType == SongOrderType.asc ? 1 : -1);
-
-      case SongSortType.artistName:
-        return (Song song1, Song song2) =>
-            (song1.artist?.compareTo(song2.artist ?? '') ?? -1) *
-            (sort.orderType == SongOrderType.asc ? 1 : -1);
-
-      case SongSortType.dateAdded:
-        return (Song song1, Song song2) =>
-            song1.dateAdded.compareTo(song2.dateAdded) *
-            (sort.orderType == SongOrderType.asc ? 1 : -1);
-    }
+    emitter(SongsLoadSuccess(
+      sort: sort,
+      songsContainer: songsContainer,
+    ));
   }
 
   /// Delete songs form current song list.

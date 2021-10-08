@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:phantom/core/models/song/song.dart';
-import 'package:phantom/core/models/songs_container/songs_container.dart';
 
 part 'delta.freezed.dart';
 part 'delta.g.dart';
@@ -12,7 +11,7 @@ class Delta with _$Delta {
 
   /// New added songs to the database.
   const factory Delta.newAddedSongs({
-    required SongsContainer newSongsContainer,
+    required List<Song> newSongs,
   }) = NewAddedSongs;
 
   /// Deleted ids songs from database.

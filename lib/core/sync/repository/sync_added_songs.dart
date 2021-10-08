@@ -45,10 +45,7 @@ class SyncAddedSongs extends Sync {
         // to add them.
         await localSyncSongDataSource.addSongs(newSongs);
         deltaStreamController.sink.add(NewAddedSongs(
-          newSongsContainer: SongsContainer(
-            albumArtwork: {},
-            songs: UnmodifiableListView(newSongs),
-          ),
+          newSongs: UnmodifiableListView(newSongs),
         ));
         return;
       }
@@ -85,10 +82,7 @@ class SyncAddedSongs extends Sync {
           .addSongs(songsDoseNotHaveAlbumIdOrAlbumArtwork);
 
       deltaStreamController.sink.add(NewAddedSongs(
-        newSongsContainer: SongsContainer(
-          albumArtwork: {},
-          songs: UnmodifiableListView(songsDoseNotHaveAlbumIdOrAlbumArtwork),
-        ),
+        newSongs: UnmodifiableListView(songsDoseNotHaveAlbumIdOrAlbumArtwork),
       ));
     }
   }
@@ -137,14 +131,8 @@ class SyncAddedSongs extends Sync {
         // New songs added to the database in background (isolate).
         // songs added as chunks to the database so every time a chunk of songs added
         // to the database an event added to this stream with those songs.
-        deltaStreamController.sink.add(
-          NewAddedSongs(
-            newSongsContainer: SongsContainer(
-              albumArtwork: newAlbumArtworksBuffer,
-              songs: UnmodifiableListView(addedSongs),
-            ),
-          ),
-        );
+        deltaStreamController.sink
+            .add(NewAddedSongs(newSongs: UnmodifiableListView(addedSongs)));
 
         // remove songs that has been added to the database.
         songsToBeAddedToDatabaseBuffer.removeWhere(

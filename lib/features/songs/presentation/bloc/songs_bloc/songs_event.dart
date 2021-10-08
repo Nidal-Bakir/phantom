@@ -22,7 +22,7 @@ class SongsEvent with _$SongsEvent {
   }) = SongsRefreshed;
 
   /// Added new Songs to current list of songs.
-  const factory SongsEvent.songsAdded(SongsContainer newSongsContainer) = SongsAdded;
+  const factory SongsEvent.songsAdded(List<Song> newSongs) = SongsAdded;
 
   /// Delete songs form current song list.
   const factory SongsEvent.songsDeleted(Set<int> deletedSongsIds) =
