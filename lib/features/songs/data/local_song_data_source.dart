@@ -23,19 +23,6 @@ abstract class LocalSongDataSource {
   });
 
   /// Returns raw result from the database (list of map) contain list of
-  /// `{album_id : artwork}` for this [songsAlbumIds], where each song correspond
-  ///  to one or Zero artwork based on their album id.
-  ///
-  /// Query artworks separately DO NOT use any join between tables it will drop
-  /// the performance.
-  /// Tested using left join and the query execution time was `4000~ MS` NO Good!.
-  /// If we query each thing separately the execution time for both <= `500~ MS`.
-  ///
-  /// ``coped from [queryArtworksForAllSongs]``
-  Future<List<Map<String, Object?>>> queryArtworksForSongsAlbumIds(
-      Set<int> songsAlbumIds);
-
-  /// Returns raw result from the database (list of map) contain list of
   /// `{album_id : artwork}` where each song correspond to one or Zero artwork
   /// based on their album id.
   ///
@@ -49,17 +36,6 @@ abstract class LocalSongDataSource {
 class LocalSongDataSourceImp extends LocalSongDataSource {
   const LocalSongDataSourceImp();
 
-  @override
-  Future<List<Map<String, Object?>>> queryArtworksForSongsAlbumIds(
-      Set<int> songsAlbumIds) async {
-    final db = await LocalDatabase.openLocalDatabase();
-
-    final rawQuery = '''SELECT * FROM ${ArtworkTable.tableName}
-          WHERE ${ArtworkTable.albumId} IN (${songsAlbumIds.join(',')})
-        ''';
-
-    return await db.rawQuery(rawQuery);
-  }
 
   @override
   Future<List<Map<String, Object?>>> querySongsFromLocalDatabase({

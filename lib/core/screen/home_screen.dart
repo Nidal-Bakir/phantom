@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:phantom/core/player/presentation/bloc/player_bloc/player_bloc.dart';
+import 'package:phantom/core/player/presentation/bloc/queue_bloc/queue_bloc.dart';
+import 'package:phantom/core/player/presentation/screen/player_screen.dart';
 import 'package:phantom/core/util/sort.dart';
 import 'package:phantom/features/songs/presentation/bloc/songs_bloc/songs_bloc.dart';
 import 'package:phantom/features/songs/presentation/screen/songs_screen.dart';
@@ -16,7 +19,7 @@ class HomeScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<SongsBloc>(
-          create: (context) => GetIt.I.get()
+          create: (_) => GetIt.I.get()
             ..add(const SongsLoaded(
               sort: Sort(
                   orderType: SongOrderType.asc,
@@ -24,11 +27,19 @@ class HomeScreen extends StatelessWidget {
             )),
         ),
         BlocProvider<FoldersBloc>(
-          create: (context) => GetIt.I.get()..add(const FoldersLoaded()),
+          create: (_) => GetIt.I.get()..add(const FoldersLoaded()),
+        ),
+        BlocProvider<PlayerBloc>(
+          create: (_) => GetIt.I.get(),
+          lazy: false,
+        ),
+        BlocProvider<QueueBloc>(
+          create: (_) => GetIt.I.get()..add(const QueueLoaded()),
+          lazy: false,
         ),
       ],
       child: DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           body: NestedScrollView(
             headerSliverBuilder:
@@ -44,6 +55,7 @@ class HomeScreen extends StatelessWidget {
                     tabs: [
                       Tab(text: 'Songs'),
                       Tab(text: 'Folders'),
+                      Tab(text: 'player'),
                     ],
                   ),
                 ),
@@ -53,6 +65,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 SongsScreen(),
                 FoldersScreen(),
+                PlayerScreen(),
               ],
             ),
           ),

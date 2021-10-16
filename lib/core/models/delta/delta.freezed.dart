@@ -56,7 +56,7 @@ class _$DeltaTearOff {
     return const DonePublishing();
   }
 
-  Delta fromJson(Map<String, Object> json) {
+  Delta fromJson(Map<String, Object?> json) {
     return Delta.fromJson(json);
   }
 }
@@ -185,15 +185,14 @@ class _$NewAddedSongs implements NewAddedSongs {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is NewAddedSongs &&
-            (identical(other.newSongs, newSongs) ||
-                const DeepCollectionEquality()
-                    .equals(other.newSongs, newSongs)));
+        (other.runtimeType == runtimeType &&
+            other is NewAddedSongs &&
+            const DeepCollectionEquality().equals(other.newSongs, newSongs));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(newSongs);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(newSongs));
 
   @JsonKey(ignore: true)
   @override
@@ -286,7 +285,7 @@ abstract class NewAddedSongs implements Delta {
   factory NewAddedSongs.fromJson(Map<String, dynamic> json) =
       _$NewAddedSongs.fromJson;
 
-  List<Song> get newSongs => throw _privateConstructorUsedError;
+  List<Song> get newSongs;
   @JsonKey(ignore: true)
   $NewAddedSongsCopyWith<NewAddedSongs> get copyWith =>
       throw _privateConstructorUsedError;
@@ -342,16 +341,15 @@ class _$DeletedSongsIds implements DeletedSongsIds {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is DeletedSongsIds &&
-            (identical(other.deletedSongsIds, deletedSongsIds) ||
-                const DeepCollectionEquality()
-                    .equals(other.deletedSongsIds, deletedSongsIds)));
+        (other.runtimeType == runtimeType &&
+            other is DeletedSongsIds &&
+            const DeepCollectionEquality()
+                .equals(other.deletedSongsIds, deletedSongsIds));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(deletedSongsIds);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(deletedSongsIds));
 
   @JsonKey(ignore: true)
   @override
@@ -445,7 +443,7 @@ abstract class DeletedSongsIds implements Delta {
   factory DeletedSongsIds.fromJson(Map<String, dynamic> json) =
       _$DeletedSongsIds.fromJson;
 
-  Set<int> get deletedSongsIds => throw _privateConstructorUsedError;
+  Set<int> get deletedSongsIds;
   @JsonKey(ignore: true)
   $DeletedSongsIdsCopyWith<DeletedSongsIds> get copyWith =>
       throw _privateConstructorUsedError;
@@ -501,15 +499,15 @@ class _$UpdatedSongs implements UpdatedSongs {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is UpdatedSongs &&
-            (identical(other.updatedSongs, updatedSongs) ||
-                const DeepCollectionEquality()
-                    .equals(other.updatedSongs, updatedSongs)));
+        (other.runtimeType == runtimeType &&
+            other is UpdatedSongs &&
+            const DeepCollectionEquality()
+                .equals(other.updatedSongs, updatedSongs));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(updatedSongs);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(updatedSongs));
 
   @JsonKey(ignore: true)
   @override
@@ -603,7 +601,7 @@ abstract class UpdatedSongs implements Delta {
   factory UpdatedSongs.fromJson(Map<String, dynamic> json) =
       _$UpdatedSongs.fromJson;
 
-  List<Song> get updatedSongs => throw _privateConstructorUsedError;
+  List<Song> get updatedSongs;
   @JsonKey(ignore: true)
   $UpdatedSongsCopyWith<UpdatedSongs> get copyWith =>
       throw _privateConstructorUsedError;
@@ -642,7 +640,8 @@ class _$DonePublishing implements DonePublishing {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is DonePublishing);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is DonePublishing);
   }
 
   @override

@@ -117,7 +117,8 @@ class _$FoldersLoaded implements FoldersLoaded {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is FoldersLoaded);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is FoldersLoaded);
   }
 
   @override
@@ -221,7 +222,8 @@ class _$FolderRefreshed implements FolderRefreshed {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is FolderRefreshed);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is FolderRefreshed);
   }
 
   @override
@@ -405,7 +407,8 @@ class _$FoldersInProgress implements FoldersInProgress {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is FoldersInProgress);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is FoldersInProgress);
   }
 
   @override
@@ -529,14 +532,13 @@ class _$FoldersLoadSuccess implements FoldersLoadSuccess {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is FoldersLoadSuccess &&
-            (identical(other.folders, folders) ||
-                const DeepCollectionEquality().equals(other.folders, folders)));
+        (other.runtimeType == runtimeType &&
+            other is FoldersLoadSuccess &&
+            (identical(other.folders, folders) || other.folders == folders));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(folders);
+  int get hashCode => Object.hash(runtimeType, folders);
 
   @JsonKey(ignore: true)
   @override
@@ -613,8 +615,7 @@ abstract class FoldersLoadSuccess implements FoldersState {
   const factory FoldersLoadSuccess(UnmodifiableListView<SongsFolder> folders) =
       _$FoldersLoadSuccess;
 
-  UnmodifiableListView<SongsFolder> get folders =>
-      throw _privateConstructorUsedError;
+  UnmodifiableListView<SongsFolder> get folders;
   @JsonKey(ignore: true)
   $FoldersLoadSuccessCopyWith<FoldersLoadSuccess> get copyWith =>
       throw _privateConstructorUsedError;

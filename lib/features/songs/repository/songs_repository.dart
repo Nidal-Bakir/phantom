@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:typed_data';
 
+import 'package:phantom/core/data/currently_playing_song_data_source.dart';
 import 'package:phantom/core/data/database/database_table.dart';
 import 'package:phantom/core/models/song/song.dart';
 import 'package:phantom/core/util/sort.dart';
@@ -9,8 +10,9 @@ import 'package:phantom/core/models/songs_container/songs_container.dart';
 
 class SongsRepository {
   final LocalSongDataSource _localSongDataSource;
-
-  SongsRepository(this._localSongDataSource);
+  final CurrentlyPlayingSongDataSource _currentlyPlayingSongDataSource;
+  SongsRepository(
+      this._localSongDataSource, this._currentlyPlayingSongDataSource);
 
   /// Query songs from the database.
   /// * [sort]:
@@ -19,7 +21,7 @@ class SongsRepository {
   ///
   /// Returns [SongsContainer] contain list of [Song] and map of album artworks,
   /// where each song correspond to one or Zero artwork based on their album id.
-  Future<SongsContainer> querySongs({
+  Future<SongsContainer<UnmodifiableListView<Song>>> querySongs({
     Sort sort = const Sort(
       orderType: SongOrderType.asc,
       sortType: SongSortType.songName,
@@ -28,8 +30,13 @@ class SongsRepository {
     final songs = await _getAllSongs(sort);
 
     final artworks = await _getAllArtworks();
-
-    return SongsContainer(albumArtwork: artworks, songs: songs);
+    final currentlyPlayingSong =
+        await _currentlyPlayingSongDataSource.getCurrentlyPlayingSong();
+    return SongsContainer(
+      albumArtwork: artworks,
+      songs: songs,
+      currentlyPlayingSong: currentlyPlayingSong,
+    );
   }
 
   Future<Map<int, Uint8List?>> _getAllArtworks() async {

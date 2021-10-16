@@ -24,6 +24,7 @@ class LocalDatabase {
       // When creating the db, create the tables
       await db.execute(ArtworkTable.tableCreation);
       await db.execute(SongTable.tableCreation);
+      await db.execute(QueueTable.tableCreation);
     });
   }
 }

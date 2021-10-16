@@ -53,3 +53,15 @@ abstract class ArtworkTable {
     ${ArtworkTable.albumArtwork} BLOB
              )''';
 }
+
+abstract class QueueTable  {
+  static const tableName = 'queue';
+  static const songId = 'song_id';
+  static const order = 'song_order';
+  
+  static const tableCreation = '''CREATE TABLE ${QueueTable.tableName} (
+    ${QueueTable.songId} INTEGER NOT NULL,
+    ${QueueTable.order} INTEGER NOT NULL,
+    FOREIGN KEY(${QueueTable.songId}) REFERENCES ${SongTable.tableName}(${SongTable.id})
+             )''';
+}

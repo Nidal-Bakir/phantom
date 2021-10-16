@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:phantom/core/player/data/player_service/player_service.dart';
 import 'package:phantom/core/sync/dispatcher/delta_dispatcher.dart';
 import 'package:phantom/l10n/l10n.dart';
 import 'package:phantom/routes/app_routes.dart';
@@ -12,11 +13,27 @@ class App extends StatefulWidget {
   State<App> createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void dispose() {
     super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     GetIt.I.get<DeltaDispatcher>().dispose();
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addObserver(this);
+
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      GetIt.I.get<PlayerService>().saveCurrentPlayingSong();
+    }
+    super.didChangeAppLifecycleState(state);
   }
 
   @override

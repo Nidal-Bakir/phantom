@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:phantom/core/player/data/player_service/player_service.dart';
+import 'package:phantom/core/player/presentation/bloc/player_bloc/player_bloc.dart';
 import 'package:phantom/core/widget/common_list_tile_item.dart';
 
 import 'package:phantom/features/songs/presentation/bloc/songs_bloc/songs_bloc.dart';
@@ -31,19 +35,28 @@ class SongsScreen extends StatelessWidget {
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                           final _song = songsContainer.songs[index];
-                          return CommonListTileItem(
-                            key: Key(_song.id.toString()),
-                            title: _song.title,
-                            subtitle: _song.artist,
-                            artwork:
-                                songsContainer.albumArtwork[_song.albumId],
-                            trailing: IconButton(
-                              icon: Icon(
-                                _song.favorite
-                                    ? Icons.favorite_outlined
-                                    : Icons.favorite_outlined,
+                          return InkWell(
+                            onDoubleTap: () async {
+                             
+                            },
+                            child: CommonListTileItem(
+                              key: Key(_song.id.toString()),
+                              title: _song.title,
+                              subtitle: _song.artist,
+                              artwork:
+                                  songsContainer.albumArtwork[_song.albumId],
+                              trailing: IconButton(
+                                icon: Icon(
+                                  _song.favorite
+                                      ? Icons.favorite_outlined
+                                      : Icons.favorite_outlined,
+                                ),
+                                onPressed: () {
+                                  context.read<PlayerBloc>().add(
+                                      PlayerNewSongPlayed(
+                                          songsContainer, index));
+                                },
                               ),
-                              onPressed: () {},
                             ),
                           );
                         },

@@ -11,9 +11,8 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
 
     case HomeScreen.routeName:
       return MaterialPageRoute(
-        builder: (_) =>   HomeScreen(),
+        builder: (_) => const HomeScreen(),
       );
-
    
   }
   assert(false, 'Need to implement ${settings.name}');

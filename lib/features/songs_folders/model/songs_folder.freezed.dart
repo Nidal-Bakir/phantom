@@ -35,7 +35,7 @@ class _$FolderTearOff {
     );
   }
 
-  Folder fromJson(Map<String, Object> json) {
+  Folder fromJson(Map<String, Object?> json) {
     return Folder.fromJson(json);
   }
 }
@@ -235,24 +235,17 @@ class _$SongsFolder implements SongsFolder {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsFolder &&
+        (other.runtimeType == runtimeType &&
+            other is SongsFolder &&
             (identical(other.folderName, folderName) ||
-                const DeepCollectionEquality()
-                    .equals(other.folderName, folderName)) &&
-            (identical(other.artWork, artWork) ||
-                const DeepCollectionEquality()
-                    .equals(other.artWork, artWork)) &&
+                other.folderName == folderName) &&
+            (identical(other.artWork, artWork) || other.artWork == artWork) &&
             (identical(other.songsCount, songsCount) ||
-                const DeepCollectionEquality()
-                    .equals(other.songsCount, songsCount)));
+                other.songsCount == songsCount));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(folderName) ^
-      const DeepCollectionEquality().hash(artWork) ^
-      const DeepCollectionEquality().hash(songsCount);
+  int get hashCode => Object.hash(runtimeType, folderName, artWork, songsCount);
 
   @JsonKey(ignore: true)
   @override
@@ -356,13 +349,13 @@ abstract class SongsFolder implements Folder {
 
   @override
   @JsonKey(name: SongTable.folderName)
-  String get folderName => throw _privateConstructorUsedError;
+  String get folderName;
   @override
   @JsonKey(name: ArtworkTable.albumArtwork, fromJson: _artworkFromJson)
-  Uint8List? get artWork => throw _privateConstructorUsedError;
+  Uint8List? get artWork;
   @override
   @JsonKey(name: 'songs_count')
-  int get songsCount => throw _privateConstructorUsedError;
+  int get songsCount;
   @override
   @JsonKey(ignore: true)
   $SongsFolderCopyWith<SongsFolder> get copyWith =>

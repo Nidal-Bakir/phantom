@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:phantom/core/data/database/database_table.dart';
 
@@ -5,7 +7,9 @@ part 'song.freezed.dart';
 part 'song.g.dart';
 
 @freezed
-class Song extends Comparable<Song> with _$Song {
+class Song extends LinkedListEntry<Song>
+    with _$Song
+    implements Comparable<Song> {
   Song._();
   @JsonSerializable()
   factory Song({

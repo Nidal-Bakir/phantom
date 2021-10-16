@@ -71,6 +71,7 @@ class _CommonListTileItemState extends State<CommonListTileItem>
       title: Text(
         widget.title,
       ),
+      trailing: widget.trailing,
       subtitle: Text(
         widget.subtitle ?? 'Unknown',
       ),

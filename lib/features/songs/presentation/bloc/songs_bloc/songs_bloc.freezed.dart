@@ -186,14 +186,13 @@ class _$SongsLoaded implements SongsLoaded {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsLoaded &&
-            (identical(other.sort, sort) ||
-                const DeepCollectionEquality().equals(other.sort, sort)));
+        (other.runtimeType == runtimeType &&
+            other is SongsLoaded &&
+            (identical(other.sort, sort) || other.sort == sort));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(sort);
+  int get hashCode => Object.hash(runtimeType, sort);
 
   @JsonKey(ignore: true)
   @override
@@ -290,7 +289,7 @@ class _$SongsLoaded implements SongsLoaded {
 abstract class SongsLoaded implements SongsEvent {
   const factory SongsLoaded({required Sort sort}) = _$SongsLoaded;
 
-  Sort get sort => throw _privateConstructorUsedError;
+  Sort get sort;
   @JsonKey(ignore: true)
   $SongsLoadedCopyWith<SongsLoaded> get copyWith =>
       throw _privateConstructorUsedError;
@@ -343,14 +342,13 @@ class _$SongsSorted implements SongsSorted {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsSorted &&
-            (identical(other.sort, sort) ||
-                const DeepCollectionEquality().equals(other.sort, sort)));
+        (other.runtimeType == runtimeType &&
+            other is SongsSorted &&
+            (identical(other.sort, sort) || other.sort == sort));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(sort);
+  int get hashCode => Object.hash(runtimeType, sort);
 
   @JsonKey(ignore: true)
   @override
@@ -447,7 +445,7 @@ class _$SongsSorted implements SongsSorted {
 abstract class SongsSorted implements SongsEvent {
   const factory SongsSorted({required Sort sort}) = _$SongsSorted;
 
-  Sort get sort => throw _privateConstructorUsedError;
+  Sort get sort;
   @JsonKey(ignore: true)
   $SongsSortedCopyWith<SongsSorted> get copyWith =>
       throw _privateConstructorUsedError;
@@ -501,15 +499,14 @@ class _$SongsRefreshed implements SongsRefreshed {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsRefreshed &&
+        (other.runtimeType == runtimeType &&
+            other is SongsRefreshed &&
             (identical(other.fromDevice, fromDevice) ||
-                const DeepCollectionEquality()
-                    .equals(other.fromDevice, fromDevice)));
+                other.fromDevice == fromDevice));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(fromDevice);
+  int get hashCode => Object.hash(runtimeType, fromDevice);
 
   @JsonKey(ignore: true)
   @override
@@ -606,7 +603,7 @@ class _$SongsRefreshed implements SongsRefreshed {
 abstract class SongsRefreshed implements SongsEvent {
   const factory SongsRefreshed({bool fromDevice}) = _$SongsRefreshed;
 
-  bool get fromDevice => throw _privateConstructorUsedError;
+  bool get fromDevice;
   @JsonKey(ignore: true)
   $SongsRefreshedCopyWith<SongsRefreshed> get copyWith =>
       throw _privateConstructorUsedError;
@@ -658,15 +655,14 @@ class _$SongsAdded implements SongsAdded {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsAdded &&
-            (identical(other.newSongs, newSongs) ||
-                const DeepCollectionEquality()
-                    .equals(other.newSongs, newSongs)));
+        (other.runtimeType == runtimeType &&
+            other is SongsAdded &&
+            const DeepCollectionEquality().equals(other.newSongs, newSongs));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(newSongs);
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(newSongs));
 
   @JsonKey(ignore: true)
   @override
@@ -763,7 +759,7 @@ class _$SongsAdded implements SongsAdded {
 abstract class SongsAdded implements SongsEvent {
   const factory SongsAdded(List<Song> newSongs) = _$SongsAdded;
 
-  List<Song> get newSongs => throw _privateConstructorUsedError;
+  List<Song> get newSongs;
   @JsonKey(ignore: true)
   $SongsAddedCopyWith<SongsAdded> get copyWith =>
       throw _privateConstructorUsedError;
@@ -816,16 +812,15 @@ class _$SongsDeleted implements SongsDeleted {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsDeleted &&
-            (identical(other.deletedSongsIds, deletedSongsIds) ||
-                const DeepCollectionEquality()
-                    .equals(other.deletedSongsIds, deletedSongsIds)));
+        (other.runtimeType == runtimeType &&
+            other is SongsDeleted &&
+            const DeepCollectionEquality()
+                .equals(other.deletedSongsIds, deletedSongsIds));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(deletedSongsIds);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(deletedSongsIds));
 
   @JsonKey(ignore: true)
   @override
@@ -922,7 +917,7 @@ class _$SongsDeleted implements SongsDeleted {
 abstract class SongsDeleted implements SongsEvent {
   const factory SongsDeleted(Set<int> deletedSongsIds) = _$SongsDeleted;
 
-  Set<int> get deletedSongsIds => throw _privateConstructorUsedError;
+  Set<int> get deletedSongsIds;
   @JsonKey(ignore: true)
   $SongsDeletedCopyWith<SongsDeleted> get copyWith =>
       throw _privateConstructorUsedError;
@@ -975,15 +970,15 @@ class _$SongsUpdated implements SongsUpdated {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsUpdated &&
-            (identical(other.updatedSongs, updatedSongs) ||
-                const DeepCollectionEquality()
-                    .equals(other.updatedSongs, updatedSongs)));
+        (other.runtimeType == runtimeType &&
+            other is SongsUpdated &&
+            const DeepCollectionEquality()
+                .equals(other.updatedSongs, updatedSongs));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(updatedSongs);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(updatedSongs));
 
   @JsonKey(ignore: true)
   @override
@@ -1080,7 +1075,7 @@ class _$SongsUpdated implements SongsUpdated {
 abstract class SongsUpdated implements SongsEvent {
   const factory SongsUpdated(List<Song> updatedSongs) = _$SongsUpdated;
 
-  List<Song> get updatedSongs => throw _privateConstructorUsedError;
+  List<Song> get updatedSongs;
   @JsonKey(ignore: true)
   $SongsUpdatedCopyWith<SongsUpdated> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1095,7 +1090,7 @@ class _$SongsStateTearOff {
   }
 
   SongsLoadSuccess songLoadSuccess(
-      {required Sort sort, required SongsContainer songsContainer}) {
+      {required Sort sort, required dynamic songsContainer}) {
     return SongsLoadSuccess(
       sort: sort,
       songsContainer: songsContainer,
@@ -1111,20 +1106,20 @@ mixin _$SongsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(Sort sort, SongsContainer songsContainer)
+    required TResult Function(Sort sort, dynamic songsContainer)
         songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1195,7 +1190,8 @@ class _$SongsInProgress implements SongsInProgress {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is SongsInProgress);
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is SongsInProgress);
   }
 
   @override
@@ -1205,7 +1201,7 @@ class _$SongsInProgress implements SongsInProgress {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(Sort sort, SongsContainer songsContainer)
+    required TResult Function(Sort sort, dynamic songsContainer)
         songLoadSuccess,
   }) {
     return inProgress();
@@ -1215,7 +1211,7 @@ class _$SongsInProgress implements SongsInProgress {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
   }) {
     return inProgress?.call();
   }
@@ -1224,7 +1220,7 @@ class _$SongsInProgress implements SongsInProgress {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
     required TResult orElse(),
   }) {
     if (inProgress != null) {
@@ -1274,7 +1270,7 @@ abstract class $SongsLoadSuccessCopyWith<$Res> {
   factory $SongsLoadSuccessCopyWith(
           SongsLoadSuccess value, $Res Function(SongsLoadSuccess) then) =
       _$SongsLoadSuccessCopyWithImpl<$Res>;
-  $Res call({Sort sort, SongsContainer songsContainer});
+  $Res call({Sort sort, dynamic songsContainer});
 }
 
 /// @nodoc
@@ -1298,10 +1294,8 @@ class _$SongsLoadSuccessCopyWithImpl<$Res>
           ? _value.sort
           : sort // ignore: cast_nullable_to_non_nullable
               as Sort,
-      songsContainer: songsContainer == freezed
-          ? _value.songsContainer
-          : songsContainer // ignore: cast_nullable_to_non_nullable
-              as SongsContainer,
+      songsContainer:
+          songsContainer == freezed ? _value.songsContainer : songsContainer,
     ));
   }
 }
@@ -1314,7 +1308,7 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @override
   final Sort sort;
   @override
-  final SongsContainer songsContainer;
+  final dynamic songsContainer;
 
   @override
   String toString() {
@@ -1324,19 +1318,16 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsLoadSuccess &&
-            (identical(other.sort, sort) ||
-                const DeepCollectionEquality().equals(other.sort, sort)) &&
-            (identical(other.songsContainer, songsContainer) ||
-                const DeepCollectionEquality()
-                    .equals(other.songsContainer, songsContainer)));
+        (other.runtimeType == runtimeType &&
+            other is SongsLoadSuccess &&
+            (identical(other.sort, sort) || other.sort == sort) &&
+            const DeepCollectionEquality()
+                .equals(other.songsContainer, songsContainer));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(sort) ^
-      const DeepCollectionEquality().hash(songsContainer);
+  int get hashCode => Object.hash(
+      runtimeType, sort, const DeepCollectionEquality().hash(songsContainer));
 
   @JsonKey(ignore: true)
   @override
@@ -1347,7 +1338,7 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(Sort sort, SongsContainer songsContainer)
+    required TResult Function(Sort sort, dynamic songsContainer)
         songLoadSuccess,
   }) {
     return songLoadSuccess(sort, songsContainer);
@@ -1357,7 +1348,7 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
   }) {
     return songLoadSuccess?.call(sort, songsContainer);
   }
@@ -1366,7 +1357,7 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
     required TResult orElse(),
   }) {
     if (songLoadSuccess != null) {
@@ -1410,10 +1401,10 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
 abstract class SongsLoadSuccess implements SongsState {
   const factory SongsLoadSuccess(
       {required Sort sort,
-      required SongsContainer songsContainer}) = _$SongsLoadSuccess;
+      required dynamic songsContainer}) = _$SongsLoadSuccess;
 
-  Sort get sort => throw _privateConstructorUsedError;
-  SongsContainer get songsContainer => throw _privateConstructorUsedError;
+  Sort get sort;
+  dynamic get songsContainer;
   @JsonKey(ignore: true)
   $SongsLoadSuccessCopyWith<SongsLoadSuccess> get copyWith =>
       throw _privateConstructorUsedError;

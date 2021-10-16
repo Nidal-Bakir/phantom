@@ -13,27 +13,19 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Container _$ContainerFromJson(Map<String, dynamic> json) {
-  return SongsContainer.fromJson(json);
-}
-
 /// @nodoc
 class _$ContainerTearOff {
   const _$ContainerTearOff();
 
-  SongsContainer songsContainer(
-      {@UnmodifiableListViewConverter()
-          required UnmodifiableListView<Song> songs,
-      @Uint8ListMapConverter()
-          required Map<int, Uint8List?> albumArtwork}) {
-    return SongsContainer(
+  SongsContainer<T> songsContainer<T extends Iterable<Song>>(
+      {required T songs,
+      required Map<int, Uint8List?> albumArtwork,
+      CurrentlyPlayingSong? currentlyPlayingSong}) {
+    return SongsContainer<T>(
       songs: songs,
       albumArtwork: albumArtwork,
+      currentlyPlayingSong: currentlyPlayingSong,
     );
-  }
-
-  Container fromJson(Map<String, Object> json) {
-    return Container.fromJson(json);
   }
 }
 
@@ -41,211 +33,237 @@ class _$ContainerTearOff {
 const $Container = _$ContainerTearOff();
 
 /// @nodoc
-mixin _$Container {
-  @UnmodifiableListViewConverter()
-  UnmodifiableListView<Song> get songs => throw _privateConstructorUsedError;
-  @Uint8ListMapConverter()
+mixin _$Container<T extends Iterable<Song>> {
+  T get songs => throw _privateConstructorUsedError;
   Map<int, Uint8List?> get albumArtwork => throw _privateConstructorUsedError;
+  CurrentlyPlayingSong? get currentlyPlayingSong =>
+      throw _privateConstructorUsedError;
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            @UnmodifiableListViewConverter() UnmodifiableListView<Song> songs,
-            @Uint8ListMapConverter() Map<int, Uint8List?> albumArtwork)
+    required TResult Function(T songs, Map<int, Uint8List?> albumArtwork,
+            CurrentlyPlayingSong? currentlyPlayingSong)
         songsContainer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            @UnmodifiableListViewConverter() UnmodifiableListView<Song> songs,
-            @Uint8ListMapConverter() Map<int, Uint8List?> albumArtwork)?
+    TResult Function(T songs, Map<int, Uint8List?> albumArtwork,
+            CurrentlyPlayingSong? currentlyPlayingSong)?
         songsContainer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            @UnmodifiableListViewConverter() UnmodifiableListView<Song> songs,
-            @Uint8ListMapConverter() Map<int, Uint8List?> albumArtwork)?
+    TResult Function(T songs, Map<int, Uint8List?> albumArtwork,
+            CurrentlyPlayingSong? currentlyPlayingSong)?
         songsContainer,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(SongsContainer value) songsContainer,
+    required TResult Function(SongsContainer<T> value) songsContainer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer value)? songsContainer,
+    TResult Function(SongsContainer<T> value)? songsContainer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(SongsContainer value)? songsContainer,
+    TResult Function(SongsContainer<T> value)? songsContainer,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
-  $ContainerCopyWith<Container> get copyWith =>
+  $ContainerCopyWith<T, Container<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ContainerCopyWith<$Res> {
-  factory $ContainerCopyWith(Container value, $Res Function(Container) then) =
-      _$ContainerCopyWithImpl<$Res>;
+abstract class $ContainerCopyWith<T extends Iterable<Song>, $Res> {
+  factory $ContainerCopyWith(
+          Container<T> value, $Res Function(Container<T>) then) =
+      _$ContainerCopyWithImpl<T, $Res>;
   $Res call(
-      {@UnmodifiableListViewConverter() UnmodifiableListView<Song> songs,
-      @Uint8ListMapConverter() Map<int, Uint8List?> albumArtwork});
+      {T songs,
+      Map<int, Uint8List?> albumArtwork,
+      CurrentlyPlayingSong? currentlyPlayingSong});
+
+  $CurrentlyPlayingSongCopyWith<$Res>? get currentlyPlayingSong;
 }
 
 /// @nodoc
-class _$ContainerCopyWithImpl<$Res> implements $ContainerCopyWith<$Res> {
+class _$ContainerCopyWithImpl<T extends Iterable<Song>, $Res>
+    implements $ContainerCopyWith<T, $Res> {
   _$ContainerCopyWithImpl(this._value, this._then);
 
-  final Container _value;
+  final Container<T> _value;
   // ignore: unused_field
-  final $Res Function(Container) _then;
+  final $Res Function(Container<T>) _then;
 
   @override
   $Res call({
     Object? songs = freezed,
     Object? albumArtwork = freezed,
+    Object? currentlyPlayingSong = freezed,
   }) {
     return _then(_value.copyWith(
       songs: songs == freezed
           ? _value.songs
           : songs // ignore: cast_nullable_to_non_nullable
-              as UnmodifiableListView<Song>,
+              as T,
       albumArtwork: albumArtwork == freezed
           ? _value.albumArtwork
           : albumArtwork // ignore: cast_nullable_to_non_nullable
               as Map<int, Uint8List?>,
+      currentlyPlayingSong: currentlyPlayingSong == freezed
+          ? _value.currentlyPlayingSong
+          : currentlyPlayingSong // ignore: cast_nullable_to_non_nullable
+              as CurrentlyPlayingSong?,
     ));
+  }
+
+  @override
+  $CurrentlyPlayingSongCopyWith<$Res>? get currentlyPlayingSong {
+    if (_value.currentlyPlayingSong == null) {
+      return null;
+    }
+
+    return $CurrentlyPlayingSongCopyWith<$Res>(_value.currentlyPlayingSong!,
+        (value) {
+      return _then(_value.copyWith(currentlyPlayingSong: value));
+    });
   }
 }
 
 /// @nodoc
-abstract class $SongsContainerCopyWith<$Res>
-    implements $ContainerCopyWith<$Res> {
+abstract class $SongsContainerCopyWith<T extends Iterable<Song>, $Res>
+    implements $ContainerCopyWith<T, $Res> {
   factory $SongsContainerCopyWith(
-          SongsContainer value, $Res Function(SongsContainer) then) =
-      _$SongsContainerCopyWithImpl<$Res>;
+          SongsContainer<T> value, $Res Function(SongsContainer<T>) then) =
+      _$SongsContainerCopyWithImpl<T, $Res>;
   @override
   $Res call(
-      {@UnmodifiableListViewConverter() UnmodifiableListView<Song> songs,
-      @Uint8ListMapConverter() Map<int, Uint8List?> albumArtwork});
+      {T songs,
+      Map<int, Uint8List?> albumArtwork,
+      CurrentlyPlayingSong? currentlyPlayingSong});
+
+  @override
+  $CurrentlyPlayingSongCopyWith<$Res>? get currentlyPlayingSong;
 }
 
 /// @nodoc
-class _$SongsContainerCopyWithImpl<$Res> extends _$ContainerCopyWithImpl<$Res>
-    implements $SongsContainerCopyWith<$Res> {
+class _$SongsContainerCopyWithImpl<T extends Iterable<Song>, $Res>
+    extends _$ContainerCopyWithImpl<T, $Res>
+    implements $SongsContainerCopyWith<T, $Res> {
   _$SongsContainerCopyWithImpl(
-      SongsContainer _value, $Res Function(SongsContainer) _then)
-      : super(_value, (v) => _then(v as SongsContainer));
+      SongsContainer<T> _value, $Res Function(SongsContainer<T>) _then)
+      : super(_value, (v) => _then(v as SongsContainer<T>));
 
   @override
-  SongsContainer get _value => super._value as SongsContainer;
+  SongsContainer<T> get _value => super._value as SongsContainer<T>;
 
   @override
   $Res call({
     Object? songs = freezed,
     Object? albumArtwork = freezed,
+    Object? currentlyPlayingSong = freezed,
   }) {
-    return _then(SongsContainer(
+    return _then(SongsContainer<T>(
       songs: songs == freezed
           ? _value.songs
           : songs // ignore: cast_nullable_to_non_nullable
-              as UnmodifiableListView<Song>,
+              as T,
       albumArtwork: albumArtwork == freezed
           ? _value.albumArtwork
           : albumArtwork // ignore: cast_nullable_to_non_nullable
               as Map<int, Uint8List?>,
+      currentlyPlayingSong: currentlyPlayingSong == freezed
+          ? _value.currentlyPlayingSong
+          : currentlyPlayingSong // ignore: cast_nullable_to_non_nullable
+              as CurrentlyPlayingSong?,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$SongsContainer implements SongsContainer {
+
+class _$SongsContainer<T extends Iterable<Song>> implements SongsContainer<T> {
   const _$SongsContainer(
-      {@UnmodifiableListViewConverter() required this.songs,
-      @Uint8ListMapConverter() required this.albumArtwork});
-
-  factory _$SongsContainer.fromJson(Map<String, dynamic> json) =>
-      _$$SongsContainerFromJson(json);
+      {required this.songs,
+      required this.albumArtwork,
+      this.currentlyPlayingSong});
 
   @override
-  @UnmodifiableListViewConverter()
-  final UnmodifiableListView<Song> songs;
+  final T songs;
   @override
-  @Uint8ListMapConverter()
   final Map<int, Uint8List?> albumArtwork;
+  @override
+  final CurrentlyPlayingSong? currentlyPlayingSong;
 
   @override
   String toString() {
-    return 'Container.songsContainer(songs: $songs, albumArtwork: $albumArtwork)';
+    return 'Container<$T>.songsContainer(songs: $songs, albumArtwork: $albumArtwork, currentlyPlayingSong: $currentlyPlayingSong)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is SongsContainer &&
-            (identical(other.songs, songs) ||
-                const DeepCollectionEquality().equals(other.songs, songs)) &&
-            (identical(other.albumArtwork, albumArtwork) ||
-                const DeepCollectionEquality()
-                    .equals(other.albumArtwork, albumArtwork)));
+        (other.runtimeType == runtimeType &&
+            other is SongsContainer<T> &&
+            const DeepCollectionEquality().equals(other.songs, songs) &&
+            const DeepCollectionEquality()
+                .equals(other.albumArtwork, albumArtwork) &&
+            (identical(other.currentlyPlayingSong, currentlyPlayingSong) ||
+                other.currentlyPlayingSong == currentlyPlayingSong));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(songs) ^
-      const DeepCollectionEquality().hash(albumArtwork);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(songs),
+      const DeepCollectionEquality().hash(albumArtwork),
+      currentlyPlayingSong);
 
   @JsonKey(ignore: true)
   @override
-  $SongsContainerCopyWith<SongsContainer> get copyWith =>
-      _$SongsContainerCopyWithImpl<SongsContainer>(this, _$identity);
+  $SongsContainerCopyWith<T, SongsContainer<T>> get copyWith =>
+      _$SongsContainerCopyWithImpl<T, SongsContainer<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            @UnmodifiableListViewConverter() UnmodifiableListView<Song> songs,
-            @Uint8ListMapConverter() Map<int, Uint8List?> albumArtwork)
+    required TResult Function(T songs, Map<int, Uint8List?> albumArtwork,
+            CurrentlyPlayingSong? currentlyPlayingSong)
         songsContainer,
   }) {
-    return songsContainer(songs, albumArtwork);
+    return songsContainer(songs, albumArtwork, currentlyPlayingSong);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(
-            @UnmodifiableListViewConverter() UnmodifiableListView<Song> songs,
-            @Uint8ListMapConverter() Map<int, Uint8List?> albumArtwork)?
+    TResult Function(T songs, Map<int, Uint8List?> albumArtwork,
+            CurrentlyPlayingSong? currentlyPlayingSong)?
         songsContainer,
   }) {
-    return songsContainer?.call(songs, albumArtwork);
+    return songsContainer?.call(songs, albumArtwork, currentlyPlayingSong);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            @UnmodifiableListViewConverter() UnmodifiableListView<Song> songs,
-            @Uint8ListMapConverter() Map<int, Uint8List?> albumArtwork)?
+    TResult Function(T songs, Map<int, Uint8List?> albumArtwork,
+            CurrentlyPlayingSong? currentlyPlayingSong)?
         songsContainer,
     required TResult orElse(),
   }) {
     if (songsContainer != null) {
-      return songsContainer(songs, albumArtwork);
+      return songsContainer(songs, albumArtwork, currentlyPlayingSong);
     }
     return orElse();
   }
@@ -253,7 +271,7 @@ class _$SongsContainer implements SongsContainer {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(SongsContainer value) songsContainer,
+    required TResult Function(SongsContainer<T> value) songsContainer,
   }) {
     return songsContainer(this);
   }
@@ -261,7 +279,7 @@ class _$SongsContainer implements SongsContainer {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer value)? songsContainer,
+    TResult Function(SongsContainer<T> value)? songsContainer,
   }) {
     return songsContainer?.call(this);
   }
@@ -269,7 +287,7 @@ class _$SongsContainer implements SongsContainer {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(SongsContainer value)? songsContainer,
+    TResult Function(SongsContainer<T> value)? songsContainer,
     required TResult orElse(),
   }) {
     if (songsContainer != null) {
@@ -277,31 +295,23 @@ class _$SongsContainer implements SongsContainer {
     }
     return orElse();
   }
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SongsContainerToJson(this);
-  }
 }
 
-abstract class SongsContainer implements Container {
+abstract class SongsContainer<T extends Iterable<Song>>
+    implements Container<T> {
   const factory SongsContainer(
-      {@UnmodifiableListViewConverter()
-          required UnmodifiableListView<Song> songs,
-      @Uint8ListMapConverter()
-          required Map<int, Uint8List?> albumArtwork}) = _$SongsContainer;
-
-  factory SongsContainer.fromJson(Map<String, dynamic> json) =
-      _$SongsContainer.fromJson;
+      {required T songs,
+      required Map<int, Uint8List?> albumArtwork,
+      CurrentlyPlayingSong? currentlyPlayingSong}) = _$SongsContainer<T>;
 
   @override
-  @UnmodifiableListViewConverter()
-  UnmodifiableListView<Song> get songs => throw _privateConstructorUsedError;
+  T get songs;
   @override
-  @Uint8ListMapConverter()
-  Map<int, Uint8List?> get albumArtwork => throw _privateConstructorUsedError;
+  Map<int, Uint8List?> get albumArtwork;
+  @override
+  CurrentlyPlayingSong? get currentlyPlayingSong;
   @override
   @JsonKey(ignore: true)
-  $SongsContainerCopyWith<SongsContainer> get copyWith =>
+  $SongsContainerCopyWith<T, SongsContainer<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

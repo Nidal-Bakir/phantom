@@ -80,7 +80,7 @@ class _$SongTearOff {
     );
   }
 
-  Song fromJson(Map<String, Object> json) {
+  Song fromJson(Map<String, Object?> json) {
     return Song.fromJson(json);
   }
 }
@@ -629,78 +629,60 @@ class _$_Song extends _Song {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _Song &&
-            (identical(other.id, id) ||
-                const DeepCollectionEquality().equals(other.id, id)) &&
+        (other.runtimeType == runtimeType &&
+            other is _Song &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.absolutePath, absolutePath) ||
-                const DeepCollectionEquality()
-                    .equals(other.absolutePath, absolutePath)) &&
+                other.absolutePath == absolutePath) &&
             (identical(other.folderName, folderName) ||
-                const DeepCollectionEquality()
-                    .equals(other.folderName, folderName)) &&
-            (identical(other.uri, uri) ||
-                const DeepCollectionEquality().equals(other.uri, uri)) &&
+                other.folderName == folderName) &&
+            (identical(other.uri, uri) || other.uri == uri) &&
             (identical(other.displayName, displayName) ||
-                const DeepCollectionEquality()
-                    .equals(other.displayName, displayName)) &&
+                other.displayName == displayName) &&
             (identical(other.displayNameWOExt, displayNameWOExt) ||
-                const DeepCollectionEquality()
-                    .equals(other.displayNameWOExt, displayNameWOExt)) &&
-            (identical(other.size, size) ||
-                const DeepCollectionEquality().equals(other.size, size)) &&
-            (identical(other.album, album) ||
-                const DeepCollectionEquality().equals(other.album, album)) &&
-            (identical(other.albumId, albumId) ||
-                const DeepCollectionEquality()
-                    .equals(other.albumId, albumId)) &&
-            (identical(other.artist, artist) ||
-                const DeepCollectionEquality().equals(other.artist, artist)) &&
+                other.displayNameWOExt == displayNameWOExt) &&
+            (identical(other.size, size) || other.size == size) &&
+            (identical(other.album, album) || other.album == album) &&
+            (identical(other.albumId, albumId) || other.albumId == albumId) &&
+            (identical(other.artist, artist) || other.artist == artist) &&
             (identical(other.artistId, artistId) ||
-                const DeepCollectionEquality()
-                    .equals(other.artistId, artistId)) &&
+                other.artistId == artistId) &&
             (identical(other.bookmark, bookmark) ||
-                const DeepCollectionEquality()
-                    .equals(other.bookmark, bookmark)) &&
+                other.bookmark == bookmark) &&
             (identical(other.composer, composer) ||
-                const DeepCollectionEquality()
-                    .equals(other.composer, composer)) &&
+                other.composer == composer) &&
             (identical(other.dateAdded, dateAdded) ||
-                const DeepCollectionEquality()
-                    .equals(other.dateAdded, dateAdded)) &&
+                other.dateAdded == dateAdded) &&
             (identical(other.dateModified, dateModified) ||
-                const DeepCollectionEquality()
-                    .equals(other.dateModified, dateModified)) &&
-            (identical(other.title, title) ||
-                const DeepCollectionEquality().equals(other.title, title)) &&
+                other.dateModified == dateModified) &&
+            (identical(other.title, title) || other.title == title) &&
             (identical(other.fileExtension, fileExtension) ||
-                const DeepCollectionEquality()
-                    .equals(other.fileExtension, fileExtension)) &&
+                other.fileExtension == fileExtension) &&
             (identical(other.favorite, favorite) ||
-                const DeepCollectionEquality()
-                    .equals(other.favorite, favorite)));
+                other.favorite == favorite));
   }
 
   @override
-  int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(id) ^
-      const DeepCollectionEquality().hash(absolutePath) ^
-      const DeepCollectionEquality().hash(folderName) ^
-      const DeepCollectionEquality().hash(uri) ^
-      const DeepCollectionEquality().hash(displayName) ^
-      const DeepCollectionEquality().hash(displayNameWOExt) ^
-      const DeepCollectionEquality().hash(size) ^
-      const DeepCollectionEquality().hash(album) ^
-      const DeepCollectionEquality().hash(albumId) ^
-      const DeepCollectionEquality().hash(artist) ^
-      const DeepCollectionEquality().hash(artistId) ^
-      const DeepCollectionEquality().hash(bookmark) ^
-      const DeepCollectionEquality().hash(composer) ^
-      const DeepCollectionEquality().hash(dateAdded) ^
-      const DeepCollectionEquality().hash(dateModified) ^
-      const DeepCollectionEquality().hash(title) ^
-      const DeepCollectionEquality().hash(fileExtension) ^
-      const DeepCollectionEquality().hash(favorite);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      absolutePath,
+      folderName,
+      uri,
+      displayName,
+      displayNameWOExt,
+      size,
+      album,
+      albumId,
+      artist,
+      artistId,
+      bookmark,
+      composer,
+      dateAdded,
+      dateModified,
+      title,
+      fileExtension,
+      favorite);
 
   @JsonKey(ignore: true)
   @override
@@ -759,67 +741,67 @@ abstract class _Song extends Song {
 
   /// Return song [id]
   @JsonKey(name: SongTable.id)
-  int get id => throw _privateConstructorUsedError;
+  int get id;
   @override
 
   /// Return song [absolute path]
   @JsonKey(name: SongTable.songPath)
-  String get absolutePath => throw _privateConstructorUsedError;
+  String get absolutePath;
   @override
 
   /// Return song [folder name]
   @JsonKey(name: SongTable.folderName)
-  String get folderName => throw _privateConstructorUsedError;
+  String get folderName;
   @override
 
   /// Return song [uri]
   @JsonKey(name: SongTable.uri)
-  String? get uri => throw _privateConstructorUsedError;
+  String? get uri;
   @override
 
   /// Return song [displayName]
   @JsonKey(name: SongTable.displayName)
-  String get displayName => throw _privateConstructorUsedError;
+  String get displayName;
   @override
 
   /// Return song [displayName] without Extension
   @JsonKey(name: SongTable.displayNameWithOutExtension)
-  String get displayNameWOExt => throw _privateConstructorUsedError;
+  String get displayNameWOExt;
   @override
 
   /// Return song [size]
   @JsonKey(name: SongTable.size)
-  int get size => throw _privateConstructorUsedError;
+  int get size;
   @override
 
   /// Return song [album]
   @JsonKey(name: SongTable.album)
-  String? get album => throw _privateConstructorUsedError;
+  String? get album;
   @override
 
   /// Return song [albumId]
   @JsonKey(name: SongTable.albumId)
-  int? get albumId => throw _privateConstructorUsedError;
+  int? get albumId;
   @override
 
   /// Return song [artist]
   @JsonKey(name: SongTable.artist)
-  String? get artist => throw _privateConstructorUsedError;
+  String? get artist;
   @override
 
   /// Return song [artistId]
   @JsonKey(name: SongTable.artistId)
-  int? get artistId => throw _privateConstructorUsedError;
+  int? get artistId;
   @override
 
   /// Return song [bookmark]
   @JsonKey(name: SongTable.bookmark)
-  int? get bookmark => throw _privateConstructorUsedError;
+  int? get bookmark;
   @override
 
   /// Return song [composer]
   @JsonKey(name: SongTable.composer)
-  String? get composer => throw _privateConstructorUsedError;
+  String? get composer;
   @override
 
   /// Return song [dateAdded] to the app database
@@ -827,7 +809,7 @@ abstract class _Song extends Song {
       name: SongTable.dateAdded,
       fromJson: _addedDateFromMap,
       toJson: _addedDateToMap)
-  DateTime get dateAdded => throw _privateConstructorUsedError;
+  DateTime get dateAdded;
   @override
 
   /// Return song [dateModified]
@@ -835,17 +817,17 @@ abstract class _Song extends Song {
       name: SongTable.dateModified,
       fromJson: _modifiedDateFromMap,
       toJson: _modifiedDateToMap)
-  DateTime? get dateModified => throw _privateConstructorUsedError;
+  DateTime? get dateModified;
   @override
 
   /// Return song [title]
   @JsonKey(name: SongTable.title)
-  String get title => throw _privateConstructorUsedError;
+  String get title;
   @override
 
   /// Return song only the [fileExtension]
   @JsonKey(name: SongTable.fileExtension)
-  String get fileExtension => throw _privateConstructorUsedError;
+  String get fileExtension;
   @override
 
   /// if is a favorite song
@@ -853,7 +835,7 @@ abstract class _Song extends Song {
       name: SongTable.favorite,
       fromJson: _favoriteFromMap,
       toJson: _favoriteToMap)
-  bool get favorite => throw _privateConstructorUsedError;
+  bool get favorite;
   @override
   @JsonKey(ignore: true)
   _$SongCopyWith<_Song> get copyWith => throw _privateConstructorUsedError;

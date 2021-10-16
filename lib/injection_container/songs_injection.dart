@@ -9,7 +9,8 @@ void songsInit() {
   // bloc
   di.registerFactory<SongsBloc>(() => SongsBloc(di.get(), di.get()));
   // repository
-  di.registerLazySingleton<SongsRepository>(() => SongsRepository(di.get()));
+  di.registerLazySingleton<SongsRepository>(
+      () => SongsRepository(di.get(), di.get()));
 
   // local data source
   di.registerLazySingleton<LocalSongDataSource>(
