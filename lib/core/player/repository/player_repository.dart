@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:typed_data';
 
 import 'package:just_audio/just_audio.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:phantom/core/data/currently_playing_song_data_source.dart';
 import 'package:phantom/core/data/database/database_table.dart';
 import 'package:phantom/core/models/currently_playing_song/currently_playing_song.dart';
@@ -16,7 +17,7 @@ class PlayerRepository {
   final QueueDataSource _queueDataSource;
   final PlayerService _playerService;
   final CurrentlyPlayingSongDataSource _currentlyPlayingSongDataSource;
-  final _playingSongStreamController = StreamController<PlayingSong>();
+  final _playingSongStreamController = StreamController<PlayingSong?>();
 
   final LinkedList<Song> _queue = LinkedList();
   Map<int, Uint8List?> _artworks = {};
@@ -26,25 +27,25 @@ class PlayerRepository {
     this._currentlyPlayingSongDataSource,
     this._playerService,
   ) {
-    _playerService.getPlayerStateStream().listen((playerState) {
+    Rx.combineLatest2<PlayerState, PlaybackEvent, PlayingSong?>(
+        _playerService.getPlayerStateStream(),
+        _playerService.getPlaybackEventStream(), (playerState, playbackEvent) {
       final cpsIndex = _playerService.obtainCurrentlyPlayingIndex();
       if (cpsIndex != null) {
-        if (playerState.processingState == ProcessingState.ready ||
-            playerState.processingState == ProcessingState.completed) {
-          _playingSongStreamController.add(PlayingSong(
-            cpsIndex: cpsIndex,
-            icyMetadata: _playerService.getIcyMetadata(),
-            loopMode: _playerService.getLoopMode(),
-            playerState: playerState,
-            position: _playerService.getPositionStream(),
-            song: _queue.elementAt(cpsIndex),
-          ));
-        }
+        return PlayingSong(
+          cpsIndex: cpsIndex,
+          icyMetadata: _playerService.getIcyMetadata(),
+          loopMode: _playerService.getLoopMode(),
+          playerState: playerState,
+          songDuration: playbackEvent.duration,
+          position: _playerService.getPositionStream(),
+          song: _queue.elementAt(cpsIndex),
+        );
       }
-    });
+    }).pipe(_playingSongStreamController);
   }
 
-  Stream<PlayingSong> get playingSongStream =>
+  Stream<PlayingSong?> get playingSongStream =>
       _playingSongStreamController.stream;
 
   Future<void> saveCurrentPlayingSong() =>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phantom/core/player/model/playing_song.dart';
 import 'package:phantom/core/player/presentation/bloc/player_bloc/player_bloc.dart';
+import 'package:phantom/core/util/global_fanctions.dart';
 
 class PlayerControlButtons extends StatefulWidget {
   final PlayingSong playingSong;
@@ -23,6 +24,16 @@ class _PlayerControlButtonsState extends State<PlayerControlButtons> {
           children: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.loop)),
             StreamBuilder<Duration>(
+              initialData: Duration.zero,
+              stream: widget.playingSong.position,
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  return Text(formatDuration(snapshot.data));
+                }
+                return const Text('--:--');
+              },
+            ),
+            StreamBuilder<Duration>(
               stream: widget.playingSong.position,
               initialData: Duration.zero,
               builder: (context, snapshot) {
@@ -31,8 +42,9 @@ class _PlayerControlButtonsState extends State<PlayerControlButtons> {
                       value: _songPosition ??
                           snapshot.data!.inMilliseconds.toDouble(),
                       min: 0.0,
-                      max: widget.playingSong.song.songDuration?.toDouble() ??
-                          55 * 60 * 1000.0,
+                      max: widget.playingSong.songDuration?.inMilliseconds
+                              .toDouble() ??
+                          double.infinity,
                       onChangeEnd: (value) {
                         context.read<PlayerBloc>().add(PlayerSongSought(
                             Duration(milliseconds: value.ceil())));
@@ -48,11 +60,7 @@ class _PlayerControlButtonsState extends State<PlayerControlButtons> {
                 return Container();
               },
             ),
-            Text(
-              (widget.playingSong.song.songDuration?.toDouble() ??
-                      55 * 60 * 1000.0)
-                  .toString(),
-            ),
+            Text(formatDuration(widget.playingSong.songDuration))
           ],
         ),
         Row(

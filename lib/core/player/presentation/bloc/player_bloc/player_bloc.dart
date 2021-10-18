@@ -15,7 +15,9 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   final PlayerRepository _playerRepository;
   PlayerBloc(this._playerRepository) : super(const PlayerInitial()) {
     _playerRepository.playingSongStream.listen((playingSong) {
-      add(PlayerPlayingSongDataChanged(playingSong));
+      if(playingSong!= null) {
+        add(PlayerPlayingSongDataChanged(playingSong));
+      }
     });
     on<PlayerEvent>((event, emitter) async {
       await event.map(playerSongFromQueuePlayed: (playerSongFromQueuePlayed) {

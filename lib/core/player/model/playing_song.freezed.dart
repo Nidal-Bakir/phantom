@@ -21,6 +21,7 @@ class _$PlayingSongTearOff {
       {required int cpsIndex,
       required PlayerState playerState,
       required Song song,
+      required Duration? songDuration,
       required LoopMode loopMode,
       required IcyMetadata? icyMetadata,
       required Stream<Duration> position}) {
@@ -28,6 +29,7 @@ class _$PlayingSongTearOff {
       cpsIndex: cpsIndex,
       playerState: playerState,
       song: song,
+      songDuration: songDuration,
       loopMode: loopMode,
       icyMetadata: icyMetadata,
       position: position,
@@ -43,6 +45,7 @@ mixin _$PlayingSong {
   int get cpsIndex => throw _privateConstructorUsedError;
   PlayerState get playerState => throw _privateConstructorUsedError;
   Song get song => throw _privateConstructorUsedError;
+  Duration? get songDuration => throw _privateConstructorUsedError;
   LoopMode get loopMode => throw _privateConstructorUsedError;
   IcyMetadata? get icyMetadata => throw _privateConstructorUsedError;
   Stream<Duration> get position => throw _privateConstructorUsedError;
@@ -61,6 +64,7 @@ abstract class $PlayingSongCopyWith<$Res> {
       {int cpsIndex,
       PlayerState playerState,
       Song song,
+      Duration? songDuration,
       LoopMode loopMode,
       IcyMetadata? icyMetadata,
       Stream<Duration> position});
@@ -81,6 +85,7 @@ class _$PlayingSongCopyWithImpl<$Res> implements $PlayingSongCopyWith<$Res> {
     Object? cpsIndex = freezed,
     Object? playerState = freezed,
     Object? song = freezed,
+    Object? songDuration = freezed,
     Object? loopMode = freezed,
     Object? icyMetadata = freezed,
     Object? position = freezed,
@@ -98,6 +103,10 @@ class _$PlayingSongCopyWithImpl<$Res> implements $PlayingSongCopyWith<$Res> {
           ? _value.song
           : song // ignore: cast_nullable_to_non_nullable
               as Song,
+      songDuration: songDuration == freezed
+          ? _value.songDuration
+          : songDuration // ignore: cast_nullable_to_non_nullable
+              as Duration?,
       loopMode: loopMode == freezed
           ? _value.loopMode
           : loopMode // ignore: cast_nullable_to_non_nullable
@@ -132,6 +141,7 @@ abstract class _$PlayingSongCopyWith<$Res>
       {int cpsIndex,
       PlayerState playerState,
       Song song,
+      Duration? songDuration,
       LoopMode loopMode,
       IcyMetadata? icyMetadata,
       Stream<Duration> position});
@@ -155,6 +165,7 @@ class __$PlayingSongCopyWithImpl<$Res> extends _$PlayingSongCopyWithImpl<$Res>
     Object? cpsIndex = freezed,
     Object? playerState = freezed,
     Object? song = freezed,
+    Object? songDuration = freezed,
     Object? loopMode = freezed,
     Object? icyMetadata = freezed,
     Object? position = freezed,
@@ -172,6 +183,10 @@ class __$PlayingSongCopyWithImpl<$Res> extends _$PlayingSongCopyWithImpl<$Res>
           ? _value.song
           : song // ignore: cast_nullable_to_non_nullable
               as Song,
+      songDuration: songDuration == freezed
+          ? _value.songDuration
+          : songDuration // ignore: cast_nullable_to_non_nullable
+              as Duration?,
       loopMode: loopMode == freezed
           ? _value.loopMode
           : loopMode // ignore: cast_nullable_to_non_nullable
@@ -195,6 +210,7 @@ class _$_PlayingSong implements _PlayingSong {
       {required this.cpsIndex,
       required this.playerState,
       required this.song,
+      required this.songDuration,
       required this.loopMode,
       required this.icyMetadata,
       required this.position});
@@ -206,6 +222,8 @@ class _$_PlayingSong implements _PlayingSong {
   @override
   final Song song;
   @override
+  final Duration? songDuration;
+  @override
   final LoopMode loopMode;
   @override
   final IcyMetadata? icyMetadata;
@@ -214,7 +232,7 @@ class _$_PlayingSong implements _PlayingSong {
 
   @override
   String toString() {
-    return 'PlayingSong(cpsIndex: $cpsIndex, playerState: $playerState, song: $song, loopMode: $loopMode, icyMetadata: $icyMetadata, position: $position)';
+    return 'PlayingSong(cpsIndex: $cpsIndex, playerState: $playerState, song: $song, songDuration: $songDuration, loopMode: $loopMode, icyMetadata: $icyMetadata, position: $position)';
   }
 
   @override
@@ -227,6 +245,8 @@ class _$_PlayingSong implements _PlayingSong {
             (identical(other.playerState, playerState) ||
                 other.playerState == playerState) &&
             (identical(other.song, song) || other.song == song) &&
+            (identical(other.songDuration, songDuration) ||
+                other.songDuration == songDuration) &&
             (identical(other.loopMode, loopMode) ||
                 other.loopMode == loopMode) &&
             (identical(other.icyMetadata, icyMetadata) ||
@@ -237,7 +257,7 @@ class _$_PlayingSong implements _PlayingSong {
 
   @override
   int get hashCode => Object.hash(runtimeType, cpsIndex, playerState, song,
-      loopMode, icyMetadata, position);
+      songDuration, loopMode, icyMetadata, position);
 
   @JsonKey(ignore: true)
   @override
@@ -250,6 +270,7 @@ abstract class _PlayingSong implements PlayingSong {
       {required int cpsIndex,
       required PlayerState playerState,
       required Song song,
+      required Duration? songDuration,
       required LoopMode loopMode,
       required IcyMetadata? icyMetadata,
       required Stream<Duration> position}) = _$_PlayingSong;
@@ -260,6 +281,8 @@ abstract class _PlayingSong implements PlayingSong {
   PlayerState get playerState;
   @override
   Song get song;
+  @override
+  Duration? get songDuration;
   @override
   LoopMode get loopMode;
   @override

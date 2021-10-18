@@ -26,6 +26,7 @@ abstract class PlayerService {
   LoopMode getLoopMode();
   Future<int?> clearAudioSource();
   Stream<PlayerState> getPlayerStateStream();
+  Stream<PlaybackEvent> getPlaybackEventStream();
   Future<void> saveCurrentPlayingSong();
 }
 
@@ -64,6 +65,9 @@ class PlayerServiceImp extends PlayerService {
   Stream<int?> getCurrentlyPlayingIndexStream() =>
       _audioPlayer.currentIndexStream;
 
+  @override
+  Stream<PlaybackEvent> getPlaybackEventStream() =>
+      _audioPlayer.playbackEventStream;
   @override
   Stream<PlayerState> getPlayerStateStream() => _audioPlayer.playerStateStream;
 
