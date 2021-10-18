@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:phantom/core/models/song/song.dart';
-import 'package:phantom/core/models/songs_container/songs_container.dart';
 import 'package:phantom/core/player/model/playing_song.dart';
 import 'package:phantom/core/player/repository/player_repository.dart';
 
@@ -15,13 +14,11 @@ part 'player_bloc.freezed.dart';
 class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   final PlayerRepository _playerRepository;
   PlayerBloc(this._playerRepository) : super(const PlayerInitial()) {
-    _playerRepository.playingSongStream.stream.listen((playingSong) {
+    _playerRepository.playingSongStream.listen((playingSong) {
       add(PlayerPlayingSongDataChanged(playingSong));
     });
     on<PlayerEvent>((event, emitter) async {
-      await event.map(playerNewSongPlayed: (playerNewSongPlayed) {
-        return _onNewSongPlayed(playerNewSongPlayed, emitter);
-      }, playerSongFromQueuePlayed: (playerSongFromQueuePlayed) {
+      await event.map(playerSongFromQueuePlayed: (playerSongFromQueuePlayed) {
         return _onSongFromQueuePlayed(playerSongFromQueuePlayed, emitter);
       }, playerNextSongPlayed: (nextSongPlayed) {
         return _onNextSongPlayed(nextSongPlayed, emitter);
@@ -39,18 +36,6 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
         return _onSongSought(songSought, emitter);
       });
     });
-  }
-  FutureOr<void> _onNewSongPlayed(
-    PlayerNewSongPlayed newSongPlayed,
-    Emitter<PlayerState> emitter,
-  ) async {
-    await _playerRepository.setQueue(
-      newSongPlayed.songsContainer.songs,
-      newSongPlayed.songsContainer.albumArtwork,
-      newSongPlayed.songOrder,
-    );
-
-    _playerRepository.play();
   }
 
   FutureOr<void> _onSongFromQueuePlayed(
@@ -73,12 +58,13 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   FutureOr<void> _onPlayingSongDataChanged(
       PlayerPlayingSongDataChanged playerPlayingSongDataChanged,
       Emitter<PlayerState> emitter) async {
-    emitter(PlayerPlaySuccuss(playerPlayingSongDataChanged.playingSong));
+    emitter(PlayerPlaySongSuccuss(playerPlayingSongDataChanged.playingSong));
   }
 
   FutureOr<void> _onPaused(
       PlayerPaused playerPaused, Emitter<PlayerState> emitter) async {
     await _playerRepository.pause();
+    await _playerRepository.saveCurrentPlayingSong();
   }
 
   FutureOr<void> _onResumed(
@@ -91,7 +77,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
     final currentState = state;
     emitter(currentState.map(
         initial: (initial) => initial,
-        playSuccuss: (playSuccuss) => playSuccuss
+        playSongSuccuss: (playSongSuccuss) => playSongSuccuss
           ..playingSong.copyWith(loopMode: playerLoopModeChanged.loopMode),
         playSongFailure: (playSongFailure) => playSongFailure
           ..playingSong.copyWith(loopMode: playerLoopModeChanged.loopMode)));

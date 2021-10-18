@@ -16,7 +16,8 @@ class PlayerRepository {
   final QueueDataSource _queueDataSource;
   final PlayerService _playerService;
   final CurrentlyPlayingSongDataSource _currentlyPlayingSongDataSource;
-  final playingSongStream = StreamController<PlayingSong>.broadcast();
+  final _playingSongStreamController = StreamController<PlayingSong>();
+
   final LinkedList<Song> _queue = LinkedList();
   Map<int, Uint8List?> _artworks = {};
 
@@ -25,14 +26,12 @@ class PlayerRepository {
     this._currentlyPlayingSongDataSource,
     this._playerService,
   ) {
-    ;
-
-    _playerService.getPlayerState().listen((playerState) {
+    _playerService.getPlayerStateStream().listen((playerState) {
       final cpsIndex = _playerService.obtainCurrentlyPlayingIndex();
       if (cpsIndex != null) {
         if (playerState.processingState == ProcessingState.ready ||
             playerState.processingState == ProcessingState.completed) {
-          playingSongStream.add(PlayingSong(
+          _playingSongStreamController.add(PlayingSong(
             cpsIndex: cpsIndex,
             icyMetadata: _playerService.getIcyMetadata(),
             loopMode: _playerService.getLoopMode(),
@@ -44,12 +43,22 @@ class PlayerRepository {
       }
     });
   }
+
+  Stream<PlayingSong> get playingSongStream =>
+      _playingSongStreamController.stream;
+
   Future<void> saveCurrentPlayingSong() =>
       _playerService.saveCurrentPlayingSong();
 
   Future<void> seekToNext() => _playerService.seekToNext();
 
   Future<void> play() => _playerService.play();
+
+  int? obtainCurrentlyPlayingIndex() =>
+      _playerService.obtainCurrentlyPlayingIndex();
+
+  Stream<int?> getCurrentlyPlayingIndexStream() =>
+      _playerService.getCurrentlyPlayingIndexStream();
 
   Future<void> pause() => _playerService.pause();
 
@@ -100,7 +109,7 @@ class PlayerRepository {
     }
   }
 
-  Future<void> clearQueue() async {
+  Future<int?> clearQueue() async {
     final cpsIndex = await _playerService.clearAudioSource();
     if (cpsIndex != null) {
       final currentlyPlayingSong = _queue.elementAt(cpsIndex);
@@ -109,6 +118,7 @@ class PlayerRepository {
         ..clear()
         ..add(currentlyPlayingSong);
     }
+    return cpsIndex;
   }
 
   Future<void> reorderSong(int from, int to) async {
@@ -137,11 +147,13 @@ class PlayerRepository {
       ..clear()
       ..addAll(queueSongs);
 
-    _playerService.setAudioSource(
-      queueSongs,
-      _extractTheCurrentPlayingSongIndex(queueSongs, currentlyPlayingSong),
-      initialPosition: currentlyPlayingSong?.currentPlayPosition,
-    );
+    if (queueSongs.isNotEmpty) {
+      await _playerService.setAudioSource(
+        queueSongs,
+        _extractTheCurrentPlayingSongIndex(queueSongs, currentlyPlayingSong),
+        initialPosition: currentlyPlayingSong?.currentPlayPosition,
+      );
+    }
 
     return SongsContainer(
       songs: queueSongs,

@@ -30,9 +30,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      GetIt.I.get<PlayerService>().saveCurrentPlayingSong();
-    }
+    GetIt.I.get<PlayerService>().saveCurrentPlayingSong();
+
     super.didChangeAppLifecycleState(state);
   }
 

@@ -16,7 +16,9 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
   final PlayerRepository _playerRepository;
   QueueBloc(this._playerRepository) : super(const QueueInProgress()) {
     on<QueueEvent>((event, emitter) async {
-      await event.map(queueLoaded: (queueLoaded) {
+      await event.map(queueNewSongPlayed: (queueNewSongPlayed) {
+        return _onNewSongPlayed(queueNewSongPlayed, emitter);
+      }, queueLoaded: (queueLoaded) {
         return _onQueueLoaded(queueLoaded, emitter);
       }, queueSongRemoved: (queueSongRemoved) {
         return _onQueueSongRemoved(queueSongRemoved, emitter);
@@ -35,7 +37,31 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
     QueueLoaded queueLoaded,
     Emitter<QueueState> emitter,
   ) async {
-    emitter(QueueState.loadSuccess(await _playerRepository.queryQueueSongs()));
+    await _emitNewQueue(emitter);
+  }
+
+  FutureOr<void> _onNewSongPlayed(
+    QueueNewSongPlayed newSongPlayed,
+    Emitter<QueueState> emitter,
+  ) async {
+    await _playerRepository.setQueue(
+      newSongPlayed.songsContainer.songs,
+      newSongPlayed.songsContainer.albumArtwork,
+      newSongPlayed.songOrder,
+    );
+
+    _playerRepository.play();
+
+    await _emitNewQueue(emitter);
+  }
+
+  Future<void> _emitNewQueue(Emitter<QueueState> emitter) async {
+    final queueSongs = await _playerRepository.queryQueueSongs();
+    final cpsIndexStream = _playerRepository.getCurrentlyPlayingIndexStream();
+    emitter(QueueState.loadSuccess(
+      queueSongs,
+      cpsIndexStream,
+    ));
   }
 
   FutureOr<void> _onQueueSongRemoved(
@@ -43,7 +69,7 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
     Emitter<QueueState> emitter,
   ) async {
     await _playerRepository.removeSongFromQueue(queueSongRemoved.order);
-    emitter(QueueState.loadSuccess(await _playerRepository.queryQueueSongs()));
+    await _emitNewQueue(emitter);
   }
 
   FutureOr<void> _onQueueSongAdded(
@@ -56,7 +82,7 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
           ? {queueSongAdded.song.albumId!: queueSongAdded.artwork}
           : null,
     );
-    emitter(QueueState.loadSuccess(await _playerRepository.queryQueueSongs()));
+    await _emitNewQueue(emitter);
   }
 
   FutureOr<void> _onQueueSongsAdded(
@@ -67,7 +93,7 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
       queueSongsAdded.songsContainer.songs,
       queueSongsAdded.songsContainer.albumArtwork,
     );
-    emitter(QueueState.loadSuccess(await _playerRepository.queryQueueSongs()));
+    await _emitNewQueue(emitter);
   }
 
   FutureOr<void> _onQueueSongReordered(
@@ -76,7 +102,7 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
   ) async {
     await _playerRepository.reorderSong(
         queueSongReordered.from, queueSongReordered.to);
-    emitter(QueueState.loadSuccess(await _playerRepository.queryQueueSongs()));
+    await _emitNewQueue(emitter);
   }
 
   FutureOr<void> _onQueueCleared(
@@ -84,6 +110,7 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
     Emitter<QueueState> emitter,
   ) async {
     await _playerRepository.clearQueue();
-    emitter(QueueState.loadSuccess(await _playerRepository.queryQueueSongs()));
+
+    await _emitNewQueue(emitter);
   }
 }

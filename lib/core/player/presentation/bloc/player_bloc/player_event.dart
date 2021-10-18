@@ -3,10 +3,7 @@ part of 'player_bloc.dart';
 @freezed
 class PlayerEvent with _$PlayerEvent {
 
-  const factory PlayerEvent.playerNewSongPlayed(
-    SongsContainer songsContainer,
-    int songOrder,
-  ) = PlayerNewSongPlayed;
+
 
   const factory PlayerEvent.playerSongFromQueuePlayed(
       Song song, int songOrder) = PlayerSongFromQueuePlayed;

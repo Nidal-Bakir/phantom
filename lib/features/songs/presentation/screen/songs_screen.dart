@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phantom/core/player/data/player_service/player_service.dart';
 import 'package:phantom/core/player/presentation/bloc/player_bloc/player_bloc.dart';
+import 'package:phantom/core/player/presentation/bloc/queue_bloc/queue_bloc.dart';
 import 'package:phantom/core/widget/common_list_tile_item.dart';
 
 import 'package:phantom/features/songs/presentation/bloc/songs_bloc/songs_bloc.dart';
@@ -36,8 +37,9 @@ class SongsScreen extends StatelessWidget {
                         (BuildContext context, int index) {
                           final _song = songsContainer.songs[index];
                           return InkWell(
-                            onDoubleTap: () async {
-                             
+                            onTap: () async {
+                              context.read<QueueBloc>().add(
+                                  QueueNewSongPlayed(songsContainer, index));
                             },
                             child: CommonListTileItem(
                               key: Key(_song.id.toString()),
@@ -52,9 +54,10 @@ class SongsScreen extends StatelessWidget {
                                       : Icons.favorite_outlined,
                                 ),
                                 onPressed: () {
-                                  context.read<PlayerBloc>().add(
-                                      PlayerNewSongPlayed(
-                                          songsContainer, index));
+                                  context.read<QueueBloc>().add(QueueSongAdded(
+                                      _song,
+                                      songsContainer
+                                          .albumArtwork[_song.albumId]));
                                 },
                               ),
                             ),

@@ -19,15 +19,13 @@ abstract class PlayerService {
   Future<void> seekTo(Duration position);
   Future<void> seekToSongInQueue(int sequenceIndex);
   Stream<Duration> getPositionStream();
-  Stream<int?> getCurrentlyPlayingIndexStream();
-
-  Stream<PlayerState> getPlayerStateStream();
   int? obtainCurrentlyPlayingIndex();
+  Stream<int?> getCurrentlyPlayingIndexStream();
   IcyMetadata? getIcyMetadata();
   Future<void> setLoopMode(LoopMode mode);
   LoopMode getLoopMode();
   Future<int?> clearAudioSource();
-  Stream<PlayerState> getPlayerState();
+  Stream<PlayerState> getPlayerStateStream();
   Future<void> saveCurrentPlayingSong();
 }
 
@@ -44,8 +42,7 @@ class PlayerServiceImp extends PlayerService {
     final position = _audioPlayer.position;
     final sequenceState = _audioPlayer.sequenceState;
     if (sequenceState?.currentIndex != null &&
-        sequenceState?.currentSource != null &&
-        position.inSeconds % 5 == 0) {
+        sequenceState?.currentSource != null) {
       await _currentlyPlayingSongDataSource.setCurrentlyPlayingSong(
         CurrentlyPlayingSong(
           position,
@@ -58,17 +55,17 @@ class PlayerServiceImp extends PlayerService {
   }
 
   @override
-  Stream<int?> getCurrentlyPlayingIndexStream() =>
-      _audioPlayer.currentIndexStream;
-
-  @override
   int? obtainCurrentlyPlayingIndex() => _audioPlayer.currentIndex;
 
   @override
   Stream<Duration> getPositionStream() => _audioPlayer.positionStream;
 
   @override
-  Stream<PlayerState> getPlayerState() => _audioPlayer.playerStateStream;
+  Stream<int?> getCurrentlyPlayingIndexStream() =>
+      _audioPlayer.currentIndexStream;
+
+  @override
+  Stream<PlayerState> getPlayerStateStream() => _audioPlayer.playerStateStream;
 
   @override
   Future<void> play() async {
@@ -183,10 +180,5 @@ class PlayerServiceImp extends PlayerService {
   @override
   Future<void> setLoopMode(LoopMode mode) async {
     await _audioPlayer.setLoopMode(mode);
-  }
-
-  @override
-  Stream<PlayerState> getPlayerStateStream() {
-    return _audioPlayer.playerStateStream;
   }
 }

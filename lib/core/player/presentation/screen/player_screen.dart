@@ -1,16 +1,16 @@
+import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:phantom/core/player/presentation/bloc/player_bloc/player_bloc.dart';
 import 'package:phantom/core/player/presentation/bloc/queue_bloc/queue_bloc.dart';
+import 'package:phantom/core/player/presentation/widget/player_control_buttons.dart';
+import 'package:phantom/core/player/presentation/widget/queue_widget.dart';
 
-class PlayerScreen extends StatefulWidget {
+class PlayerScreen extends StatelessWidget {
   const PlayerScreen({Key? key}) : super(key: key);
 
-  @override
-  _PlayerScreenState createState() => _PlayerScreenState();
-}
-
-class _PlayerScreenState extends State<PlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,13 +20,10 @@ class _PlayerScreenState extends State<PlayerScreen> {
             inProgress: () {
               return const Text('inProgress');
             },
-            loadSuccess: (songsContainer) {
-              return Expanded(
-                child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: songsContainer.songs
-                        .map((e) => Text(e.title))
-                        .toList()),
+            loadSuccess: (songsContainer, cpsIndexStream) {
+              return QueueWidget(
+                cppIndexStream: cpsIndexStream,
+                songsContainer: songsContainer,
               );
             },
           );
@@ -34,33 +31,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
         BlocBuilder<PlayerBloc, PlayerState>(builder: (context, playerState) {
           return playerState.when(initial: () {
             return Container();
-          }, playSuccuss: (playingSong) {
-            return Row(
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      context
-                          .read<PlayerBloc>()
-                          .add(const PlayerPerviousSongPlayed());
-                    },
-                    child: const Text('rev')),
-                ElevatedButton(
-                    onPressed: () {
-                      context
-                          .read<PlayerBloc>()
-                          .add(const PlayerResumed());
-                    },
-                    child: const Text('play')),
-                ElevatedButton(
-                    onPressed: () {
-                      context
-                          .read<PlayerBloc>()
-                          .add(const PlayerNextSongPlayed());
-                    },
-                    child: const Text('next')),
-              ],
-            );
-          }, playSongFailure: (PlayingSong) {
+          }, playSongSuccuss: (playingSong) {
+            return PlayerControlButtons(playingSong: playingSong);
+          }, playSongFailure: (playingSong) {
             return Row(
               children: [],
             );

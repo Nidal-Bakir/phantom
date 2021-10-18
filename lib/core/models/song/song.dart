@@ -47,6 +47,9 @@ class Song extends LinkedListEntry<Song>
     /// Return song [artistId]
     @JsonKey(name: SongTable.artistId) int? artistId,
 
+    /// Return song [duration]
+    @JsonKey(name: SongTable.songDuration) int? songDuration,
+
     /// Return song [bookmark]
     @JsonKey(name: SongTable.bookmark) int? bookmark,
 
@@ -103,7 +106,8 @@ class Song extends LinkedListEntry<Song>
         album == other.album &&
         albumId == other.albumId &&
         bookmark == other.bookmark &&
-        composer == other.composer;
+        composer == other.composer &&
+        songDuration == other.songDuration;
   }
 }
 

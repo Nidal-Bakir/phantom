@@ -19,6 +19,7 @@ abstract class SongTable {
   static const dateModified = 'date_modified';
   static const fileExtension = 'file_extension';
   static const favorite = 'favorite';
+  static const songDuration = 'duration';
 
   static const tableCreation = '''CREATE TABLE ${SongTable.tableName} (
         ${SongTable.id} INTEGER PRIMARY KEY,
@@ -31,6 +32,7 @@ abstract class SongTable {
         ${SongTable.artistId} INTEGER,
         ${SongTable.composer} TEXT,
         ${SongTable.songPath} TEXT NOT NULL UNIQUE,
+        ${SongTable.songDuration} INTEGER ,
         ${SongTable.folderName} TEXT NUT NULL,
         ${SongTable.uri} TEXT,
         ${SongTable.size} INTEGER NOT NULL,

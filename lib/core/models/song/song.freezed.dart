@@ -44,6 +44,8 @@ class _$SongTearOff {
           String? artist,
       @JsonKey(name: SongTable.artistId)
           int? artistId,
+      @JsonKey(name: SongTable.songDuration)
+          int? songDuration,
       @JsonKey(name: SongTable.bookmark)
           int? bookmark,
       @JsonKey(name: SongTable.composer)
@@ -70,6 +72,7 @@ class _$SongTearOff {
       albumId: albumId,
       artist: artist,
       artistId: artistId,
+      songDuration: songDuration,
       bookmark: bookmark,
       composer: composer,
       dateAdded: dateAdded,
@@ -133,6 +136,10 @@ mixin _$Song {
   /// Return song [artistId]
   @JsonKey(name: SongTable.artistId)
   int? get artistId => throw _privateConstructorUsedError;
+
+  /// Return song [duration]
+  @JsonKey(name: SongTable.songDuration)
+  int? get songDuration => throw _privateConstructorUsedError;
 
   /// Return song [bookmark]
   @JsonKey(name: SongTable.bookmark)
@@ -203,6 +210,8 @@ abstract class $SongCopyWith<$Res> {
           String? artist,
       @JsonKey(name: SongTable.artistId)
           int? artistId,
+      @JsonKey(name: SongTable.songDuration)
+          int? songDuration,
       @JsonKey(name: SongTable.bookmark)
           int? bookmark,
       @JsonKey(name: SongTable.composer)
@@ -240,6 +249,7 @@ class _$SongCopyWithImpl<$Res> implements $SongCopyWith<$Res> {
     Object? albumId = freezed,
     Object? artist = freezed,
     Object? artistId = freezed,
+    Object? songDuration = freezed,
     Object? bookmark = freezed,
     Object? composer = freezed,
     Object? dateAdded = freezed,
@@ -292,6 +302,10 @@ class _$SongCopyWithImpl<$Res> implements $SongCopyWith<$Res> {
       artistId: artistId == freezed
           ? _value.artistId
           : artistId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      songDuration: songDuration == freezed
+          ? _value.songDuration
+          : songDuration // ignore: cast_nullable_to_non_nullable
               as int?,
       bookmark: bookmark == freezed
           ? _value.bookmark
@@ -353,6 +367,8 @@ abstract class _$SongCopyWith<$Res> implements $SongCopyWith<$Res> {
           String? artist,
       @JsonKey(name: SongTable.artistId)
           int? artistId,
+      @JsonKey(name: SongTable.songDuration)
+          int? songDuration,
       @JsonKey(name: SongTable.bookmark)
           int? bookmark,
       @JsonKey(name: SongTable.composer)
@@ -391,6 +407,7 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
     Object? albumId = freezed,
     Object? artist = freezed,
     Object? artistId = freezed,
+    Object? songDuration = freezed,
     Object? bookmark = freezed,
     Object? composer = freezed,
     Object? dateAdded = freezed,
@@ -443,6 +460,10 @@ class __$SongCopyWithImpl<$Res> extends _$SongCopyWithImpl<$Res>
       artistId: artistId == freezed
           ? _value.artistId
           : artistId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      songDuration: songDuration == freezed
+          ? _value.songDuration
+          : songDuration // ignore: cast_nullable_to_non_nullable
               as int?,
       bookmark: bookmark == freezed
           ? _value.bookmark
@@ -503,6 +524,8 @@ class _$_Song extends _Song {
           this.artist,
       @JsonKey(name: SongTable.artistId)
           this.artistId,
+      @JsonKey(name: SongTable.songDuration)
+          this.songDuration,
       @JsonKey(name: SongTable.bookmark)
           this.bookmark,
       @JsonKey(name: SongTable.composer)
@@ -578,6 +601,11 @@ class _$_Song extends _Song {
   final int? artistId;
   @override
 
+  /// Return song [duration]
+  @JsonKey(name: SongTable.songDuration)
+  final int? songDuration;
+  @override
+
   /// Return song [bookmark]
   @JsonKey(name: SongTable.bookmark)
   final int? bookmark;
@@ -623,7 +651,7 @@ class _$_Song extends _Song {
 
   @override
   String toString() {
-    return 'Song(id: $id, absolutePath: $absolutePath, folderName: $folderName, uri: $uri, displayName: $displayName, displayNameWOExt: $displayNameWOExt, size: $size, album: $album, albumId: $albumId, artist: $artist, artistId: $artistId, bookmark: $bookmark, composer: $composer, dateAdded: $dateAdded, dateModified: $dateModified, title: $title, fileExtension: $fileExtension, favorite: $favorite)';
+    return 'Song(id: $id, absolutePath: $absolutePath, folderName: $folderName, uri: $uri, displayName: $displayName, displayNameWOExt: $displayNameWOExt, size: $size, album: $album, albumId: $albumId, artist: $artist, artistId: $artistId, songDuration: $songDuration, bookmark: $bookmark, composer: $composer, dateAdded: $dateAdded, dateModified: $dateModified, title: $title, fileExtension: $fileExtension, favorite: $favorite)';
   }
 
   @override
@@ -647,6 +675,8 @@ class _$_Song extends _Song {
             (identical(other.artist, artist) || other.artist == artist) &&
             (identical(other.artistId, artistId) ||
                 other.artistId == artistId) &&
+            (identical(other.songDuration, songDuration) ||
+                other.songDuration == songDuration) &&
             (identical(other.bookmark, bookmark) ||
                 other.bookmark == bookmark) &&
             (identical(other.composer, composer) ||
@@ -663,26 +693,28 @@ class _$_Song extends _Song {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      absolutePath,
-      folderName,
-      uri,
-      displayName,
-      displayNameWOExt,
-      size,
-      album,
-      albumId,
-      artist,
-      artistId,
-      bookmark,
-      composer,
-      dateAdded,
-      dateModified,
-      title,
-      fileExtension,
-      favorite);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        absolutePath,
+        folderName,
+        uri,
+        displayName,
+        displayNameWOExt,
+        size,
+        album,
+        albumId,
+        artist,
+        artistId,
+        songDuration,
+        bookmark,
+        composer,
+        dateAdded,
+        dateModified,
+        title,
+        fileExtension,
+        favorite
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -719,6 +751,8 @@ abstract class _Song extends Song {
           String? artist,
       @JsonKey(name: SongTable.artistId)
           int? artistId,
+      @JsonKey(name: SongTable.songDuration)
+          int? songDuration,
       @JsonKey(name: SongTable.bookmark)
           int? bookmark,
       @JsonKey(name: SongTable.composer)
@@ -792,6 +826,11 @@ abstract class _Song extends Song {
   /// Return song [artistId]
   @JsonKey(name: SongTable.artistId)
   int? get artistId;
+  @override
+
+  /// Return song [duration]
+  @JsonKey(name: SongTable.songDuration)
+  int? get songDuration;
   @override
 
   /// Return song [bookmark]

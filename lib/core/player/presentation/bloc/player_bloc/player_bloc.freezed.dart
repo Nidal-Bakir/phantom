@@ -17,14 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$PlayerEventTearOff {
   const _$PlayerEventTearOff();
 
-  PlayerNewSongPlayed playerNewSongPlayed(
-      SongsContainer songsContainer, int songOrder) {
-    return PlayerNewSongPlayed(
-      songsContainer,
-      songOrder,
-    );
-  }
-
   PlayerSongFromQueuePlayed playerSongFromQueuePlayed(
       Song song, int songOrder) {
     return PlayerSongFromQueuePlayed(
@@ -76,8 +68,6 @@ const $PlayerEvent = _$PlayerEventTearOff();
 mixin _$PlayerEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
     required TResult Function(Song song, int songOrder)
         playerSongFromQueuePlayed,
     required TResult Function() playerNextSongPlayed,
@@ -92,8 +82,6 @@ mixin _$PlayerEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -106,8 +94,6 @@ mixin _$PlayerEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -121,7 +107,6 @@ mixin _$PlayerEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
     required TResult Function(PlayerSongFromQueuePlayed value)
         playerSongFromQueuePlayed,
     required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
@@ -137,7 +122,6 @@ mixin _$PlayerEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -152,7 +136,6 @@ mixin _$PlayerEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -182,206 +165,6 @@ class _$PlayerEventCopyWithImpl<$Res> implements $PlayerEventCopyWith<$Res> {
   final PlayerEvent _value;
   // ignore: unused_field
   final $Res Function(PlayerEvent) _then;
-}
-
-/// @nodoc
-abstract class $PlayerNewSongPlayedCopyWith<$Res> {
-  factory $PlayerNewSongPlayedCopyWith(
-          PlayerNewSongPlayed value, $Res Function(PlayerNewSongPlayed) then) =
-      _$PlayerNewSongPlayedCopyWithImpl<$Res>;
-  $Res call({SongsContainer songsContainer, int songOrder});
-}
-
-/// @nodoc
-class _$PlayerNewSongPlayedCopyWithImpl<$Res>
-    extends _$PlayerEventCopyWithImpl<$Res>
-    implements $PlayerNewSongPlayedCopyWith<$Res> {
-  _$PlayerNewSongPlayedCopyWithImpl(
-      PlayerNewSongPlayed _value, $Res Function(PlayerNewSongPlayed) _then)
-      : super(_value, (v) => _then(v as PlayerNewSongPlayed));
-
-  @override
-  PlayerNewSongPlayed get _value => super._value as PlayerNewSongPlayed;
-
-  @override
-  $Res call({
-    Object? songsContainer = freezed,
-    Object? songOrder = freezed,
-  }) {
-    return _then(PlayerNewSongPlayed(
-      songsContainer == freezed
-          ? _value.songsContainer
-          : songsContainer // ignore: cast_nullable_to_non_nullable
-              as SongsContainer,
-      songOrder == freezed
-          ? _value.songOrder
-          : songOrder // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$PlayerNewSongPlayed implements PlayerNewSongPlayed {
-  const _$PlayerNewSongPlayed(this.songsContainer, this.songOrder);
-
-  @override
-  final SongsContainer songsContainer;
-  @override
-  final int songOrder;
-
-  @override
-  String toString() {
-    return 'PlayerEvent.playerNewSongPlayed(songsContainer: $songsContainer, songOrder: $songOrder)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is PlayerNewSongPlayed &&
-            const DeepCollectionEquality()
-                .equals(other.songsContainer, songsContainer) &&
-            (identical(other.songOrder, songOrder) ||
-                other.songOrder == songOrder));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(songsContainer), songOrder);
-
-  @JsonKey(ignore: true)
-  @override
-  $PlayerNewSongPlayedCopyWith<PlayerNewSongPlayed> get copyWith =>
-      _$PlayerNewSongPlayedCopyWithImpl<PlayerNewSongPlayed>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
-    required TResult Function(Song song, int songOrder)
-        playerSongFromQueuePlayed,
-    required TResult Function() playerNextSongPlayed,
-    required TResult Function(PlayingSong playingSong)
-        playerPlayingSongDataChanged,
-    required TResult Function() playerPerviousSongPlayed,
-    required TResult Function() playerPaused,
-    required TResult Function() playerResumed,
-    required TResult Function(Duration position) playerSongSought,
-    required TResult Function(LoopMode loopMode) loopModeChanged,
-  }) {
-    return playerNewSongPlayed(songsContainer, songOrder);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
-    TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
-    TResult Function()? playerNextSongPlayed,
-    TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
-    TResult Function()? playerPerviousSongPlayed,
-    TResult Function()? playerPaused,
-    TResult Function()? playerResumed,
-    TResult Function(Duration position)? playerSongSought,
-    TResult Function(LoopMode loopMode)? loopModeChanged,
-  }) {
-    return playerNewSongPlayed?.call(songsContainer, songOrder);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
-    TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
-    TResult Function()? playerNextSongPlayed,
-    TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
-    TResult Function()? playerPerviousSongPlayed,
-    TResult Function()? playerPaused,
-    TResult Function()? playerResumed,
-    TResult Function(Duration position)? playerSongSought,
-    TResult Function(LoopMode loopMode)? loopModeChanged,
-    required TResult orElse(),
-  }) {
-    if (playerNewSongPlayed != null) {
-      return playerNewSongPlayed(songsContainer, songOrder);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
-    required TResult Function(PlayerSongFromQueuePlayed value)
-        playerSongFromQueuePlayed,
-    required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
-    required TResult Function(PlayerPlayingSongDataChanged value)
-        playerPlayingSongDataChanged,
-    required TResult Function(PlayerPerviousSongPlayed value)
-        playerPerviousSongPlayed,
-    required TResult Function(PlayerPaused value) playerPaused,
-    required TResult Function(PlayerResumed value) playerResumed,
-    required TResult Function(PlayerSongSought value) playerSongSought,
-    required TResult Function(PlayerLoopModeChanged value) loopModeChanged,
-  }) {
-    return playerNewSongPlayed(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
-    TResult Function(PlayerSongFromQueuePlayed value)?
-        playerSongFromQueuePlayed,
-    TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
-    TResult Function(PlayerPlayingSongDataChanged value)?
-        playerPlayingSongDataChanged,
-    TResult Function(PlayerPerviousSongPlayed value)? playerPerviousSongPlayed,
-    TResult Function(PlayerPaused value)? playerPaused,
-    TResult Function(PlayerResumed value)? playerResumed,
-    TResult Function(PlayerSongSought value)? playerSongSought,
-    TResult Function(PlayerLoopModeChanged value)? loopModeChanged,
-  }) {
-    return playerNewSongPlayed?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
-    TResult Function(PlayerSongFromQueuePlayed value)?
-        playerSongFromQueuePlayed,
-    TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
-    TResult Function(PlayerPlayingSongDataChanged value)?
-        playerPlayingSongDataChanged,
-    TResult Function(PlayerPerviousSongPlayed value)? playerPerviousSongPlayed,
-    TResult Function(PlayerPaused value)? playerPaused,
-    TResult Function(PlayerResumed value)? playerResumed,
-    TResult Function(PlayerSongSought value)? playerSongSought,
-    TResult Function(PlayerLoopModeChanged value)? loopModeChanged,
-    required TResult orElse(),
-  }) {
-    if (playerNewSongPlayed != null) {
-      return playerNewSongPlayed(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class PlayerNewSongPlayed implements PlayerEvent {
-  const factory PlayerNewSongPlayed(
-      SongsContainer songsContainer, int songOrder) = _$PlayerNewSongPlayed;
-
-  SongsContainer get songsContainer;
-  int get songOrder;
-  @JsonKey(ignore: true)
-  $PlayerNewSongPlayedCopyWith<PlayerNewSongPlayed> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -468,8 +251,6 @@ class _$PlayerSongFromQueuePlayed implements PlayerSongFromQueuePlayed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
     required TResult Function(Song song, int songOrder)
         playerSongFromQueuePlayed,
     required TResult Function() playerNextSongPlayed,
@@ -487,8 +268,6 @@ class _$PlayerSongFromQueuePlayed implements PlayerSongFromQueuePlayed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -504,8 +283,6 @@ class _$PlayerSongFromQueuePlayed implements PlayerSongFromQueuePlayed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -525,7 +302,6 @@ class _$PlayerSongFromQueuePlayed implements PlayerSongFromQueuePlayed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
     required TResult Function(PlayerSongFromQueuePlayed value)
         playerSongFromQueuePlayed,
     required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
@@ -544,7 +320,6 @@ class _$PlayerSongFromQueuePlayed implements PlayerSongFromQueuePlayed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -562,7 +337,6 @@ class _$PlayerSongFromQueuePlayed implements PlayerSongFromQueuePlayed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -634,8 +408,6 @@ class _$PlayerNextSongPlayed implements PlayerNextSongPlayed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
     required TResult Function(Song song, int songOrder)
         playerSongFromQueuePlayed,
     required TResult Function() playerNextSongPlayed,
@@ -653,8 +425,6 @@ class _$PlayerNextSongPlayed implements PlayerNextSongPlayed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -670,8 +440,6 @@ class _$PlayerNextSongPlayed implements PlayerNextSongPlayed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -691,7 +459,6 @@ class _$PlayerNextSongPlayed implements PlayerNextSongPlayed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
     required TResult Function(PlayerSongFromQueuePlayed value)
         playerSongFromQueuePlayed,
     required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
@@ -710,7 +477,6 @@ class _$PlayerNextSongPlayed implements PlayerNextSongPlayed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -728,7 +494,6 @@ class _$PlayerNextSongPlayed implements PlayerNextSongPlayed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -830,8 +595,6 @@ class _$PlayerPlayingSongDataChanged implements PlayerPlayingSongDataChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
     required TResult Function(Song song, int songOrder)
         playerSongFromQueuePlayed,
     required TResult Function() playerNextSongPlayed,
@@ -849,8 +612,6 @@ class _$PlayerPlayingSongDataChanged implements PlayerPlayingSongDataChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -866,8 +627,6 @@ class _$PlayerPlayingSongDataChanged implements PlayerPlayingSongDataChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -887,7 +646,6 @@ class _$PlayerPlayingSongDataChanged implements PlayerPlayingSongDataChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
     required TResult Function(PlayerSongFromQueuePlayed value)
         playerSongFromQueuePlayed,
     required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
@@ -906,7 +664,6 @@ class _$PlayerPlayingSongDataChanged implements PlayerPlayingSongDataChanged {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -924,7 +681,6 @@ class _$PlayerPlayingSongDataChanged implements PlayerPlayingSongDataChanged {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -996,8 +752,6 @@ class _$PlayerPerviousSongPlayed implements PlayerPerviousSongPlayed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
     required TResult Function(Song song, int songOrder)
         playerSongFromQueuePlayed,
     required TResult Function() playerNextSongPlayed,
@@ -1015,8 +769,6 @@ class _$PlayerPerviousSongPlayed implements PlayerPerviousSongPlayed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1032,8 +784,6 @@ class _$PlayerPerviousSongPlayed implements PlayerPerviousSongPlayed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1053,7 +803,6 @@ class _$PlayerPerviousSongPlayed implements PlayerPerviousSongPlayed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
     required TResult Function(PlayerSongFromQueuePlayed value)
         playerSongFromQueuePlayed,
     required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
@@ -1072,7 +821,6 @@ class _$PlayerPerviousSongPlayed implements PlayerPerviousSongPlayed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1090,7 +838,6 @@ class _$PlayerPerviousSongPlayed implements PlayerPerviousSongPlayed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1154,8 +901,6 @@ class _$PlayerPaused implements PlayerPaused {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
     required TResult Function(Song song, int songOrder)
         playerSongFromQueuePlayed,
     required TResult Function() playerNextSongPlayed,
@@ -1173,8 +918,6 @@ class _$PlayerPaused implements PlayerPaused {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1190,8 +933,6 @@ class _$PlayerPaused implements PlayerPaused {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1211,7 +952,6 @@ class _$PlayerPaused implements PlayerPaused {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
     required TResult Function(PlayerSongFromQueuePlayed value)
         playerSongFromQueuePlayed,
     required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
@@ -1230,7 +970,6 @@ class _$PlayerPaused implements PlayerPaused {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1248,7 +987,6 @@ class _$PlayerPaused implements PlayerPaused {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1312,8 +1050,6 @@ class _$PlayerResumed implements PlayerResumed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
     required TResult Function(Song song, int songOrder)
         playerSongFromQueuePlayed,
     required TResult Function() playerNextSongPlayed,
@@ -1331,8 +1067,6 @@ class _$PlayerResumed implements PlayerResumed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1348,8 +1082,6 @@ class _$PlayerResumed implements PlayerResumed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1369,7 +1101,6 @@ class _$PlayerResumed implements PlayerResumed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
     required TResult Function(PlayerSongFromQueuePlayed value)
         playerSongFromQueuePlayed,
     required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
@@ -1388,7 +1119,6 @@ class _$PlayerResumed implements PlayerResumed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1406,7 +1136,6 @@ class _$PlayerResumed implements PlayerResumed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1495,8 +1224,6 @@ class _$PlayerSongSought implements PlayerSongSought {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
     required TResult Function(Song song, int songOrder)
         playerSongFromQueuePlayed,
     required TResult Function() playerNextSongPlayed,
@@ -1514,8 +1241,6 @@ class _$PlayerSongSought implements PlayerSongSought {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1531,8 +1256,6 @@ class _$PlayerSongSought implements PlayerSongSought {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1552,7 +1275,6 @@ class _$PlayerSongSought implements PlayerSongSought {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
     required TResult Function(PlayerSongFromQueuePlayed value)
         playerSongFromQueuePlayed,
     required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
@@ -1571,7 +1293,6 @@ class _$PlayerSongSought implements PlayerSongSought {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1589,7 +1310,6 @@ class _$PlayerSongSought implements PlayerSongSought {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1684,8 +1404,6 @@ class _$PlayerLoopModeChanged implements PlayerLoopModeChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(SongsContainer songsContainer, int songOrder)
-        playerNewSongPlayed,
     required TResult Function(Song song, int songOrder)
         playerSongFromQueuePlayed,
     required TResult Function() playerNextSongPlayed,
@@ -1703,8 +1421,6 @@ class _$PlayerLoopModeChanged implements PlayerLoopModeChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1720,8 +1436,6 @@ class _$PlayerLoopModeChanged implements PlayerLoopModeChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(SongsContainer songsContainer, int songOrder)?
-        playerNewSongPlayed,
     TResult Function(Song song, int songOrder)? playerSongFromQueuePlayed,
     TResult Function()? playerNextSongPlayed,
     TResult Function(PlayingSong playingSong)? playerPlayingSongDataChanged,
@@ -1741,7 +1455,6 @@ class _$PlayerLoopModeChanged implements PlayerLoopModeChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(PlayerNewSongPlayed value) playerNewSongPlayed,
     required TResult Function(PlayerSongFromQueuePlayed value)
         playerSongFromQueuePlayed,
     required TResult Function(PlayerNextSongPlayed value) playerNextSongPlayed,
@@ -1760,7 +1473,6 @@ class _$PlayerLoopModeChanged implements PlayerLoopModeChanged {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1778,7 +1490,6 @@ class _$PlayerLoopModeChanged implements PlayerLoopModeChanged {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(PlayerNewSongPlayed value)? playerNewSongPlayed,
     TResult Function(PlayerSongFromQueuePlayed value)?
         playerSongFromQueuePlayed,
     TResult Function(PlayerNextSongPlayed value)? playerNextSongPlayed,
@@ -1816,8 +1527,8 @@ class _$PlayerStateTearOff {
     return const PlayerInitial();
   }
 
-  PlayerPlaySuccuss playSuccuss(PlayingSong playingSong) {
-    return PlayerPlaySuccuss(
+  PlayerPlaySongSuccuss playSongSuccuss(PlayingSong playingSong) {
+    return PlayerPlaySongSuccuss(
       playingSong,
     );
   }
@@ -1837,21 +1548,21 @@ mixin _$PlayerState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PlayingSong playingSong) playSuccuss,
+    required TResult Function(PlayingSong playingSong) playSongSuccuss,
     required TResult Function(PlayingSong playingSong) playSongFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PlayingSong playingSong)? playSuccuss,
+    TResult Function(PlayingSong playingSong)? playSongSuccuss,
     TResult Function(PlayingSong playingSong)? playSongFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PlayingSong playingSong)? playSuccuss,
+    TResult Function(PlayingSong playingSong)? playSongSuccuss,
     TResult Function(PlayingSong playingSong)? playSongFailure,
     required TResult orElse(),
   }) =>
@@ -1859,21 +1570,21 @@ mixin _$PlayerState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(PlayerInitial value) initial,
-    required TResult Function(PlayerPlaySuccuss value) playSuccuss,
+    required TResult Function(PlayerPlaySongSuccuss value) playSongSuccuss,
     required TResult Function(PlayerPlaySongLoadFailure value) playSongFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(PlayerInitial value)? initial,
-    TResult Function(PlayerPlaySuccuss value)? playSuccuss,
+    TResult Function(PlayerPlaySongSuccuss value)? playSongSuccuss,
     TResult Function(PlayerPlaySongLoadFailure value)? playSongFailure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(PlayerInitial value)? initial,
-    TResult Function(PlayerPlaySuccuss value)? playSuccuss,
+    TResult Function(PlayerPlaySongSuccuss value)? playSongSuccuss,
     TResult Function(PlayerPlaySongLoadFailure value)? playSongFailure,
     required TResult orElse(),
   }) =>
@@ -1937,7 +1648,7 @@ class _$PlayerInitial implements PlayerInitial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PlayingSong playingSong) playSuccuss,
+    required TResult Function(PlayingSong playingSong) playSongSuccuss,
     required TResult Function(PlayingSong playingSong) playSongFailure,
   }) {
     return initial();
@@ -1947,7 +1658,7 @@ class _$PlayerInitial implements PlayerInitial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PlayingSong playingSong)? playSuccuss,
+    TResult Function(PlayingSong playingSong)? playSongSuccuss,
     TResult Function(PlayingSong playingSong)? playSongFailure,
   }) {
     return initial?.call();
@@ -1957,7 +1668,7 @@ class _$PlayerInitial implements PlayerInitial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PlayingSong playingSong)? playSuccuss,
+    TResult Function(PlayingSong playingSong)? playSongSuccuss,
     TResult Function(PlayingSong playingSong)? playSongFailure,
     required TResult orElse(),
   }) {
@@ -1971,7 +1682,7 @@ class _$PlayerInitial implements PlayerInitial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(PlayerInitial value) initial,
-    required TResult Function(PlayerPlaySuccuss value) playSuccuss,
+    required TResult Function(PlayerPlaySongSuccuss value) playSongSuccuss,
     required TResult Function(PlayerPlaySongLoadFailure value) playSongFailure,
   }) {
     return initial(this);
@@ -1981,7 +1692,7 @@ class _$PlayerInitial implements PlayerInitial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(PlayerInitial value)? initial,
-    TResult Function(PlayerPlaySuccuss value)? playSuccuss,
+    TResult Function(PlayerPlaySongSuccuss value)? playSongSuccuss,
     TResult Function(PlayerPlaySongLoadFailure value)? playSongFailure,
   }) {
     return initial?.call(this);
@@ -1991,7 +1702,7 @@ class _$PlayerInitial implements PlayerInitial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(PlayerInitial value)? initial,
-    TResult Function(PlayerPlaySuccuss value)? playSuccuss,
+    TResult Function(PlayerPlaySongSuccuss value)? playSongSuccuss,
     TResult Function(PlayerPlaySongLoadFailure value)? playSongFailure,
     required TResult orElse(),
   }) {
@@ -2007,31 +1718,31 @@ abstract class PlayerInitial implements PlayerState {
 }
 
 /// @nodoc
-abstract class $PlayerPlaySuccussCopyWith<$Res> {
-  factory $PlayerPlaySuccussCopyWith(
-          PlayerPlaySuccuss value, $Res Function(PlayerPlaySuccuss) then) =
-      _$PlayerPlaySuccussCopyWithImpl<$Res>;
+abstract class $PlayerPlaySongSuccussCopyWith<$Res> {
+  factory $PlayerPlaySongSuccussCopyWith(PlayerPlaySongSuccuss value,
+          $Res Function(PlayerPlaySongSuccuss) then) =
+      _$PlayerPlaySongSuccussCopyWithImpl<$Res>;
   $Res call({PlayingSong playingSong});
 
   $PlayingSongCopyWith<$Res> get playingSong;
 }
 
 /// @nodoc
-class _$PlayerPlaySuccussCopyWithImpl<$Res>
+class _$PlayerPlaySongSuccussCopyWithImpl<$Res>
     extends _$PlayerStateCopyWithImpl<$Res>
-    implements $PlayerPlaySuccussCopyWith<$Res> {
-  _$PlayerPlaySuccussCopyWithImpl(
-      PlayerPlaySuccuss _value, $Res Function(PlayerPlaySuccuss) _then)
-      : super(_value, (v) => _then(v as PlayerPlaySuccuss));
+    implements $PlayerPlaySongSuccussCopyWith<$Res> {
+  _$PlayerPlaySongSuccussCopyWithImpl(
+      PlayerPlaySongSuccuss _value, $Res Function(PlayerPlaySongSuccuss) _then)
+      : super(_value, (v) => _then(v as PlayerPlaySongSuccuss));
 
   @override
-  PlayerPlaySuccuss get _value => super._value as PlayerPlaySuccuss;
+  PlayerPlaySongSuccuss get _value => super._value as PlayerPlaySongSuccuss;
 
   @override
   $Res call({
     Object? playingSong = freezed,
   }) {
-    return _then(PlayerPlaySuccuss(
+    return _then(PlayerPlaySongSuccuss(
       playingSong == freezed
           ? _value.playingSong
           : playingSong // ignore: cast_nullable_to_non_nullable
@@ -2049,22 +1760,22 @@ class _$PlayerPlaySuccussCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$PlayerPlaySuccuss implements PlayerPlaySuccuss {
-  const _$PlayerPlaySuccuss(this.playingSong);
+class _$PlayerPlaySongSuccuss implements PlayerPlaySongSuccuss {
+  const _$PlayerPlaySongSuccuss(this.playingSong);
 
   @override
   final PlayingSong playingSong;
 
   @override
   String toString() {
-    return 'PlayerState.playSuccuss(playingSong: $playingSong)';
+    return 'PlayerState.playSongSuccuss(playingSong: $playingSong)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is PlayerPlaySuccuss &&
+            other is PlayerPlaySongSuccuss &&
             (identical(other.playingSong, playingSong) ||
                 other.playingSong == playingSong));
   }
@@ -2074,39 +1785,40 @@ class _$PlayerPlaySuccuss implements PlayerPlaySuccuss {
 
   @JsonKey(ignore: true)
   @override
-  $PlayerPlaySuccussCopyWith<PlayerPlaySuccuss> get copyWith =>
-      _$PlayerPlaySuccussCopyWithImpl<PlayerPlaySuccuss>(this, _$identity);
+  $PlayerPlaySongSuccussCopyWith<PlayerPlaySongSuccuss> get copyWith =>
+      _$PlayerPlaySongSuccussCopyWithImpl<PlayerPlaySongSuccuss>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PlayingSong playingSong) playSuccuss,
+    required TResult Function(PlayingSong playingSong) playSongSuccuss,
     required TResult Function(PlayingSong playingSong) playSongFailure,
   }) {
-    return playSuccuss(playingSong);
+    return playSongSuccuss(playingSong);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PlayingSong playingSong)? playSuccuss,
+    TResult Function(PlayingSong playingSong)? playSongSuccuss,
     TResult Function(PlayingSong playingSong)? playSongFailure,
   }) {
-    return playSuccuss?.call(playingSong);
+    return playSongSuccuss?.call(playingSong);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PlayingSong playingSong)? playSuccuss,
+    TResult Function(PlayingSong playingSong)? playSongSuccuss,
     TResult Function(PlayingSong playingSong)? playSongFailure,
     required TResult orElse(),
   }) {
-    if (playSuccuss != null) {
-      return playSuccuss(playingSong);
+    if (playSongSuccuss != null) {
+      return playSongSuccuss(playingSong);
     }
     return orElse();
   }
@@ -2115,44 +1827,44 @@ class _$PlayerPlaySuccuss implements PlayerPlaySuccuss {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(PlayerInitial value) initial,
-    required TResult Function(PlayerPlaySuccuss value) playSuccuss,
+    required TResult Function(PlayerPlaySongSuccuss value) playSongSuccuss,
     required TResult Function(PlayerPlaySongLoadFailure value) playSongFailure,
   }) {
-    return playSuccuss(this);
+    return playSongSuccuss(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(PlayerInitial value)? initial,
-    TResult Function(PlayerPlaySuccuss value)? playSuccuss,
+    TResult Function(PlayerPlaySongSuccuss value)? playSongSuccuss,
     TResult Function(PlayerPlaySongLoadFailure value)? playSongFailure,
   }) {
-    return playSuccuss?.call(this);
+    return playSongSuccuss?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(PlayerInitial value)? initial,
-    TResult Function(PlayerPlaySuccuss value)? playSuccuss,
+    TResult Function(PlayerPlaySongSuccuss value)? playSongSuccuss,
     TResult Function(PlayerPlaySongLoadFailure value)? playSongFailure,
     required TResult orElse(),
   }) {
-    if (playSuccuss != null) {
-      return playSuccuss(this);
+    if (playSongSuccuss != null) {
+      return playSongSuccuss(this);
     }
     return orElse();
   }
 }
 
-abstract class PlayerPlaySuccuss implements PlayerState {
-  const factory PlayerPlaySuccuss(PlayingSong playingSong) =
-      _$PlayerPlaySuccuss;
+abstract class PlayerPlaySongSuccuss implements PlayerState {
+  const factory PlayerPlaySongSuccuss(PlayingSong playingSong) =
+      _$PlayerPlaySongSuccuss;
 
   PlayingSong get playingSong;
   @JsonKey(ignore: true)
-  $PlayerPlaySuccussCopyWith<PlayerPlaySuccuss> get copyWith =>
+  $PlayerPlaySongSuccussCopyWith<PlayerPlaySongSuccuss> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2233,7 +1945,7 @@ class _$PlayerPlaySongLoadFailure implements PlayerPlaySongLoadFailure {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PlayingSong playingSong) playSuccuss,
+    required TResult Function(PlayingSong playingSong) playSongSuccuss,
     required TResult Function(PlayingSong playingSong) playSongFailure,
   }) {
     return playSongFailure(playingSong);
@@ -2243,7 +1955,7 @@ class _$PlayerPlaySongLoadFailure implements PlayerPlaySongLoadFailure {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PlayingSong playingSong)? playSuccuss,
+    TResult Function(PlayingSong playingSong)? playSongSuccuss,
     TResult Function(PlayingSong playingSong)? playSongFailure,
   }) {
     return playSongFailure?.call(playingSong);
@@ -2253,7 +1965,7 @@ class _$PlayerPlaySongLoadFailure implements PlayerPlaySongLoadFailure {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PlayingSong playingSong)? playSuccuss,
+    TResult Function(PlayingSong playingSong)? playSongSuccuss,
     TResult Function(PlayingSong playingSong)? playSongFailure,
     required TResult orElse(),
   }) {
@@ -2267,7 +1979,7 @@ class _$PlayerPlaySongLoadFailure implements PlayerPlaySongLoadFailure {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(PlayerInitial value) initial,
-    required TResult Function(PlayerPlaySuccuss value) playSuccuss,
+    required TResult Function(PlayerPlaySongSuccuss value) playSongSuccuss,
     required TResult Function(PlayerPlaySongLoadFailure value) playSongFailure,
   }) {
     return playSongFailure(this);
@@ -2277,7 +1989,7 @@ class _$PlayerPlaySongLoadFailure implements PlayerPlaySongLoadFailure {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(PlayerInitial value)? initial,
-    TResult Function(PlayerPlaySuccuss value)? playSuccuss,
+    TResult Function(PlayerPlaySongSuccuss value)? playSongSuccuss,
     TResult Function(PlayerPlaySongLoadFailure value)? playSongFailure,
   }) {
     return playSongFailure?.call(this);
@@ -2287,7 +1999,7 @@ class _$PlayerPlaySongLoadFailure implements PlayerPlaySongLoadFailure {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(PlayerInitial value)? initial,
-    TResult Function(PlayerPlaySuccuss value)? playSuccuss,
+    TResult Function(PlayerPlaySongSuccuss value)? playSongSuccuss,
     TResult Function(PlayerPlaySongLoadFailure value)? playSongFailure,
     required TResult orElse(),
   }) {

@@ -4,6 +4,11 @@ part of 'queue_bloc.dart';
 class QueueEvent with _$QueueEvent {
   const factory QueueEvent.queueLoaded() = QueueLoaded;
 
+  const factory QueueEvent.queueNewSongPlayed(
+    SongsContainer songsContainer,
+    int songOrder,
+  ) = QueueNewSongPlayed;
+
   const factory QueueEvent.queueSongRemoved(Song song, int order) =
       QueueSongRemoved;
 
