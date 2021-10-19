@@ -50,9 +50,10 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
       newSongPlayed.songOrder,
     );
 
+    await _emitNewQueue(emitter);
+    
     _playerRepository.play();
 
-    await _emitNewQueue(emitter);
   }
 
   Future<void> _emitNewQueue(Emitter<QueueState> emitter) async {

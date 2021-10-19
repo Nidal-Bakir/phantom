@@ -31,7 +31,7 @@ class PlayerRepository {
         _playerService.getPlayerStateStream(),
         _playerService.getPlaybackEventStream(), (playerState, playbackEvent) {
       final cpsIndex = _playerService.obtainCurrentlyPlayingIndex();
-      if (cpsIndex != null) {
+      if (cpsIndex != null && cpsIndex < _queue.length) {
         return PlayingSong(
           cpsIndex: cpsIndex,
           icyMetadata: _playerService.getIcyMetadata(),
@@ -74,13 +74,12 @@ class PlayerRepository {
 
   Future<void> setQueue(Iterable<Song> queueSong,
       Map<int, Uint8List?>? artworks, int offset) async {
-    await _playerService.setAudioSource(queueSong, offset);
-    _queueDataSource.setQueue(queueSong);
-
     _queue
       ..clear()
       ..addAll(queueSong);
     _artworks = artworks ?? {};
+    _queueDataSource.setQueue(queueSong);
+    await _playerService.setAudioSource(queueSong, offset);
   }
 
   Future<void> removeSongFromQueue(int songOrder) async {

@@ -15,7 +15,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
   final PlayerRepository _playerRepository;
   PlayerBloc(this._playerRepository) : super(const PlayerInitial()) {
     _playerRepository.playingSongStream.listen((playingSong) {
-      if(playingSong!= null) {
+      if (playingSong != null) {
         add(PlayerPlayingSongDataChanged(playingSong));
       }
     });
@@ -76,13 +76,21 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
 
   FutureOr<void> _onLoopModeChanged(PlayerLoopModeChanged playerLoopModeChanged,
       Emitter<PlayerState> emitter) async {
+    await _playerRepository.setLoopMode(playerLoopModeChanged.loopMode);
     final currentState = state;
-    emitter(currentState.map(
+    final playerState = currentState.map<PlayerState>(
         initial: (initial) => initial,
-        playSongSuccuss: (playSongSuccuss) => playSongSuccuss
-          ..playingSong.copyWith(loopMode: playerLoopModeChanged.loopMode),
-        playSongFailure: (playSongFailure) => playSongFailure
-          ..playingSong.copyWith(loopMode: playerLoopModeChanged.loopMode)));
+        playSongSuccuss: (playSongSuccuss) {
+          final currentPlayingSong = playSongSuccuss.playingSong;
+          return PlayerPlaySongSuccuss(currentPlayingSong.copyWith(
+              loopMode: playerLoopModeChanged.loopMode));
+        },
+        playSongFailure: (playSongFailure) {
+          final currentPlayingSong = playSongFailure.playingSong;
+          return PlayerPlaySongLoadFailure(currentPlayingSong.copyWith(
+              loopMode: playerLoopModeChanged.loopMode));
+        });
+    emitter(playerState);
   }
 
   FutureOr<void> _onSongSought(

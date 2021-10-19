@@ -149,14 +149,28 @@ class PlayerServiceImp extends PlayerService {
 
   @override
   Future<void> seekToNext() async {
-    await _audioPlayer.seekToNext();
+    await _changeTheLoopModeThenSeekToSong(() async {
+      await _audioPlayer.seekToNext();
+    });
+
     play();
   }
 
   @override
   Future<void> seekToPrevious() async {
-    await _audioPlayer.seekToPrevious();
+    await _changeTheLoopModeThenSeekToSong(() async {
+      await _audioPlayer.seekToPrevious();
+    });
+
     play();
+  }
+
+  Future<void> _changeTheLoopModeThenSeekToSong(
+      Future<void> Function() call) async {
+    final loopMood = _audioPlayer.loopMode;
+    await _audioPlayer.setLoopMode(LoopMode.all);
+    await call();
+    await _audioPlayer.setLoopMode(loopMood);
   }
 
   @override
@@ -166,7 +180,10 @@ class PlayerServiceImp extends PlayerService {
 
   @override
   Future<void> seekToSongInQueue(int sequenceIndex) async {
-    await _audioPlayer.seek(null, index: sequenceIndex);
+    await _changeTheLoopModeThenSeekToSong(() async {
+      await _audioPlayer.seek(null, index: sequenceIndex);
+    });
+
     play();
   }
 

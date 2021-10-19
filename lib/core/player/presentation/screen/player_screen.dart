@@ -6,6 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phantom/core/player/presentation/bloc/player_bloc/player_bloc.dart';
 import 'package:phantom/core/player/presentation/bloc/queue_bloc/queue_bloc.dart';
 import 'package:phantom/core/player/presentation/widget/player_control_buttons.dart';
+import 'package:phantom/core/player/presentation/widget/player_song_info_with_options.dart';
+import 'package:phantom/core/player/presentation/widget/player_song_slider_and_duration.dart';
+import 'package:phantom/core/player/presentation/widget/plyaer_action_buttons.dart';
 import 'package:phantom/core/player/presentation/widget/queue_widget.dart';
 
 class PlayerScreen extends StatelessWidget {
@@ -32,7 +35,14 @@ class PlayerScreen extends StatelessWidget {
           return playerState.when(initial: () {
             return Container();
           }, playSongSuccuss: (playingSong) {
-            return PlayerControlButtons(playingSong: playingSong);
+            return Column(
+              children: [
+                PlayerSongInfoWithOptions(playingSong: playingSong),
+                const PlayerActionButtons(),
+                PlayerSongSliderAndDuration(playingSong: playingSong),
+                PlayerControlButtons(playingSong: playingSong),
+              ],
+            );
           }, playSongFailure: (playingSong) {
             return Row(
               children: [],
