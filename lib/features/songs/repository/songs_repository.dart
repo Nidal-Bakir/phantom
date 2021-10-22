@@ -21,7 +21,7 @@ class SongsRepository {
   ///
   /// Returns [SongsContainer] contain list of [Song] and map of album artworks,
   /// where each song correspond to one or Zero artwork based on their album id.
-  Future<SongsContainer<UnmodifiableListView<Song>>> querySongs({
+  Future<SongsContainer> querySongs({
     Sort sort = const Sort(
       orderType: SongOrderType.asc,
       sortType: SongSortType.songName,

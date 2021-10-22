@@ -5,8 +5,8 @@ class QueueEvent with _$QueueEvent {
   const factory QueueEvent.queueLoaded() = QueueLoaded;
 
   const factory QueueEvent.queueNewSongPlayed(
-    SongsContainer songsContainer,
     int songOrder,
+    SongsContainer songsContainer,
   ) = QueueNewSongPlayed;
 
   const factory QueueEvent.queueSongRemoved(Song song, int order) =
@@ -16,7 +16,7 @@ class QueueEvent with _$QueueEvent {
       QueueSongAdded;
 
   const factory QueueEvent.queueSongsAdded(
-          SongsContainer<UnmodifiableListView<Song>> songsContainer) =
+          SongsContainer songsContainer) =
       QueueSongsAdded;
 
   const factory QueueEvent.queueSongReordered(int from, int to) =

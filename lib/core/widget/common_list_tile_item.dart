@@ -49,8 +49,8 @@ class _CommonListTileItemState extends State<CommonListTileItem>
                 borderRadius: BorderRadius.circular(5),
                 child: Image.memory(
                   widget.artwork!,
-                  cacheHeight: 200,
-                  cacheWidth: 200,
+                  cacheHeight: 100,
+                  cacheWidth: 100,
                   frameBuilder:
                       (context, child, frame, wasSynchronouslyLoaded) {
                     if (wasSynchronouslyLoaded) {

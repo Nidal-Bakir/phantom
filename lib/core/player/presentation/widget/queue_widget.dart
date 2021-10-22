@@ -9,7 +9,7 @@ import 'package:phantom/core/player/presentation/bloc/player_bloc/player_bloc.da
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class QueueWidget extends StatefulWidget {
-  final SongsContainer<UnmodifiableListView<Song>> songsContainer;
+  final SongsContainer songsContainer;
   final Stream<int?> cppIndexStream;
   const QueueWidget({
     Key? key,
@@ -22,28 +22,48 @@ class QueueWidget extends StatefulWidget {
 }
 
 class _QueueWidgetState extends State<QueueWidget> {
-  late final _pageController = PageController();
+  final PageController _pageController = PageController();
   bool _userInput = true;
   int? _cpsIndex;
+  bool _initScreen = true;
   @override
   void initState() {
     widget.cppIndexStream.listen((event) {
-      if (_pageController.hasClients) {
-        _userInput = false;
-        runZonedGuarded(() {
-          _pageController
-              .animateToPage(event ?? 0,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease)
-              .then((value) => _userInput = true);
-        }, (error, stacktrace) {
-          log('_pageController.animateToPage can not move the pageView',
-              error: error, stackTrace: stacktrace);
-        });
+      if (event != null) {
+        if (_initScreen) {
+          _userInput = false;
+          _pageController.jumpToPage(event);
+          _initScreen = false;
+          _userInput = true;
+          _cpsIndex = event;
+
+          return;
+        }
+
+        if (_pageController.hasClients) {
+          _userInput = false;
+          runZonedGuarded(() {
+            _pageController
+                .animateToPage(event,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease)
+                .then((value) => _userInput = true);
+          }, (error, stacktrace) {
+            log('_pageController.animateToPage can not move the pageView',
+                error: error, stackTrace: stacktrace);
+          });
+        }
+        _cpsIndex = event;
       }
-      _cpsIndex = event;
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -65,14 +85,17 @@ class _QueueWidgetState extends State<QueueWidget> {
           }
           return true;
         },
-        child: PageView.builder(restorationId: 'songs',
+        child: PageView.builder(
           itemCount: widget.songsContainer.songs.length,
           controller: _pageController,
           itemBuilder: (context, index) {
             final _song = widget.songsContainer.songs[index];
-            return Image.memory(
-              widget.songsContainer.albumArtwork[_song
-                  .albumId]!, // TODO : remove the ! and handle the null inage
+            return Hero(
+              tag: _song.id,
+              child: Image.memory(
+                widget.songsContainer.albumArtwork[_song
+                    .albumId]!, // TODO : remove the ! and handle the null inage
+              ),
             );
           },
         ),

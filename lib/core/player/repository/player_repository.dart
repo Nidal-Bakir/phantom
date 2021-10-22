@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:typed_data';
-
+import 'dart:collection';
 import 'package:just_audio/just_audio.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:phantom/core/data/currently_playing_song_data_source.dart';
@@ -31,7 +31,10 @@ class PlayerRepository {
         _playerService.getPlayerStateStream(),
         _playerService.getPlaybackEventStream(), (playerState, playbackEvent) {
       final cpsIndex = _playerService.obtainCurrentlyPlayingIndex();
-      if (cpsIndex != null && cpsIndex < _queue.length) {
+      if (cpsIndex != null &&
+          cpsIndex < _queue.length &&
+          (playbackEvent.processingState == ProcessingState.ready ||
+              playbackEvent.processingState == ProcessingState.completed)) {
         return PlayingSong(
           cpsIndex: cpsIndex,
           icyMetadata: _playerService.getIcyMetadata(),
@@ -72,7 +75,7 @@ class PlayerRepository {
   Future<void> seekToSongInQueue(int sequenceIndex) =>
       _playerService.seekToSongInQueue(sequenceIndex);
 
-  Future<void> setQueue(Iterable<Song> queueSong,
+  Future<void> setQueue(UnmodifiableListView<Song> queueSong,
       Map<int, Uint8List?>? artworks, int offset) async {
     _queue
       ..clear()
@@ -128,7 +131,7 @@ class PlayerRepository {
     _queueDataSource.setQueue(_queue);
   }
 
-  Future<SongsContainer<UnmodifiableListView<Song>>> queryQueueSongs() async {
+  Future<SongsContainer> queryQueueSongs() async {
     final currentlyPlayingSong =
         await _currentlyPlayingSongDataSource.getCurrentlyPlayingSong();
 

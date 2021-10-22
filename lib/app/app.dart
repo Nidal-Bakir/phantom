@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:phantom/core/player/data/player_service/player_service.dart';
+import 'package:phantom/core/player/presentation/bloc/player_bloc/player_bloc.dart';
+import 'package:phantom/core/player/presentation/bloc/queue_bloc/queue_bloc.dart';
 import 'package:phantom/core/sync/dispatcher/delta_dispatcher.dart';
 import 'package:phantom/l10n/l10n.dart';
 import 'package:phantom/routes/app_routes.dart';
@@ -37,20 +40,32 @@ class _AppState extends State<App> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
-        colorScheme: ColorScheme.fromSwatch(
-          accentColor: const Color(0xFF13B9FF),
+    return MultiBlocProvider(
+      providers: [
+         BlocProvider<PlayerBloc>(
+          create: (_) => GetIt.I.get(),
+          lazy: false,
         ),
-      ),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+        BlocProvider<QueueBloc>(
+          create: (_) => GetIt.I.get()..add(const QueueLoaded()),
+          lazy: false,
+        ),
       ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      onGenerateRoute: onGenerateRoute,
+      child: MaterialApp(
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
+          colorScheme: ColorScheme.fromSwatch(
+            accentColor: const Color(0xFF13B9FF),
+          ),
+        ),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        onGenerateRoute: onGenerateRoute,
+      ),
     );
   }
 }

@@ -22,10 +22,10 @@ class _$QueueEventTearOff {
   }
 
   QueueNewSongPlayed queueNewSongPlayed(
-      SongsContainer songsContainer, int songOrder) {
+      int songOrder, SongsContainer songsContainer) {
     return QueueNewSongPlayed(
-      songsContainer,
       songOrder,
+      songsContainer,
     );
   }
 
@@ -43,7 +43,7 @@ class _$QueueEventTearOff {
     );
   }
 
-  QueueSongsAdded queueSongsAdded(dynamic songsContainer) {
+  QueueSongsAdded queueSongsAdded(SongsContainer songsContainer) {
     return QueueSongsAdded(
       songsContainer,
     );
@@ -69,11 +69,11 @@ mixin _$QueueEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() queueLoaded,
-    required TResult Function(SongsContainer songsContainer, int songOrder)
+    required TResult Function(int songOrder, SongsContainer songsContainer)
         queueNewSongPlayed,
     required TResult Function(Song song, int order) queueSongRemoved,
     required TResult Function(Song song, Uint8List? artwork) queueSongAdded,
-    required TResult Function(dynamic songsContainer) queueSongsAdded,
+    required TResult Function(SongsContainer songsContainer) queueSongsAdded,
     required TResult Function(int from, int to) queueSongReordered,
     required TResult Function() queueCleared,
   }) =>
@@ -81,11 +81,11 @@ mixin _$QueueEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
   }) =>
@@ -93,11 +93,11 @@ mixin _$QueueEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
     required TResult orElse(),
@@ -196,11 +196,11 @@ class _$QueueLoaded implements QueueLoaded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() queueLoaded,
-    required TResult Function(SongsContainer songsContainer, int songOrder)
+    required TResult Function(int songOrder, SongsContainer songsContainer)
         queueNewSongPlayed,
     required TResult Function(Song song, int order) queueSongRemoved,
     required TResult Function(Song song, Uint8List? artwork) queueSongAdded,
-    required TResult Function(dynamic songsContainer) queueSongsAdded,
+    required TResult Function(SongsContainer songsContainer) queueSongsAdded,
     required TResult Function(int from, int to) queueSongReordered,
     required TResult Function() queueCleared,
   }) {
@@ -211,11 +211,11 @@ class _$QueueLoaded implements QueueLoaded {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
   }) {
@@ -226,11 +226,11 @@ class _$QueueLoaded implements QueueLoaded {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
     required TResult orElse(),
@@ -297,7 +297,7 @@ abstract class $QueueNewSongPlayedCopyWith<$Res> {
   factory $QueueNewSongPlayedCopyWith(
           QueueNewSongPlayed value, $Res Function(QueueNewSongPlayed) then) =
       _$QueueNewSongPlayedCopyWithImpl<$Res>;
-  $Res call({SongsContainer songsContainer, int songOrder});
+  $Res call({int songOrder, SongsContainer songsContainer});
 }
 
 /// @nodoc
@@ -313,18 +313,18 @@ class _$QueueNewSongPlayedCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? songsContainer = freezed,
     Object? songOrder = freezed,
+    Object? songsContainer = freezed,
   }) {
     return _then(QueueNewSongPlayed(
-      songsContainer == freezed
-          ? _value.songsContainer
-          : songsContainer // ignore: cast_nullable_to_non_nullable
-              as SongsContainer,
       songOrder == freezed
           ? _value.songOrder
           : songOrder // ignore: cast_nullable_to_non_nullable
               as int,
+      songsContainer == freezed
+          ? _value.songsContainer
+          : songsContainer // ignore: cast_nullable_to_non_nullable
+              as SongsContainer,
     ));
   }
 }
@@ -332,16 +332,16 @@ class _$QueueNewSongPlayedCopyWithImpl<$Res>
 /// @nodoc
 
 class _$QueueNewSongPlayed implements QueueNewSongPlayed {
-  const _$QueueNewSongPlayed(this.songsContainer, this.songOrder);
+  const _$QueueNewSongPlayed(this.songOrder, this.songsContainer);
 
   @override
-  final SongsContainer songsContainer;
-  @override
   final int songOrder;
+  @override
+  final SongsContainer songsContainer;
 
   @override
   String toString() {
-    return 'QueueEvent.queueNewSongPlayed(songsContainer: $songsContainer, songOrder: $songOrder)';
+    return 'QueueEvent.queueNewSongPlayed(songOrder: $songOrder, songsContainer: $songsContainer)';
   }
 
   @override
@@ -349,15 +349,14 @@ class _$QueueNewSongPlayed implements QueueNewSongPlayed {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is QueueNewSongPlayed &&
-            const DeepCollectionEquality()
-                .equals(other.songsContainer, songsContainer) &&
             (identical(other.songOrder, songOrder) ||
-                other.songOrder == songOrder));
+                other.songOrder == songOrder) &&
+            (identical(other.songsContainer, songsContainer) ||
+                other.songsContainer == songsContainer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(songsContainer), songOrder);
+  int get hashCode => Object.hash(runtimeType, songOrder, songsContainer);
 
   @JsonKey(ignore: true)
   @override
@@ -368,47 +367,47 @@ class _$QueueNewSongPlayed implements QueueNewSongPlayed {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() queueLoaded,
-    required TResult Function(SongsContainer songsContainer, int songOrder)
+    required TResult Function(int songOrder, SongsContainer songsContainer)
         queueNewSongPlayed,
     required TResult Function(Song song, int order) queueSongRemoved,
     required TResult Function(Song song, Uint8List? artwork) queueSongAdded,
-    required TResult Function(dynamic songsContainer) queueSongsAdded,
+    required TResult Function(SongsContainer songsContainer) queueSongsAdded,
     required TResult Function(int from, int to) queueSongReordered,
     required TResult Function() queueCleared,
   }) {
-    return queueNewSongPlayed(songsContainer, songOrder);
+    return queueNewSongPlayed(songOrder, songsContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
   }) {
-    return queueNewSongPlayed?.call(songsContainer, songOrder);
+    return queueNewSongPlayed?.call(songOrder, songsContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
     required TResult orElse(),
   }) {
     if (queueNewSongPlayed != null) {
-      return queueNewSongPlayed(songsContainer, songOrder);
+      return queueNewSongPlayed(songOrder, songsContainer);
     }
     return orElse();
   }
@@ -462,10 +461,10 @@ class _$QueueNewSongPlayed implements QueueNewSongPlayed {
 
 abstract class QueueNewSongPlayed implements QueueEvent {
   const factory QueueNewSongPlayed(
-      SongsContainer songsContainer, int songOrder) = _$QueueNewSongPlayed;
+      int songOrder, SongsContainer songsContainer) = _$QueueNewSongPlayed;
 
-  SongsContainer get songsContainer;
   int get songOrder;
+  SongsContainer get songsContainer;
   @JsonKey(ignore: true)
   $QueueNewSongPlayedCopyWith<QueueNewSongPlayed> get copyWith =>
       throw _privateConstructorUsedError;
@@ -553,11 +552,11 @@ class _$QueueSongRemoved implements QueueSongRemoved {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() queueLoaded,
-    required TResult Function(SongsContainer songsContainer, int songOrder)
+    required TResult Function(int songOrder, SongsContainer songsContainer)
         queueNewSongPlayed,
     required TResult Function(Song song, int order) queueSongRemoved,
     required TResult Function(Song song, Uint8List? artwork) queueSongAdded,
-    required TResult Function(dynamic songsContainer) queueSongsAdded,
+    required TResult Function(SongsContainer songsContainer) queueSongsAdded,
     required TResult Function(int from, int to) queueSongReordered,
     required TResult Function() queueCleared,
   }) {
@@ -568,11 +567,11 @@ class _$QueueSongRemoved implements QueueSongRemoved {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
   }) {
@@ -583,11 +582,11 @@ class _$QueueSongRemoved implements QueueSongRemoved {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
     required TResult orElse(),
@@ -736,11 +735,11 @@ class _$QueueSongAdded implements QueueSongAdded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() queueLoaded,
-    required TResult Function(SongsContainer songsContainer, int songOrder)
+    required TResult Function(int songOrder, SongsContainer songsContainer)
         queueNewSongPlayed,
     required TResult Function(Song song, int order) queueSongRemoved,
     required TResult Function(Song song, Uint8List? artwork) queueSongAdded,
-    required TResult Function(dynamic songsContainer) queueSongsAdded,
+    required TResult Function(SongsContainer songsContainer) queueSongsAdded,
     required TResult Function(int from, int to) queueSongReordered,
     required TResult Function() queueCleared,
   }) {
@@ -751,11 +750,11 @@ class _$QueueSongAdded implements QueueSongAdded {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
   }) {
@@ -766,11 +765,11 @@ class _$QueueSongAdded implements QueueSongAdded {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
     required TResult orElse(),
@@ -844,7 +843,7 @@ abstract class $QueueSongsAddedCopyWith<$Res> {
   factory $QueueSongsAddedCopyWith(
           QueueSongsAdded value, $Res Function(QueueSongsAdded) then) =
       _$QueueSongsAddedCopyWithImpl<$Res>;
-  $Res call({dynamic songsContainer});
+  $Res call({SongsContainer songsContainer});
 }
 
 /// @nodoc
@@ -862,7 +861,10 @@ class _$QueueSongsAddedCopyWithImpl<$Res> extends _$QueueEventCopyWithImpl<$Res>
     Object? songsContainer = freezed,
   }) {
     return _then(QueueSongsAdded(
-      songsContainer == freezed ? _value.songsContainer : songsContainer,
+      songsContainer == freezed
+          ? _value.songsContainer
+          : songsContainer // ignore: cast_nullable_to_non_nullable
+              as SongsContainer,
     ));
   }
 }
@@ -873,7 +875,7 @@ class _$QueueSongsAdded implements QueueSongsAdded {
   const _$QueueSongsAdded(this.songsContainer);
 
   @override
-  final dynamic songsContainer;
+  final SongsContainer songsContainer;
 
   @override
   String toString() {
@@ -885,13 +887,12 @@ class _$QueueSongsAdded implements QueueSongsAdded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is QueueSongsAdded &&
-            const DeepCollectionEquality()
-                .equals(other.songsContainer, songsContainer));
+            (identical(other.songsContainer, songsContainer) ||
+                other.songsContainer == songsContainer));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(songsContainer));
+  int get hashCode => Object.hash(runtimeType, songsContainer);
 
   @JsonKey(ignore: true)
   @override
@@ -902,11 +903,11 @@ class _$QueueSongsAdded implements QueueSongsAdded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() queueLoaded,
-    required TResult Function(SongsContainer songsContainer, int songOrder)
+    required TResult Function(int songOrder, SongsContainer songsContainer)
         queueNewSongPlayed,
     required TResult Function(Song song, int order) queueSongRemoved,
     required TResult Function(Song song, Uint8List? artwork) queueSongAdded,
-    required TResult Function(dynamic songsContainer) queueSongsAdded,
+    required TResult Function(SongsContainer songsContainer) queueSongsAdded,
     required TResult Function(int from, int to) queueSongReordered,
     required TResult Function() queueCleared,
   }) {
@@ -917,11 +918,11 @@ class _$QueueSongsAdded implements QueueSongsAdded {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
   }) {
@@ -932,11 +933,11 @@ class _$QueueSongsAdded implements QueueSongsAdded {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
     required TResult orElse(),
@@ -995,9 +996,10 @@ class _$QueueSongsAdded implements QueueSongsAdded {
 }
 
 abstract class QueueSongsAdded implements QueueEvent {
-  const factory QueueSongsAdded(dynamic songsContainer) = _$QueueSongsAdded;
+  const factory QueueSongsAdded(SongsContainer songsContainer) =
+      _$QueueSongsAdded;
 
-  dynamic get songsContainer;
+  SongsContainer get songsContainer;
   @JsonKey(ignore: true)
   $QueueSongsAddedCopyWith<QueueSongsAdded> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1076,11 +1078,11 @@ class _$QueueSongReordered implements QueueSongReordered {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() queueLoaded,
-    required TResult Function(SongsContainer songsContainer, int songOrder)
+    required TResult Function(int songOrder, SongsContainer songsContainer)
         queueNewSongPlayed,
     required TResult Function(Song song, int order) queueSongRemoved,
     required TResult Function(Song song, Uint8List? artwork) queueSongAdded,
-    required TResult Function(dynamic songsContainer) queueSongsAdded,
+    required TResult Function(SongsContainer songsContainer) queueSongsAdded,
     required TResult Function(int from, int to) queueSongReordered,
     required TResult Function() queueCleared,
   }) {
@@ -1091,11 +1093,11 @@ class _$QueueSongReordered implements QueueSongReordered {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
   }) {
@@ -1106,11 +1108,11 @@ class _$QueueSongReordered implements QueueSongReordered {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
     required TResult orElse(),
@@ -1219,11 +1221,11 @@ class _$QueueCleared implements QueueCleared {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() queueLoaded,
-    required TResult Function(SongsContainer songsContainer, int songOrder)
+    required TResult Function(int songOrder, SongsContainer songsContainer)
         queueNewSongPlayed,
     required TResult Function(Song song, int order) queueSongRemoved,
     required TResult Function(Song song, Uint8List? artwork) queueSongAdded,
-    required TResult Function(dynamic songsContainer) queueSongsAdded,
+    required TResult Function(SongsContainer songsContainer) queueSongsAdded,
     required TResult Function(int from, int to) queueSongReordered,
     required TResult Function() queueCleared,
   }) {
@@ -1234,11 +1236,11 @@ class _$QueueCleared implements QueueCleared {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
   }) {
@@ -1249,11 +1251,11 @@ class _$QueueCleared implements QueueCleared {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? queueLoaded,
-    TResult Function(SongsContainer songsContainer, int songOrder)?
+    TResult Function(int songOrder, SongsContainer songsContainer)?
         queueNewSongPlayed,
     TResult Function(Song song, int order)? queueSongRemoved,
     TResult Function(Song song, Uint8List? artwork)? queueSongAdded,
-    TResult Function(dynamic songsContainer)? queueSongsAdded,
+    TResult Function(SongsContainer songsContainer)? queueSongsAdded,
     TResult Function(int from, int to)? queueSongReordered,
     TResult Function()? queueCleared,
     required TResult orElse(),
@@ -1324,10 +1326,10 @@ class _$QueueStateTearOff {
   }
 
   QueueLoadSuccess loadSuccess(
-      dynamic songsContainer, Stream<int?> cpsIndexStream) {
+      Stream<int?> cpsIndexStream, SongsContainer songsContainer) {
     return QueueLoadSuccess(
-      songsContainer,
       cpsIndexStream,
+      songsContainer,
     );
   }
 }
@@ -1341,21 +1343,23 @@ mixin _$QueueState {
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
     required TResult Function(
-            dynamic songsContainer, Stream<int?> cpsIndexStream)
+            Stream<int?> cpsIndexStream, SongsContainer songsContainer)
         loadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(dynamic songsContainer, Stream<int?> cpsIndexStream)?
+    TResult Function(
+            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
         loadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(dynamic songsContainer, Stream<int?> cpsIndexStream)?
+    TResult Function(
+            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
         loadSuccess,
     required TResult orElse(),
   }) =>
@@ -1439,7 +1443,7 @@ class _$QueueInProgress implements QueueInProgress {
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
     required TResult Function(
-            dynamic songsContainer, Stream<int?> cpsIndexStream)
+            Stream<int?> cpsIndexStream, SongsContainer songsContainer)
         loadSuccess,
   }) {
     return inProgress();
@@ -1449,7 +1453,8 @@ class _$QueueInProgress implements QueueInProgress {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(dynamic songsContainer, Stream<int?> cpsIndexStream)?
+    TResult Function(
+            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
         loadSuccess,
   }) {
     return inProgress?.call();
@@ -1459,7 +1464,8 @@ class _$QueueInProgress implements QueueInProgress {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(dynamic songsContainer, Stream<int?> cpsIndexStream)?
+    TResult Function(
+            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
         loadSuccess,
     required TResult orElse(),
   }) {
@@ -1510,7 +1516,7 @@ abstract class $QueueLoadSuccessCopyWith<$Res> {
   factory $QueueLoadSuccessCopyWith(
           QueueLoadSuccess value, $Res Function(QueueLoadSuccess) then) =
       _$QueueLoadSuccessCopyWithImpl<$Res>;
-  $Res call({dynamic songsContainer, Stream<int?> cpsIndexStream});
+  $Res call({Stream<int?> cpsIndexStream, SongsContainer songsContainer});
 }
 
 /// @nodoc
@@ -1526,15 +1532,18 @@ class _$QueueLoadSuccessCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? songsContainer = freezed,
     Object? cpsIndexStream = freezed,
+    Object? songsContainer = freezed,
   }) {
     return _then(QueueLoadSuccess(
-      songsContainer == freezed ? _value.songsContainer : songsContainer,
       cpsIndexStream == freezed
           ? _value.cpsIndexStream
           : cpsIndexStream // ignore: cast_nullable_to_non_nullable
               as Stream<int?>,
+      songsContainer == freezed
+          ? _value.songsContainer
+          : songsContainer // ignore: cast_nullable_to_non_nullable
+              as SongsContainer,
     ));
   }
 }
@@ -1542,16 +1551,16 @@ class _$QueueLoadSuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$QueueLoadSuccess implements QueueLoadSuccess {
-  const _$QueueLoadSuccess(this.songsContainer, this.cpsIndexStream);
+  const _$QueueLoadSuccess(this.cpsIndexStream, this.songsContainer);
 
   @override
-  final dynamic songsContainer;
-  @override
   final Stream<int?> cpsIndexStream;
+  @override
+  final SongsContainer songsContainer;
 
   @override
   String toString() {
-    return 'QueueState.loadSuccess(songsContainer: $songsContainer, cpsIndexStream: $cpsIndexStream)';
+    return 'QueueState.loadSuccess(cpsIndexStream: $cpsIndexStream, songsContainer: $songsContainer)';
   }
 
   @override
@@ -1559,15 +1568,14 @@ class _$QueueLoadSuccess implements QueueLoadSuccess {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is QueueLoadSuccess &&
-            const DeepCollectionEquality()
-                .equals(other.songsContainer, songsContainer) &&
             (identical(other.cpsIndexStream, cpsIndexStream) ||
-                other.cpsIndexStream == cpsIndexStream));
+                other.cpsIndexStream == cpsIndexStream) &&
+            (identical(other.songsContainer, songsContainer) ||
+                other.songsContainer == songsContainer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(songsContainer), cpsIndexStream);
+  int get hashCode => Object.hash(runtimeType, cpsIndexStream, songsContainer);
 
   @JsonKey(ignore: true)
   @override
@@ -1579,32 +1587,34 @@ class _$QueueLoadSuccess implements QueueLoadSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
     required TResult Function(
-            dynamic songsContainer, Stream<int?> cpsIndexStream)
+            Stream<int?> cpsIndexStream, SongsContainer songsContainer)
         loadSuccess,
   }) {
-    return loadSuccess(songsContainer, cpsIndexStream);
+    return loadSuccess(cpsIndexStream, songsContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(dynamic songsContainer, Stream<int?> cpsIndexStream)?
+    TResult Function(
+            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
         loadSuccess,
   }) {
-    return loadSuccess?.call(songsContainer, cpsIndexStream);
+    return loadSuccess?.call(cpsIndexStream, songsContainer);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(dynamic songsContainer, Stream<int?> cpsIndexStream)?
+    TResult Function(
+            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
         loadSuccess,
     required TResult orElse(),
   }) {
     if (loadSuccess != null) {
-      return loadSuccess(songsContainer, cpsIndexStream);
+      return loadSuccess(cpsIndexStream, songsContainer);
     }
     return orElse();
   }
@@ -1643,10 +1653,11 @@ class _$QueueLoadSuccess implements QueueLoadSuccess {
 
 abstract class QueueLoadSuccess implements QueueState {
   const factory QueueLoadSuccess(
-      dynamic songsContainer, Stream<int?> cpsIndexStream) = _$QueueLoadSuccess;
+          Stream<int?> cpsIndexStream, SongsContainer songsContainer) =
+      _$QueueLoadSuccess;
 
-  dynamic get songsContainer;
   Stream<int?> get cpsIndexStream;
+  SongsContainer get songsContainer;
   @JsonKey(ignore: true)
   $QueueLoadSuccessCopyWith<QueueLoadSuccess> get copyWith =>
       throw _privateConstructorUsedError;

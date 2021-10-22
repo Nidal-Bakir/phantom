@@ -1090,7 +1090,7 @@ class _$SongsStateTearOff {
   }
 
   SongsLoadSuccess songLoadSuccess(
-      {required Sort sort, required dynamic songsContainer}) {
+      {required Sort sort, required SongsContainer songsContainer}) {
     return SongsLoadSuccess(
       sort: sort,
       songsContainer: songsContainer,
@@ -1106,20 +1106,20 @@ mixin _$SongsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(Sort sort, dynamic songsContainer)
+    required TResult Function(Sort sort, SongsContainer songsContainer)
         songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -1201,7 +1201,7 @@ class _$SongsInProgress implements SongsInProgress {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(Sort sort, dynamic songsContainer)
+    required TResult Function(Sort sort, SongsContainer songsContainer)
         songLoadSuccess,
   }) {
     return inProgress();
@@ -1211,7 +1211,7 @@ class _$SongsInProgress implements SongsInProgress {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
   }) {
     return inProgress?.call();
   }
@@ -1220,7 +1220,7 @@ class _$SongsInProgress implements SongsInProgress {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
     required TResult orElse(),
   }) {
     if (inProgress != null) {
@@ -1270,7 +1270,7 @@ abstract class $SongsLoadSuccessCopyWith<$Res> {
   factory $SongsLoadSuccessCopyWith(
           SongsLoadSuccess value, $Res Function(SongsLoadSuccess) then) =
       _$SongsLoadSuccessCopyWithImpl<$Res>;
-  $Res call({Sort sort, dynamic songsContainer});
+  $Res call({Sort sort, SongsContainer songsContainer});
 }
 
 /// @nodoc
@@ -1294,8 +1294,10 @@ class _$SongsLoadSuccessCopyWithImpl<$Res>
           ? _value.sort
           : sort // ignore: cast_nullable_to_non_nullable
               as Sort,
-      songsContainer:
-          songsContainer == freezed ? _value.songsContainer : songsContainer,
+      songsContainer: songsContainer == freezed
+          ? _value.songsContainer
+          : songsContainer // ignore: cast_nullable_to_non_nullable
+              as SongsContainer,
     ));
   }
 }
@@ -1308,7 +1310,7 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @override
   final Sort sort;
   @override
-  final dynamic songsContainer;
+  final SongsContainer songsContainer;
 
   @override
   String toString() {
@@ -1321,13 +1323,12 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
         (other.runtimeType == runtimeType &&
             other is SongsLoadSuccess &&
             (identical(other.sort, sort) || other.sort == sort) &&
-            const DeepCollectionEquality()
-                .equals(other.songsContainer, songsContainer));
+            (identical(other.songsContainer, songsContainer) ||
+                other.songsContainer == songsContainer));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, sort, const DeepCollectionEquality().hash(songsContainer));
+  int get hashCode => Object.hash(runtimeType, sort, songsContainer);
 
   @JsonKey(ignore: true)
   @override
@@ -1338,7 +1339,7 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(Sort sort, dynamic songsContainer)
+    required TResult Function(Sort sort, SongsContainer songsContainer)
         songLoadSuccess,
   }) {
     return songLoadSuccess(sort, songsContainer);
@@ -1348,7 +1349,7 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
   }) {
     return songLoadSuccess?.call(sort, songsContainer);
   }
@@ -1357,7 +1358,7 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(Sort sort, dynamic songsContainer)? songLoadSuccess,
+    TResult Function(Sort sort, SongsContainer songsContainer)? songLoadSuccess,
     required TResult orElse(),
   }) {
     if (songLoadSuccess != null) {
@@ -1401,10 +1402,10 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
 abstract class SongsLoadSuccess implements SongsState {
   const factory SongsLoadSuccess(
       {required Sort sort,
-      required dynamic songsContainer}) = _$SongsLoadSuccess;
+      required SongsContainer songsContainer}) = _$SongsLoadSuccess;
 
   Sort get sort;
-  dynamic get songsContainer;
+  SongsContainer get songsContainer;
   @JsonKey(ignore: true)
   $SongsLoadSuccessCopyWith<SongsLoadSuccess> get copyWith =>
       throw _privateConstructorUsedError;

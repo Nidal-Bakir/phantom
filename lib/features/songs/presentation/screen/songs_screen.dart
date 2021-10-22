@@ -38,8 +38,10 @@ class SongsScreen extends StatelessWidget {
                           final _song = songsContainer.songs[index];
                           return InkWell(
                             onTap: () async {
-                              context.read<QueueBloc>().add(
-                                  QueueNewSongPlayed(songsContainer, index));
+                              context.read<QueueBloc>().add(QueueNewSongPlayed(
+                                    index,
+                                    songsContainer,
+                                  ));
                             },
                             child: CommonListTileItem(
                               key: Key(_song.id.toString()),

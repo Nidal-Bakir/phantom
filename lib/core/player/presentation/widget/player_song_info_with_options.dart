@@ -16,7 +16,8 @@ class PlayerSongInfoWithOptions extends StatelessWidget {
         ),
         Column(
           children: [
-            Text(playingSong.song.title),
+            Hero(tag: playingSong.song.title,
+            child: Text(playingSong.song.title)),
             Text(playingSong.song.artist ?? 'Unknown'),
           ],
         ),

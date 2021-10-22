@@ -33,7 +33,7 @@ abstract class PlayerService {
 class PlayerServiceImp extends PlayerService {
   final _audioPlayer = AudioPlayer();
   final CurrentlyPlayingSongDataSource _currentlyPlayingSongDataSource;
-  final ConcatenatingAudioSource _concatenatingAudioSource =
+  ConcatenatingAudioSource _concatenatingAudioSource =
       ConcatenatingAudioSource(children: []);
 
   PlayerServiceImp(this._currentlyPlayingSongDataSource);
@@ -110,14 +110,16 @@ class PlayerServiceImp extends PlayerService {
   Future<void> setAudioSource(Iterable<Song> songs, int offset,
       {Duration? initialPosition}) async {
     try {
-      await _concatenatingAudioSource.clear();
-      await _concatenatingAudioSource.addAll(_mapSongsToAudioSource(songs));
+     
+      _concatenatingAudioSource =
+          ConcatenatingAudioSource(children: _mapSongsToAudioSource(songs));
 
       await _audioPlayer.setAudioSource(
         _concatenatingAudioSource,
         initialPosition: initialPosition,
         initialIndex: offset,
       );
+     
     } on PlayerException catch (e) {
       log('PlayerException : ',
           error: e.code.toString() + ' \n ' + e.message.toString());

@@ -16,40 +16,42 @@ class PlayerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BlocBuilder<QueueBloc, QueueState>(builder: (context, queueState) {
-          return queueState.when(
-            inProgress: () {
-              return const Text('inProgress');
-            },
-            loadSuccess: (songsContainer, cpsIndexStream) {
-              return QueueWidget(
-                cppIndexStream: cpsIndexStream,
-                songsContainer: songsContainer,
+    return Scaffold(
+      body: Column(
+        children: [
+          BlocBuilder<QueueBloc, QueueState>(builder: (context, queueState) {
+            return queueState.when(
+              inProgress: () {
+                return const Text('inProgress');
+              },
+              loadSuccess: (cpsIndexStream, songsContainer) {
+                return QueueWidget(
+                  songsContainer: songsContainer,
+                  cppIndexStream: cpsIndexStream,
+                );
+              },
+            );
+          }),
+          BlocBuilder<PlayerBloc, PlayerState>(builder: (context, playerState) {
+            return playerState.when(initial: () {
+              return Container();
+            }, playSongSuccuss: (playingSong) {
+              return Column(
+                children: [
+                  PlayerSongInfoWithOptions(playingSong: playingSong),
+                  const PlayerActionButtons(),
+                  PlayerSongSliderAndDuration(playingSong: playingSong),
+                  PlayerControlButtons(playingSong: playingSong),
+                ],
               );
-            },
-          );
-        }),
-        BlocBuilder<PlayerBloc, PlayerState>(builder: (context, playerState) {
-          return playerState.when(initial: () {
-            return Container();
-          }, playSongSuccuss: (playingSong) {
-            return Column(
-              children: [
-                PlayerSongInfoWithOptions(playingSong: playingSong),
-                const PlayerActionButtons(),
-                PlayerSongSliderAndDuration(playingSong: playingSong),
-                PlayerControlButtons(playingSong: playingSong),
-              ],
-            );
-          }, playSongFailure: (playingSong) {
-            return Row(
-              children: [],
-            );
-          });
-        }),
-      ],
+            }, playSongFailure: (playingSong) {
+              return Row(
+                children: [],
+              );
+            });
+          }),
+        ],
+      ),
     );
   }
 }
