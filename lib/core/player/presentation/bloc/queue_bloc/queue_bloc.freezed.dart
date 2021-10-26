@@ -1325,11 +1325,12 @@ class _$QueueStateTearOff {
     return const QueueInProgress();
   }
 
-  QueueLoadSuccess loadSuccess(
-      Stream<int?> cpsIndexStream, SongsContainer songsContainer) {
+  QueueLoadSuccess loadSuccess(Stream<int?> cpsIndexStream,
+      SongsContainer songsContainer, int? currentlyPlayingSongIndex) {
     return QueueLoadSuccess(
       cpsIndexStream,
       songsContainer,
+      currentlyPlayingSongIndex,
     );
   }
 }
@@ -1342,24 +1343,24 @@ mixin _$QueueState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(
-            Stream<int?> cpsIndexStream, SongsContainer songsContainer)
+    required TResult Function(Stream<int?> cpsIndexStream,
+            SongsContainer songsContainer, int? currentlyPlayingSongIndex)
         loadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(
-            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
+    TResult Function(Stream<int?> cpsIndexStream, SongsContainer songsContainer,
+            int? currentlyPlayingSongIndex)?
         loadSuccess,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(
-            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
+    TResult Function(Stream<int?> cpsIndexStream, SongsContainer songsContainer,
+            int? currentlyPlayingSongIndex)?
         loadSuccess,
     required TResult orElse(),
   }) =>
@@ -1442,8 +1443,8 @@ class _$QueueInProgress implements QueueInProgress {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(
-            Stream<int?> cpsIndexStream, SongsContainer songsContainer)
+    required TResult Function(Stream<int?> cpsIndexStream,
+            SongsContainer songsContainer, int? currentlyPlayingSongIndex)
         loadSuccess,
   }) {
     return inProgress();
@@ -1453,8 +1454,8 @@ class _$QueueInProgress implements QueueInProgress {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(
-            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
+    TResult Function(Stream<int?> cpsIndexStream, SongsContainer songsContainer,
+            int? currentlyPlayingSongIndex)?
         loadSuccess,
   }) {
     return inProgress?.call();
@@ -1464,8 +1465,8 @@ class _$QueueInProgress implements QueueInProgress {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(
-            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
+    TResult Function(Stream<int?> cpsIndexStream, SongsContainer songsContainer,
+            int? currentlyPlayingSongIndex)?
         loadSuccess,
     required TResult orElse(),
   }) {
@@ -1516,7 +1517,10 @@ abstract class $QueueLoadSuccessCopyWith<$Res> {
   factory $QueueLoadSuccessCopyWith(
           QueueLoadSuccess value, $Res Function(QueueLoadSuccess) then) =
       _$QueueLoadSuccessCopyWithImpl<$Res>;
-  $Res call({Stream<int?> cpsIndexStream, SongsContainer songsContainer});
+  $Res call(
+      {Stream<int?> cpsIndexStream,
+      SongsContainer songsContainer,
+      int? currentlyPlayingSongIndex});
 }
 
 /// @nodoc
@@ -1534,6 +1538,7 @@ class _$QueueLoadSuccessCopyWithImpl<$Res>
   $Res call({
     Object? cpsIndexStream = freezed,
     Object? songsContainer = freezed,
+    Object? currentlyPlayingSongIndex = freezed,
   }) {
     return _then(QueueLoadSuccess(
       cpsIndexStream == freezed
@@ -1544,6 +1549,10 @@ class _$QueueLoadSuccessCopyWithImpl<$Res>
           ? _value.songsContainer
           : songsContainer // ignore: cast_nullable_to_non_nullable
               as SongsContainer,
+      currentlyPlayingSongIndex == freezed
+          ? _value.currentlyPlayingSongIndex
+          : currentlyPlayingSongIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -1551,16 +1560,19 @@ class _$QueueLoadSuccessCopyWithImpl<$Res>
 /// @nodoc
 
 class _$QueueLoadSuccess implements QueueLoadSuccess {
-  const _$QueueLoadSuccess(this.cpsIndexStream, this.songsContainer);
+  const _$QueueLoadSuccess(
+      this.cpsIndexStream, this.songsContainer, this.currentlyPlayingSongIndex);
 
   @override
   final Stream<int?> cpsIndexStream;
   @override
   final SongsContainer songsContainer;
+  @override
+  final int? currentlyPlayingSongIndex;
 
   @override
   String toString() {
-    return 'QueueState.loadSuccess(cpsIndexStream: $cpsIndexStream, songsContainer: $songsContainer)';
+    return 'QueueState.loadSuccess(cpsIndexStream: $cpsIndexStream, songsContainer: $songsContainer, currentlyPlayingSongIndex: $currentlyPlayingSongIndex)';
   }
 
   @override
@@ -1571,11 +1583,15 @@ class _$QueueLoadSuccess implements QueueLoadSuccess {
             (identical(other.cpsIndexStream, cpsIndexStream) ||
                 other.cpsIndexStream == cpsIndexStream) &&
             (identical(other.songsContainer, songsContainer) ||
-                other.songsContainer == songsContainer));
+                other.songsContainer == songsContainer) &&
+            (identical(other.currentlyPlayingSongIndex,
+                    currentlyPlayingSongIndex) ||
+                other.currentlyPlayingSongIndex == currentlyPlayingSongIndex));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, cpsIndexStream, songsContainer);
+  int get hashCode => Object.hash(
+      runtimeType, cpsIndexStream, songsContainer, currentlyPlayingSongIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -1586,35 +1602,38 @@ class _$QueueLoadSuccess implements QueueLoadSuccess {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() inProgress,
-    required TResult Function(
-            Stream<int?> cpsIndexStream, SongsContainer songsContainer)
+    required TResult Function(Stream<int?> cpsIndexStream,
+            SongsContainer songsContainer, int? currentlyPlayingSongIndex)
         loadSuccess,
   }) {
-    return loadSuccess(cpsIndexStream, songsContainer);
+    return loadSuccess(
+        cpsIndexStream, songsContainer, currentlyPlayingSongIndex);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(
-            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
+    TResult Function(Stream<int?> cpsIndexStream, SongsContainer songsContainer,
+            int? currentlyPlayingSongIndex)?
         loadSuccess,
   }) {
-    return loadSuccess?.call(cpsIndexStream, songsContainer);
+    return loadSuccess?.call(
+        cpsIndexStream, songsContainer, currentlyPlayingSongIndex);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? inProgress,
-    TResult Function(
-            Stream<int?> cpsIndexStream, SongsContainer songsContainer)?
+    TResult Function(Stream<int?> cpsIndexStream, SongsContainer songsContainer,
+            int? currentlyPlayingSongIndex)?
         loadSuccess,
     required TResult orElse(),
   }) {
     if (loadSuccess != null) {
-      return loadSuccess(cpsIndexStream, songsContainer);
+      return loadSuccess(
+          cpsIndexStream, songsContainer, currentlyPlayingSongIndex);
     }
     return orElse();
   }
@@ -1653,11 +1672,13 @@ class _$QueueLoadSuccess implements QueueLoadSuccess {
 
 abstract class QueueLoadSuccess implements QueueState {
   const factory QueueLoadSuccess(
-          Stream<int?> cpsIndexStream, SongsContainer songsContainer) =
-      _$QueueLoadSuccess;
+      Stream<int?> cpsIndexStream,
+      SongsContainer songsContainer,
+      int? currentlyPlayingSongIndex) = _$QueueLoadSuccess;
 
   Stream<int?> get cpsIndexStream;
   SongsContainer get songsContainer;
+  int? get currentlyPlayingSongIndex;
   @JsonKey(ignore: true)
   $QueueLoadSuccessCopyWith<QueueLoadSuccess> get copyWith =>
       throw _privateConstructorUsedError;

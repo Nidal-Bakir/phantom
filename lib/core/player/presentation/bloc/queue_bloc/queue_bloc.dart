@@ -44,7 +44,6 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
     QueueNewSongPlayed newSongPlayed,
     Emitter<QueueState> emitter,
   ) async {
-    var time = Stopwatch()..start();
     await _playerRepository.setQueue(
       newSongPlayed.songsContainer.songs,
       newSongPlayed.songsContainer.albumArtwork,
@@ -54,16 +53,16 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
     await _emitNewQueue(emitter);
 
     _playerRepository.play();
-    print(time.elapsedMilliseconds);
   }
 
   Future<void> _emitNewQueue(Emitter<QueueState> emitter) async {
     final queueSongs = await _playerRepository.queryQueueSongs();
     final cpsIndexStream = _playerRepository.getCurrentlyPlayingIndexStream();
-
+    final cpsIndex = _playerRepository.obtainCurrentlyPlayingIndex();
     emitter(QueueLoadSuccess(
       cpsIndexStream,
       queueSongs,
+      cpsIndex,
     ));
   }
 

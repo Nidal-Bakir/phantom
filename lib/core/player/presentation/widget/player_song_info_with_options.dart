@@ -8,7 +8,8 @@ class PlayerSongInfoWithOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
           onPressed: () {},
@@ -16,8 +17,10 @@ class PlayerSongInfoWithOptions extends StatelessWidget {
         ),
         Column(
           children: [
-            Hero(tag: playingSong.song.title,
-            child: Text(playingSong.song.title)),
+            Hero(
+              tag: playingSong.song.title,
+              child: Text(playingSong.song.title),
+            ),
             Text(playingSong.song.artist ?? 'Unknown'),
           ],
         ),

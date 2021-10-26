@@ -107,8 +107,16 @@ class QueueDataSourceImp extends QueueDataSource {
   @override
   Future<void> removeSongFromQueue(int songOrder) async {
     final db = await LocalDatabase.openLocalDatabase();
-    await db.delete(QueueTable.tableName,
-        where: '${QueueTable.order} = ? ', whereArgs: [songOrder]);
+
+    await db.transaction((txn) async {
+      await txn.delete(QueueTable.tableName,
+          where: '${QueueTable.order} = ? ', whereArgs: [songOrder]);
+
+      await txn.rawQuery(''' UPDATE ${QueueTable.tableName} SET 
+                ${QueueTable.order} = ${QueueTable.order} - 1
+                WHERE ${QueueTable.order} > $songOrder
+            ''');
+    });
   }
 
   @override

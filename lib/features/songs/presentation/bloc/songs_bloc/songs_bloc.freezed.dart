@@ -1323,12 +1323,13 @@ class _$SongsLoadSuccess implements SongsLoadSuccess {
         (other.runtimeType == runtimeType &&
             other is SongsLoadSuccess &&
             (identical(other.sort, sort) || other.sort == sort) &&
-            (identical(other.songsContainer, songsContainer) ||
-                other.songsContainer == songsContainer));
+            const DeepCollectionEquality()
+                .equals(other.songsContainer, songsContainer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, sort, songsContainer);
+  int get hashCode => Object.hash(
+      runtimeType, sort, const DeepCollectionEquality().hash(songsContainer));
 
   @JsonKey(ignore: true)
   @override

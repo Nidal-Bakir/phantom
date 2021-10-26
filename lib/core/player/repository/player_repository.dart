@@ -31,6 +31,7 @@ class PlayerRepository {
         _playerService.getPlayerStateStream(),
         _playerService.getPlaybackEventStream(), (playerState, playbackEvent) {
       final cpsIndex = _playerService.obtainCurrentlyPlayingIndex();
+
       if (cpsIndex != null &&
           cpsIndex < _queue.length &&
           (playbackEvent.processingState == ProcessingState.ready ||
@@ -86,9 +87,9 @@ class PlayerRepository {
   }
 
   Future<void> removeSongFromQueue(int songOrder) async {
-    await _playerService.removeAudioSource(songOrder);
     _queueDataSource.removeSongFromQueue(songOrder);
     _queue.elementAt(songOrder).unlink();
+    await _playerService.removeAudioSource(songOrder);
   }
 
   Future<void> addListOfSongsToPlayNext(
@@ -97,18 +98,18 @@ class PlayerRepository {
 
     final cpsIndex = _playerService.obtainCurrentlyPlayingIndex();
     if (cpsIndex == null) {
-      await _playerService.setAudioSource(songs, 0);
-      _queueDataSource.setQueue(songs);
       _queue
         ..clear()
         ..addAll(songs);
+      _queueDataSource.setQueue(songs);
+      await _playerService.setAudioSource(songs, 0);
     } else {
       final cps = _queue.elementAt(cpsIndex);
-      await _playerService.addToPlayNext(songs);
-      _queueDataSource.addToPlayNext(songs, cps);
       for (int i = songs.length; i > 0; i--) {
         cps.insertAfter(songs[i]);
       }
+      await _playerService.addToPlayNext(songs);
+      _queueDataSource.addToPlayNext(songs, cps);
     }
   }
 
@@ -125,10 +126,10 @@ class PlayerRepository {
   }
 
   Future<void> reorderSong(int from, int to) async {
-    await _playerService.reorderSong(from, to);
     final song = _queue.elementAt(from)..unlink();
     _queue.elementAt(to).insertBefore(song);
     _queueDataSource.setQueue(_queue);
+    await _playerService.reorderSong(from, to);
   }
 
   Future<SongsContainer> queryQueueSongs() async {

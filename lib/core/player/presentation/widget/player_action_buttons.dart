@@ -1,8 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:phantom/core/util/constants.dart';
+import 'package:snapping_sheet/snapping_sheet.dart';
 
 class PlayerActionButtons extends StatelessWidget {
-  const PlayerActionButtons({Key? key}) : super(key: key);
+  final SnappingSheetController sheetController;
+  const PlayerActionButtons({
+    Key? key,
+    required this.sheetController,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +16,12 @@ class PlayerActionButtons extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            if (sheetController.isAttached) {
+              sheetController.snapToPosition(const SnappingPosition.factor(
+                  positionFactor: Constants.queueOpenSnapFactor));
+            }
+          },
           icon: const Icon(Icons.queue_music_rounded),
         ),
         IconButton(
