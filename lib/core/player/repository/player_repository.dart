@@ -127,7 +127,11 @@ class PlayerRepository {
 
   Future<void> reorderSong(int from, int to) async {
     final song = _queue.elementAt(from)..unlink();
-    _queue.elementAt(to).insertBefore(song);
+    if (to > from) {
+      _queue.elementAt(to - 1).insertBefore(song);
+    } else {
+      _queue.elementAt(to).insertBefore(song);
+    }
     _queueDataSource.setQueue(_queue);
     await _playerService.reorderSong(from, to);
   }
