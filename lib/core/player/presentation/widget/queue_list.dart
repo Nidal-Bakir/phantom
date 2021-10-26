@@ -5,11 +5,8 @@ import 'package:phantom/core/player/presentation/bloc/queue_bloc/queue_bloc.dart
 import 'package:phantom/core/widget/common_list_tile_item.dart';
 
 class QueueList extends StatelessWidget {
-  final ScrollController slideSheetScrollController;
-
   const QueueList({
     Key? key,
-    required this.slideSheetScrollController,
   }) : super(key: key);
 
   @override
@@ -21,15 +18,16 @@ class QueueList extends StatelessWidget {
             return const Text('loading,,,'); // TODO : add loading state
           },
           loadSuccess: (queueLoadSuccess) {
-            return Material(
+            return Material(color: Colors.white,
               child: CustomScrollView(
-                controller:slideSheetScrollController,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
                 slivers: [
                   SliverReorderableList(
                     itemBuilder: (context, index) {
                       final _song =
                           queueLoadSuccess.songsContainer.songs[index];
-                      return Material(
+                      return Material(color:Colors.white.withOpacity(0) ,
                         key: Key(_song.id.toString() + index.toString()),
                         child: InkWell(
                           onTap: () => context

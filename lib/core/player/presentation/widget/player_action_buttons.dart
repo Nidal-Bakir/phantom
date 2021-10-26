@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:phantom/core/util/constants.dart';
-import 'package:snapping_sheet/snapping_sheet.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 class PlayerActionButtons extends StatelessWidget {
-  final SnappingSheetController sheetController;
+  final SheetController sheetController;
   const PlayerActionButtons({
     Key? key,
     required this.sheetController,
@@ -17,10 +16,10 @@ class PlayerActionButtons extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () {
-            if (sheetController.isAttached) {
-              sheetController.snapToPosition(const SnappingPosition.factor(
-                  positionFactor: Constants.queueOpenSnapFactor));
-            }
+            // if (sheetController.isAttached) {
+            //   sheetController.snapToPosition(const SnappingPosition.factor(
+            //       positionFactor: Constants.queueOpenSnapFactor));
+            // }
           },
           icon: const Icon(Icons.queue_music_rounded),
         ),
