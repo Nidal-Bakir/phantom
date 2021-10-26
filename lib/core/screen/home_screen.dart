@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             Expanded(
               child: DefaultTabController(
-                length: 3,
+                length: 2,
                 child: NestedScrollView(
                   headerSliverBuilder:
                       (BuildContext context, bool innerBoxIsScrolled) {
@@ -49,7 +49,6 @@ class HomeScreen extends StatelessWidget {
                           tabs: [
                             Tab(text: 'Songs'),
                             Tab(text: 'Folders'),
-                            Tab(text: 'player'),
                           ],
                         ),
                       ),
@@ -59,7 +58,6 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       SongsScreen(),
                       FoldersScreen(),
-                      PlayerScreen(),
                     ],
                   ),
                 ),

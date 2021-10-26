@@ -16,10 +16,8 @@ class PlayerActionButtons extends StatelessWidget {
       children: [
         IconButton(
           onPressed: () {
-            // if (sheetController.isAttached) {
-            //   sheetController.snapToPosition(const SnappingPosition.factor(
-            //       positionFactor: Constants.queueOpenSnapFactor));
-            // }
+            sheetController.snapToExtent(0.5,
+                duration: const Duration(milliseconds: 300));
           },
           icon: const Icon(Icons.queue_music_rounded),
         ),

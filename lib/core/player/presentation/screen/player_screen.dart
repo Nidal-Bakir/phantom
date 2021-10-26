@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:phantom/core/player/presentation/bloc/player_bloc/player_bloc.dart';
 import 'package:phantom/core/player/presentation/bloc/queue_bloc/queue_bloc.dart';
+import 'package:phantom/core/player/presentation/widget/player_action_buttons.dart';
 import 'package:phantom/core/player/presentation/widget/player_control_buttons.dart';
 import 'package:phantom/core/player/presentation/widget/player_queue_as_artwork.dart';
 import 'package:phantom/core/player/presentation/widget/player_song_info_with_options.dart';
@@ -32,7 +33,6 @@ class _PlayerScreenState extends State<PlayerScreen> {
             cornerRadius: 15,
             cornerRadiusOnFullscreen: 0.0,
             closeOnBackdropTap: true,
-            closeOnBackButtonPressed: true,
             backdropColor: Colors.black26,
             isBackdropInteractable: true,
             duration: const Duration(milliseconds: 500),
@@ -47,7 +47,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   IconButton(
                     onPressed: () {
                       _sheetController.snapToExtent(0.0,
-                          duration: const Duration(milliseconds: 500));
+                          duration: const Duration(milliseconds: 300));
                     },
                     icon: const RotatedBox(
                       quarterTurns: 1,
@@ -62,7 +62,9 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 ],
               ),
             ),
-            builder: (context, state) => const QueueList(),
+            builder: (context, state) => QueueList(
+              sheetController: _sheetController,
+            ),
             body: _PlayerBody(sheetController: _sheetController),
           ),
         ),
@@ -120,7 +122,7 @@ class _PlayerBody extends StatelessWidget {
               return Column(
                 children: [
                   PlayerSongInfoWithOptions(playingSong: playingSong),
-                  // PlayerActionButtons(sheetController: _sheetController),
+                  PlayerActionButtons(sheetController: sheetController),
                   PlayerSongSliderAndDuration(playingSong: playingSong),
                   PlayerControlButtons(playingSong: playingSong),
                   Container(

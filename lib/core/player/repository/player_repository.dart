@@ -129,11 +129,13 @@ class PlayerRepository {
     final song = _queue.elementAt(from)..unlink();
     if (to > from) {
       _queue.elementAt(to - 1).insertBefore(song);
+      _queueDataSource.setQueue(_queue);
+      await _playerService.reorderSong(from, to - 1);
     } else {
       _queue.elementAt(to).insertBefore(song);
+      _queueDataSource.setQueue(_queue);
+      await _playerService.reorderSong(from, to);
     }
-    _queueDataSource.setQueue(_queue);
-    await _playerService.reorderSong(from, to);
   }
 
   Future<SongsContainer> queryQueueSongs() async {
