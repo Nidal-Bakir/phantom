@@ -94,7 +94,7 @@ class _PlayerBody extends StatelessWidget {
     return GestureDetector(
       onVerticalDragEnd: (details) {
         sheetController.snapToExtent(0.5,
-            duration: const Duration(milliseconds: 300));
+            duration: const Duration(milliseconds: 200));
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
