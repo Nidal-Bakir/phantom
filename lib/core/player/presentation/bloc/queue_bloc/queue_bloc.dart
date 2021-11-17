@@ -58,11 +58,9 @@ class QueueBloc extends Bloc<QueueEvent, QueueState> {
   Future<void> _emitNewQueue(Emitter<QueueState> emitter) async {
     final queueSongs = await _playerRepository.queryQueueSongs();
     final cpsIndexStream = _playerRepository.getCurrentlyPlayingIndexStream();
-    final cpsIndex = _playerRepository.obtainCurrentlyPlayingIndex();
     emitter(QueueLoadSuccess(
       cpsIndexStream,
       queueSongs,
-      cpsIndex,
     ));
   }
 

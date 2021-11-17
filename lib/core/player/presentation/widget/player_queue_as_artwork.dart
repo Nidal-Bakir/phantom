@@ -9,12 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PlayerQueueAsArtwork extends StatefulWidget {
   final SongsContainer songsContainer;
   final Stream<int?> cpsIndexStream;
-  final int? cpsIndex;
   const PlayerQueueAsArtwork({
     Key? key,
     required this.songsContainer,
     required this.cpsIndexStream,
-    required this.cpsIndex,
   }) : super(key: key);
 
   @override
@@ -22,10 +20,8 @@ class PlayerQueueAsArtwork extends StatefulWidget {
 }
 
 class _PlayerQueueAsArtworkState extends State<PlayerQueueAsArtwork> {
-  late final PageController _pageController = PageController(
-    initialPage: widget.cpsIndex ?? 0,
-  );
-  bool _userInput = true;
+  late final PageController _pageController = PageController();
+  bool _isUserInput = true;
   int? _cpsIndex;
 
   @override
@@ -37,13 +33,19 @@ class _PlayerQueueAsArtworkState extends State<PlayerQueueAsArtwork> {
   void _onCPSIndexChange(int? event) {
     if (event != null) {
       if (_pageController.hasClients) {
-        _userInput = false;
+        _isUserInput = false;
+
         runZonedGuarded(() {
-          _pageController
-              .animateToPage(event,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease)
-              .then((value) => _userInput = true);
+          if (_pageController.initialPage == 0) {
+            _pageController.jumpToPage(event);
+            _isUserInput = true;
+          } else {
+            _pageController
+                .animateToPage(event,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease)
+                .then((value) => _isUserInput = true);
+          }
         }, (error, stacktrace) {
           log('_pageController.animateToPage can not move the pageView',
               error: error, stackTrace: stacktrace);
@@ -88,7 +90,7 @@ class _PlayerQueueAsArtworkState extends State<PlayerQueueAsArtwork> {
       ScrollNotification notification, BuildContext context) {
     if (notification is ScrollEndNotification) {
       final page = (notification.metrics as PageMetrics).page!.round();
-      if (_userInput) {
+      if (_isUserInput) {
         if (page == _cpsIndex! + 1) {
           context.read<PlayerBloc>().add(const PlayerNextSongPlayed());
         } else if (page == _cpsIndex! - 1) {

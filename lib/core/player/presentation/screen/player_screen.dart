@@ -105,11 +105,11 @@ class _PlayerBody extends StatelessWidget {
                 inProgress: () {
                   return const Text('inProgress');
                 },
-                loadSuccess: (cpsIndexStream, songsContainer, cpsIndex) {
+                loadSuccess: (cpsIndexStream, songsContainer) {
                   return PlayerQueueAsArtwork(
                     songsContainer: songsContainer,
                     cpsIndexStream: cpsIndexStream,
-                    cpsIndex: cpsIndex,
+                   
                   );
                 },
               );

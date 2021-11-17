@@ -21,4 +21,3 @@ void main() {
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
   );
 }
-// 

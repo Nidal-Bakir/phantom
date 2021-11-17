@@ -7,7 +7,6 @@ class QueueState with _$QueueState {
   const factory QueueState.loadSuccess(
     Stream<int?> cpsIndexStream,
     SongsContainer songsContainer,
-    int? currentlyPlayingSongIndex,
     
   ) = QueueLoadSuccess;
 }
